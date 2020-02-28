@@ -18,6 +18,33 @@ USE `newdbb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `country`
+--
+
+DROP TABLE IF EXISTS `country`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `country` (
+  `country_id` int NOT NULL AUTO_INCREMENT,
+  `country_name` varchar(45) NOT NULL,
+  `country_code` varchar(45) NOT NULL,
+  PRIMARY KEY (`country_id`),
+  UNIQUE KEY `country_name_UNIQUE` (`country_name`),
+  UNIQUE KEY `country_code_UNIQUE` (`country_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `country`
+--
+
+LOCK TABLES `country` WRITE;
+/*!40000 ALTER TABLE `country` DISABLE KEYS */;
+INSERT INTO `country` VALUES (1,'india','91');
+/*!40000 ALTER TABLE `country` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `designation`
 --
 
@@ -158,8 +185,10 @@ CREATE TABLE `location` (
   `location_id` int NOT NULL AUTO_INCREMENT,
   `city` varchar(50) NOT NULL,
   `state` varchar(50) DEFAULT NULL,
-  `country` varchar(50) NOT NULL,
-  PRIMARY KEY (`location_id`)
+  `country_id` int NOT NULL,
+  PRIMARY KEY (`location_id`),
+  KEY `loc_to_country_idx` (`country_id`),
+  CONSTRAINT `loc_to_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -169,7 +198,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,'faridabad','haryana','india'),(2,'panipat','haryana','india'),(3,'gurgaon','haryana','india');
+INSERT INTO `location` VALUES (1,'faridabad','haryana',1),(2,'panipat','haryana',1),(3,'gurgaon','haryana',1);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +239,9 @@ CREATE TABLE `phone` (
   `country_id` int NOT NULL,
   `number` varchar(11) NOT NULL,
   `extension` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`phone_id`)
+  PRIMARY KEY (`phone_id`),
+  KEY `phone_to_country_idx` (`country_id`),
+  CONSTRAINT `phone_to_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -338,6 +369,30 @@ INSERT INTO `role_to_permission` VALUES (2,1),(3,1),(3,2),(1,3),(2,3),(3,3),(2,4
 UNLOCK TABLES;
 
 --
+-- Table structure for table `salutation`
+--
+
+DROP TABLE IF EXISTS `salutation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `salutation` (
+  `salutation_id` int NOT NULL AUTO_INCREMENT,
+  `salutation` varchar(45) NOT NULL,
+  PRIMARY KEY (`salutation_id`),
+  UNIQUE KEY `salutation_UNIQUE` (`salutation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salutation`
+--
+
+LOCK TABLES `salutation` WRITE;
+/*!40000 ALTER TABLE `salutation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salutation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `specifications`
 --
 
@@ -402,8 +457,12 @@ CREATE TABLE `user` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `user_to_location_idx` (`location_id`),
   KEY `user_to_designation_idx` (`designation_id`),
+  KEY `user_to_phone_idx` (`phone_id`),
+  KEY `user_to_salutation_idx` (`salutation_id`),
   CONSTRAINT `user_to_designation` FOREIGN KEY (`designation_id`) REFERENCES `designation` (`designation_id`),
-  CONSTRAINT `user_to_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
+  CONSTRAINT `user_to_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
+  CONSTRAINT `user_to_phone` FOREIGN KEY (`phone_id`) REFERENCES `phone` (`phone_id`),
+  CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -460,4 +519,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-28 16:28:59
+-- Dump completed on 2020-02-28 16:50:11

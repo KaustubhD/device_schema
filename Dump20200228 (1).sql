@@ -32,7 +32,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`address_id`),
   KEY `address_to_location_idx` (`location_id`),
   CONSTRAINT `address_to_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES (1,'Correspondance','11, girls hostel, YMCA',1),(2,'Correspondance','420-G Sec 28',1),(3,'Correspondance','921-1 Neher Par Sec 82',1),(4,'Correspondance','111-13 Sec 22',7),(5,'Correspondance','Pipal tree Aravali Jungles',1);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,12 +174,12 @@ DROP TABLE IF EXISTS `identification_details`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `identification_details` (
   `identification_details_id` int NOT NULL AUTO_INCREMENT,
-  `aadhar_number` varchar(12) DEFAULT NULL,
-  `pan_number` varchar(10) NOT NULL,
+  `aadhar_number` varchar(224) DEFAULT NULL,
+  `pan_number` varchar(224) NOT NULL,
   PRIMARY KEY (`identification_details_id`),
   UNIQUE KEY `pan_number_UNIQUE` (`pan_number`),
   UNIQUE KEY `aadhar_number_UNIQUE` (`aadhar_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +188,7 @@ CREATE TABLE `identification_details` (
 
 LOCK TABLES `identification_details` WRITE;
 /*!40000 ALTER TABLE `identification_details` DISABLE KEYS */;
-INSERT INTO `identification_details` VALUES (1,'576839574068','rjhbh58ty5');
+INSERT INTO `identification_details` VALUES (1,'3f87cbea323c930581766f0cad50f5fb89c09551e5834f7e10fbbba3','d63b58e1a50cb427e9a9f81e5c0dab7dc43b31b888a42b5d2cc30a6f'),(2,'807b9bcd628c90a1bcdedaaddb15f1a25366af53a8b4e2c692d80bb8','20a69e5abcfbae47f0b0aa514561e3ffbbf75100ef59906157793f86'),(3,'96bbc1bd683a7bec15cfc46b095af2125e9be8badea78ad61e9252e0','58f478b13f788d1e5d9245e0e2edf791c4bc1168fc0326c5a8ac395c'),(4,'d1320901ef8eb3a296e105479ab3e35774c0126ddde7055d2968974f','7a60e8534ea4700b480cfb7822c96bb47c91020251953901bde56617'),(5,'7f18b1beec3e2b5517f3c4b3c494210fa84da952b1aac17fcd8c11ba','4e1766f037f8c097da69889dba323d622920eb057834702643082d27');
 /*!40000 ALTER TABLE `identification_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,7 +243,7 @@ CREATE TABLE `location` (
   PRIMARY KEY (`location_id`),
   KEY `loc_to_country_idx` (`country_id`),
   CONSTRAINT `loc_to_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -251,7 +252,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,'faridabad','haryana',1),(2,'panipat','haryana',1),(3,'gurgaon','haryana',1);
+INSERT INTO `location` VALUES (1,'Faridabad','Haryana',1),(2,'Panipat','Haryana',1),(3,'Gurgaon','Haryana',1),(7,'New Delhi','Delhi',1);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,10 +293,8 @@ CREATE TABLE `phone` (
   `country_id` int NOT NULL,
   `number` varchar(11) NOT NULL,
   `extension` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`phone_id`),
-  KEY `phone_to_country_idx` (`country_id`),
-  CONSTRAINT `phone_to_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`phone_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -304,6 +303,7 @@ CREATE TABLE `phone` (
 
 LOCK TABLES `phone` WRITE;
 /*!40000 ALTER TABLE `phone` DISABLE KEYS */;
+INSERT INTO `phone` VALUES (1,'Mobile',1,'6983843875',NULL),(2,'Mobile',1,'4785487584',NULL),(3,'Mobile',1,'5748396602',NULL),(4,'Mobile',1,'4785123584',NULL),(5,'Mobile',1,'4785123584',NULL),(6,'Mobile',1,'2778704032',NULL);
 /*!40000 ALTER TABLE `phone` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -513,7 +513,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_to_designation` FOREIGN KEY (`designation_id`) REFERENCES `designation` (`designation_id`),
   CONSTRAINT `user_to_details` FOREIGN KEY (`identification_details_id`) REFERENCES `identification_details` (`identification_details_id`),
   CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -522,7 +522,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com','cb60166bbf329c41e3163837cf5b3b969850fcc52306b7bd70537a29','1997-02-10',_binary '','f',132103,'2020-01-15',1,_binary '');
+INSERT INTO `user` VALUES (1,2,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com','cb60166bbf329c41e3163837cf5b3b969850fcc52306b7bd70537a29','1997-02-10',_binary '','f',132103,'2020-01-15',1,_binary ''),(8,1,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com','c8eb04cd283e227a68840003ccd50fbc5b2d230a84d29ef5dfbd4e15','1997-05-12',_binary '\0','m',121010,'2020-01-15',4,_binary ''),(9,1,'Rishabh',NULL,'Bisht',1,'rbisht@ex2india.com','2e68eced966a6997474f67d2d283323ff8441cd9cd7269ecb5e418cb','1997-01-01',_binary '\0','m',121001,'2020-01-15',5,_binary ''),(10,1,'Jaswinder','Singh','Chawla',1,'jschawla@ex2india.com','e9ddce690a9adc0ae345cd72f41d74120706d9833c2b4799e49f03cb','1998-05-24',_binary '\0','m',121006,'2020-01-15',2,_binary '\0'),(11,2,'Prakshee',NULL,'Rajpurohit',1,'prajpurohit@ex2india.com','f6736487a9b4e90bd17e4eab0161f998510d0077d955f0463f7f220c','1998-03-06',_binary '\0','f',121001,'2020-01-15',3,_binary '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -549,6 +549,7 @@ CREATE TABLE `user_to_address` (
 
 LOCK TABLES `user_to_address` WRITE;
 /*!40000 ALTER TABLE `user_to_address` DISABLE KEYS */;
+INSERT INTO `user_to_address` VALUES (1,1),(8,2),(9,3),(10,4),(11,5);
 /*!40000 ALTER TABLE `user_to_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -575,6 +576,7 @@ CREATE TABLE `user_to_phone` (
 
 LOCK TABLES `user_to_phone` WRITE;
 /*!40000 ALTER TABLE `user_to_phone` DISABLE KEYS */;
+INSERT INTO `user_to_phone` VALUES (1,1),(8,2),(9,3),(10,5),(11,6);
 /*!40000 ALTER TABLE `user_to_phone` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -601,6 +603,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
+INSERT INTO `user_to_role` VALUES (1,1),(8,1),(9,1),(10,1),(11,1);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -642,7 +645,8 @@ in addres_type varchar(15),
 in city varchar(45),
 in state varchar(45),
 in country varchar(45),
-in id_deets_id int,
+in aadhar varchar(12),
+in pan varchar(10),
 in is_ac bit(1)
 )
 BEGIN
@@ -652,32 +656,44 @@ BEGIN
     declare ph_id int;
     declare empl_id int;
     declare adrss_id int;
+    declare user_role int;
+    declare id_details int;
     
 	select salutation_id into sal_id from salutation where salutation=salut;
     select designation_id into des_id from designation where designation=desig;
     select country_id into ctry_id from country where country_name=country;
+    select role_id into user_role from role where role_name='user';
     
     INSERT INTO `newdbb`.`phone`
 	(`number_type`,`country_id`,`number`,`extension`)
 	VALUES
 	(ph_num_type, ctry_id, ph_number, ph_ext);
     set ph_id:=last_insert_id();
-    
-    INSERT INTO `newdbb`.`location`(`city`,`state`,`country_id`)
-	VALUES (city, state, ctry_id);
+	if(SELECT count(location_id) from location where location.city=city and location.state=state and location.country_id=ctry_id) = 0 then
+		begin
+			INSERT INTO `newdbb`.`location`(`city`,`state`,`country_id`) VALUES (city, state, ctry_id);
+			set adrss_id:=last_insert_id();
+		end;
+	else
+		begin
+			SELECT location_id into adrss_id from location where location.city=city and location.state=state and location.country_id=ctry_id;
+            end;
+	end if;
+   
 
 	INSERT INTO `newdbb`.`address`(`address_type`,`address`,`location_id`)
 	VALUES
-	('Correspondance', addres, last_insert_id());
+	('Correspondance', addres, adrss_id);
     set adrss_id:=last_insert_id();
-
     
+    INSERT INTO `newdbb`.`identification_details`(`aadhar_number`,`pan_number`) VALUES(sha2(aadhar, 224), sha2(pan, 224));
+	set id_details:=last_insert_id();
 
     
     INSERT INTO `newdbb`.`user`
-(`emp_id`,`salutation_id`,`first_name`,`middle_name`,`last_name`,`designation_id`,`email`,`password`,`date_of_birth`,`is_married`,`gender`,`PIN`,`date_of_joining`,`identification_details_id`,`is_active`)
+(`salutation_id`,`first_name`,`middle_name`,`last_name`,`designation_id`,`email`,`password`,`date_of_birth`,`is_married`,`gender`,`PIN`,`date_of_joining`,`identification_details_id`,`is_active`)
 VALUES
-(1,sal_id,
+(sal_id,
 f_name,
 m_name,
 l_name,
@@ -689,15 +705,14 @@ is_m,
 gend,
 pin,
 doj,
-1,
+id_details,
 is_ac);
 	set empl_id:=last_insert_id();
 
 	insert into user_to_phone values(empl_id, ph_id);
     insert into user_to_address values(empl_id, adrss_id);
+	insert into user_to_role values(empl_id, user_role); 
 
-    #select @sal_id into test;
-	#insert into user values();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -714,4 +729,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-02 12:14:43
+-- Dump completed on 2020-03-02 15:36:31

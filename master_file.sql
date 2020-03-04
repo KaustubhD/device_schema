@@ -26,14 +26,14 @@ DROP TABLE IF EXISTS `address`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address` (
   `address_id` int NOT NULL AUTO_INCREMENT,
-  `address_type` enum('Current','Permanent') NOT NULL,
-  `address` text,
+  `address_type_id` int NOT NULL,
+  `address` text NOT NULL,
+  `city_id` int NOT NULL,
   `PIN` varchar(6) NOT NULL,
-  `location_id` int NOT NULL,
   PRIMARY KEY (`address_id`),
-  KEY `address_to_location_idx` (`location_id`),
-  CONSTRAINT `address_to_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  KEY `address_to_location_idx` (`city_id`),
+  CONSTRAINT `address_to_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,8 +42,66 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'Current','11, girls hostel, YMCA','132103',1),(2,'Current','420-G Sec 28','121010',1),(3,'Current','921-1 Neher Par Sec 82','121001',1),(4,'Current','111-13 Sec 22','121006',7),(5,'Current','Pipal tree Aravali Jungles','121001',1),(6,'Current','Pahado ke upar, jungle ke par','121001',1),(9,'Current','4643-Terrace Sec 28','121005',1),(10,'Permanent','9211,halwai ki dukan,main market','262406',8);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `address_type`
+--
+
+DROP TABLE IF EXISTS `address_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `address_type` (
+  `address_type_id` int NOT NULL AUTO_INCREMENT,
+  `address_type` varchar(45) NOT NULL,
+  PRIMARY KEY (`address_type_id`),
+  UNIQUE KEY `address_type_UNIQUE` (`address_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `address_type`
+--
+
+LOCK TABLES `address_type` WRITE;
+/*!40000 ALTER TABLE `address_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `address_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bank_details`
+--
+
+DROP TABLE IF EXISTS `bank_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bank_details` (
+  `bank_details_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `aadhar_number` varchar(224) DEFAULT NULL,
+  `pan_number` varchar(224) NOT NULL,
+  `bank_name` varchar(45) DEFAULT NULL,
+  `bank_branch_name` varchar(45) DEFAULT NULL,
+  `bank_account_number` varchar(224) DEFAULT NULL,
+  `ifsc_code` varchar(224) DEFAULT NULL,
+  PRIMARY KEY (`bank_details_id`),
+  UNIQUE KEY `pan_number_UNIQUE` (`pan_number`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `aadhar_number_UNIQUE` (`aadhar_number`),
+  UNIQUE KEY `bank_account_number_UNIQUE` (`bank_account_number`),
+  UNIQUE KEY `ifsc_code_UNIQUE` (`ifsc_code`),
+  CONSTRAINT `bank_details_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bank_details`
+--
+
+LOCK TABLES `bank_details` WRITE;
+/*!40000 ALTER TABLE `bank_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bank_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -56,8 +114,11 @@ DROP TABLE IF EXISTS `city`;
 CREATE TABLE `city` (
   `city_id` int NOT NULL AUTO_INCREMENT,
   `city_name` varchar(45) NOT NULL,
+  `state_id` int NOT NULL,
   PRIMARY KEY (`city_id`),
-  UNIQUE KEY `city_id_UNIQUE` (`city_id`)
+  UNIQUE KEY `city_id_UNIQUE` (`city_id`),
+  KEY `city_to_state_idx` (`state_id`),
+  CONSTRAINT `city_to_state` FOREIGN KEY (`state_id`) REFERENCES `state` (`state_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -67,8 +128,36 @@ CREATE TABLE `city` (
 
 LOCK TABLES `city` WRITE;
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
-INSERT INTO `city` VALUES (1,'Faridabad'),(2,'Panipat'),(3,'Delhi'),(4,'Gurgaon'),(9,'Bareilly');
+INSERT INTO `city` VALUES (1,'Faridabad',1),(2,'Panipat',1),(3,'Delhi',2),(4,'Gurgaon',1),(5,'Bareilly',3);
 /*!40000 ALTER TABLE `city` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contact_number`
+--
+
+DROP TABLE IF EXISTS `contact_number`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contact_number` (
+  `contact_id` int NOT NULL AUTO_INCREMENT,
+  `contact_type_id` int NOT NULL,
+  `country_id` int NOT NULL,
+  `number` varchar(11) NOT NULL,
+  `extension` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`contact_id`),
+  KEY `contact_to_country_idx` (`country_id`),
+  CONSTRAINT `country_to_contact` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contact_number`
+--
+
+LOCK TABLES `contact_number` WRITE;
+/*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -84,7 +173,7 @@ CREATE TABLE `country` (
   `country_code` varchar(45) NOT NULL,
   PRIMARY KEY (`country_id`),
   UNIQUE KEY `country_name_UNIQUE` (`country_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=721 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,8 +182,65 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
-INSERT INTO `country` VALUES (1,'India','91'),(482,'Afghanistan','93'),(483,'Albania','355'),(484,'Algeria','213'),(485,'American Samoa','1-684'),(486,'Andorra','376'),(487,'Angola','244'),(488,'Anguilla','1-264'),(489,'Antarctica','672'),(490,'Antigua and Barbuda','1-268'),(491,'Argentina','54'),(492,'Armenia','374'),(493,'Aruba','297'),(494,'Australia','61'),(495,'Austria','43'),(496,'Azerbaijan','994'),(497,'Bahamas','1-242'),(498,'Bahrain','973'),(499,'Bangladesh','880'),(500,'Barbados','1-246'),(501,'Belarus','375'),(502,'Belgium','32'),(503,'Belize','501'),(504,'Benin','229'),(505,'Bermuda','1-441'),(506,'Bhutan','975'),(507,'Bolivia','591'),(508,'Bosnia and Herzegovina','387'),(509,'Botswana','267'),(510,'Brazil','55'),(511,'British Indian Ocean Territory','246'),(512,'British Virgin Islands','1-284'),(513,'Brunei','673'),(514,'Bulgaria','359'),(515,'Burkina Faso','226'),(516,'Burundi','257'),(517,'Cambodia','855'),(518,'Cameroon','237'),(519,'Canada','1'),(520,'Cape Verde','238'),(521,'Cayman Islands','1-345'),(522,'Central African Republic','236'),(523,'Chad','235'),(524,'Chile','56'),(525,'China','86'),(526,'Christmas Island','61'),(527,'Cocos Islands','61'),(528,'Colombia','57'),(529,'Comoros','269'),(530,'Cook Islands','682'),(531,'Costa Rica','506'),(532,'Croatia','385'),(533,'Cuba','53'),(534,'Curacao','599'),(535,'Cyprus','357'),(536,'Czech Republic','420'),(537,'Democratic Republic of the Congo','243'),(538,'Denmark','45'),(539,'Djibouti','253'),(540,'Dominica','1-767'),(541,'Dominican Republic','1-809, 1-829, 1-849'),(542,'East Timor','670'),(543,'Ecuador','593'),(544,'Egypt','20'),(545,'El Salvador','503'),(546,'Equatorial Guinea','240'),(547,'Eritrea','291'),(548,'Estonia','372'),(549,'Ethiopia','251'),(550,'Falkland Islands','500'),(551,'Faroe Islands','298'),(552,'Fiji','679'),(553,'Finland','358'),(554,'France','33'),(555,'French Polynesia','689'),(556,'Gabon','241'),(557,'Gambia','220'),(558,'Georgia','995'),(559,'Germany','49'),(560,'Ghana','233'),(561,'Gibraltar','350'),(562,'Greece','30'),(563,'Greenland','299'),(564,'Grenada','1-473'),(565,'Guam','1-671'),(566,'Guatemala','502'),(567,'Guernsey','44-1481'),(568,'Guinea','224'),(569,'Guinea-Bissau','245'),(570,'Guyana','592'),(571,'Haiti','509'),(572,'Honduras','504'),(573,'Hong Kong','852'),(574,'Hungary','36'),(575,'Iceland','354'),(576,'Indonesia','62'),(577,'Iran','98'),(578,'Iraq','964'),(579,'Ireland','353'),(580,'Isle of Man','44-1624'),(581,'Israel','972'),(582,'Italy','39'),(583,'Ivory Coast','225'),(584,'Jamaica','1-876'),(585,'Japan','81'),(586,'Jersey','44-1534'),(587,'Jordan','962'),(588,'Kazakhstan','7'),(589,'Kenya','254'),(590,'Kiribati','686'),(591,'Kosovo','383'),(592,'Kuwait','965'),(593,'Kyrgyzstan','996'),(594,'Laos','856'),(595,'Latvia','371'),(596,'Lebanon','961'),(597,'Lesotho','266'),(598,'Liberia','231'),(599,'Libya','218'),(600,'Liechtenstein','423'),(601,'Lithuania','370'),(602,'Luxembourg','352'),(603,'Macau','853'),(604,'Macedonia','389'),(605,'Madagascar','261'),(606,'Malawi','265'),(607,'Malaysia','60'),(608,'Maldives','960'),(609,'Mali','223'),(610,'Malta','356'),(611,'Marshall Islands','692'),(612,'Mauritania','222'),(613,'Mauritius','230'),(614,'Mayotte','262'),(615,'Mexico','52'),(616,'Micronesia','691'),(617,'Moldova','373'),(618,'Monaco','377'),(619,'Mongolia','976'),(620,'Montenegro','382'),(621,'Montserrat','1-664'),(622,'Morocco','212'),(623,'Mozambique','258'),(624,'Myanmar','95'),(625,'Namibia','264'),(626,'Nauru','674'),(627,'Nepal','977'),(628,'Netherlands','31'),(629,'Netherlands Antilles','599'),(630,'New Caledonia','687'),(631,'New Zealand','64'),(632,'Nicaragua','505'),(633,'Niger','227'),(634,'Nigeria','234'),(635,'Niue','683'),(636,'North Korea','850'),(637,'Northern Mariana Islands','1-670'),(638,'Norway','47'),(639,'Oman','968'),(640,'Pakistan','92'),(641,'Palau','680'),(642,'Palestine','970'),(643,'Panama','507'),(644,'Papua New Guinea','675'),(645,'Paraguay','595'),(646,'Peru','51'),(647,'Philippines','63'),(648,'Pitcairn','64'),(649,'Poland','48'),(650,'Portugal','351'),(651,'Puerto Rico','1-787, 1-939'),(652,'Qatar','974'),(653,'Republic of the Congo','242'),(654,'Reunion','262'),(655,'Romania','40'),(656,'Russia','7'),(657,'Rwanda','250'),(658,'Saint Barthelemy','590'),(659,'Saint Helena','290'),(660,'Saint Kitts and Nevis','1-869'),(661,'Saint Lucia','1-758'),(662,'Saint Martin','590'),(663,'Saint Pierre and Miquelon','508'),(664,'Saint Vincent and the Grenadines','1-784'),(665,'Samoa','685'),(666,'San Marino','378'),(667,'Sao Tome and Principe','239'),(668,'Saudi Arabia','966'),(669,'Senegal','221'),(670,'Serbia','381'),(671,'Seychelles','248'),(672,'Sierra Leone','232'),(673,'Singapore','65'),(674,'Sint Maarten','1-721'),(675,'Slovakia','421'),(676,'Slovenia','386'),(677,'Solomon Islands','677'),(678,'Somalia','252'),(679,'South Africa','27'),(680,'South Korea','82'),(681,'South Sudan','211'),(682,'Spain','34'),(683,'Sri Lanka','94'),(684,'Sudan','249'),(685,'Suriname','597'),(686,'Svalbard and Jan Mayen','47'),(687,'Swaziland','268'),(688,'Sweden','46'),(689,'Switzerland','41'),(690,'Syria','963'),(691,'Taiwan','886'),(692,'Tajikistan','992'),(693,'Tanzania','255'),(694,'Thailand','66'),(695,'Togo','228'),(696,'Tokelau','690'),(697,'Tonga','676'),(698,'Trinidad and Tobago','1-868'),(699,'Tunisia','216'),(700,'Turkey','90'),(701,'Turkmenistan','993'),(702,'Turks and Caicos Islands','1-649'),(703,'Tuvalu','688'),(704,'U.S. Virgin Islands','1-340'),(705,'Uganda','256'),(706,'Ukraine','380'),(707,'United Arab Emirates','971'),(708,'United Kingdom','44'),(709,'United States','1'),(710,'Uruguay','598'),(711,'Uzbekistan','998'),(712,'Vanuatu','678'),(713,'Vatican','379'),(714,'Venezuela','58'),(715,'Vietnam','84'),(716,'Wallis and Futuna','681'),(717,'Western Sahara','212'),(718,'Yemen','967'),(719,'Zambia','260'),(720,'Zimbabwe','263');
+INSERT INTO `country` VALUES (1,'India','91'),(2,'Afghanistan','93'),(3,'Algeria','213'),(4,'Albania','355');
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `department`
+--
+
+DROP TABLE IF EXISTS `department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `department` (
+  `department_id` int NOT NULL AUTO_INCREMENT,
+  `department_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`department_id`),
+  UNIQUE KEY `department_name_UNIQUE` (`department_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `department`
+--
+
+LOCK TABLES `department` WRITE;
+/*!40000 ALTER TABLE `department` DISABLE KEYS */;
+INSERT INTO `department` VALUES (1,'Accounts and Finance'),(6,'Administration'),(7,'Engineering'),(2,'HR'),(4,'Research and development'),(3,'Sales and marketing'),(5,'Security and transport.');
+/*!40000 ALTER TABLE `department` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dependent`
+--
+
+DROP TABLE IF EXISTS `dependent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `dependent` (
+  `dependent_id` int NOT NULL AUTO_INCREMENT,
+  `name_id` int NOT NULL,
+  `contact_id` int NOT NULL,
+  `address_id` int NOT NULL,
+  PRIMARY KEY (`dependent_id`),
+  UNIQUE KEY `dependant_id_UNIQUE` (`dependent_id`),
+  KEY `dependant_to_name_idx` (`name_id`),
+  KEY `dependant_to_contact_idx` (`contact_id`),
+  KEY `dependant_to_address_idx` (`address_id`),
+  CONSTRAINT ` dependent_to_name` FOREIGN KEY (`name_id`) REFERENCES `name` (`name_id`),
+  CONSTRAINT `dependent_to_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
+  CONSTRAINT `dependent_to_contact` FOREIGN KEY (`contact_id`) REFERENCES `contact_number` (`contact_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dependent`
+--
+
+LOCK TABLES `dependent` WRITE;
+/*!40000 ALTER TABLE `dependent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dependent` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -151,7 +297,7 @@ CREATE TABLE `device` (
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,1,1,_binary '','2019-04-04',13000,NULL),(2,2,2,_binary '','2019-04-04',12000,NULL),(3,3,NULL,_binary '','2018-02-04',11000,NULL),(4,4,NULL,_binary '','2019-09-04',50000,NULL),(5,1,NULL,_binary '','2019-08-16',12000,NULL);
+INSERT INTO `device` VALUES (1,1,NULL,_binary '','2019-04-04',13000,NULL),(2,2,NULL,_binary '','2019-04-04',12000,NULL),(3,3,NULL,_binary '','2018-02-04',11000,NULL),(4,4,NULL,_binary '','2019-09-04',50000,NULL),(5,1,NULL,_binary '','2019-08-16',12000,NULL);
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,30 +338,28 @@ INSERT INTO `device_ports` VALUES (1,_binary '\0',_binary '\0',_binary '\0',_bin
 UNLOCK TABLES;
 
 --
--- Table structure for table `identification_details`
+-- Table structure for table `gender`
 --
 
-DROP TABLE IF EXISTS `identification_details`;
+DROP TABLE IF EXISTS `gender`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `identification_details` (
-  `identification_details_id` int NOT NULL AUTO_INCREMENT,
-  `aadhar_number` varchar(224) DEFAULT NULL,
-  `pan_number` varchar(224) NOT NULL,
-  PRIMARY KEY (`identification_details_id`),
-  UNIQUE KEY `pan_number_UNIQUE` (`pan_number`),
-  UNIQUE KEY `aadhar_number_UNIQUE` (`aadhar_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+CREATE TABLE `gender` (
+  `gender_id` int NOT NULL AUTO_INCREMENT,
+  `gender` varchar(45) NOT NULL,
+  PRIMARY KEY (`gender_id`),
+  UNIQUE KEY `gender_UNIQUE` (`gender`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `identification_details`
+-- Dumping data for table `gender`
 --
 
-LOCK TABLES `identification_details` WRITE;
-/*!40000 ALTER TABLE `identification_details` DISABLE KEYS */;
-INSERT INTO `identification_details` VALUES (1,'3f87cbea323c930581766f0cad50f5fb89c09551e5834f7e10fbbba3','d63b58e1a50cb427e9a9f81e5c0dab7dc43b31b888a42b5d2cc30a6f'),(2,'807b9bcd628c90a1bcdedaaddb15f1a25366af53a8b4e2c692d80bb8','20a69e5abcfbae47f0b0aa514561e3ffbbf75100ef59906157793f86'),(3,'96bbc1bd683a7bec15cfc46b095af2125e9be8badea78ad61e9252e0','58f478b13f788d1e5d9245e0e2edf791c4bc1168fc0326c5a8ac395c'),(4,'d1320901ef8eb3a296e105479ab3e35774c0126ddde7055d2968974f','7a60e8534ea4700b480cfb7822c96bb47c91020251953901bde56617'),(5,'7f18b1beec3e2b5517f3c4b3c494210fa84da952b1aac17fcd8c11ba','4e1766f037f8c097da69889dba323d622920eb057834702643082d27'),(18,'fd135afab1c4add51a929206be279cf8c3258198a5b9e1c6bd573e48','414116c3f3f46126138e4434d7d0d225d33979aacc18694f2a16dbed'),(22,'0eddb2b4ef5b7db707ff86aa51c07bc3a6e8ac7fa713b158464b3f99','86db4de9d4df56f35cb7d4fe4e231abc720eafa2403ebc3352173ee3');
-/*!40000 ALTER TABLE `identification_details` ENABLE KEYS */;
+LOCK TABLES `gender` WRITE;
+/*!40000 ALTER TABLE `gender` DISABLE KEYS */;
+INSERT INTO `gender` VALUES (2,'Female'),(1,'Male'),(3,'Other');
+/*!40000 ALTER TABLE `gender` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -227,7 +371,7 @@ DROP TABLE IF EXISTS `issue_return`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `issue_return` (
   `issue_id` int NOT NULL AUTO_INCREMENT,
-  `emp_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `device_id` int NOT NULL,
   `request_id` int NOT NULL,
   `issue_date` timestamp NOT NULL,
@@ -235,12 +379,12 @@ CREATE TABLE `issue_return` (
   `return_date` datetime DEFAULT NULL,
   `fault` text,
   PRIMARY KEY (`issue_id`),
-  KEY `issue_to_emp_idx` (`emp_id`),
+  KEY `issue_to_emp_idx` (`user_id`),
   KEY `issue_to_device_idx` (`device_id`),
   KEY `issue_to_request_idx` (`request_id`),
   CONSTRAINT `issue_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
-  CONSTRAINT `issue_to_emp` FOREIGN KEY (`emp_id`) REFERENCES `user` (`emp_id`),
-  CONSTRAINT `issue_to_request` FOREIGN KEY (`request_id`) REFERENCES `request` (`request_id`)
+  CONSTRAINT `issue_to_request` FOREIGN KEY (`request_id`) REFERENCES `request` (`request_id`),
+  CONSTRAINT `issue_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -250,40 +394,35 @@ CREATE TABLE `issue_return` (
 
 LOCK TABLES `issue_return` WRITE;
 /*!40000 ALTER TABLE `issue_return` DISABLE KEYS */;
-INSERT INTO `issue_return` VALUES (1,1,1,1,'2020-02-27 10:15:42','2020-03-01 10:15:42',NULL,NULL),(2,8,2,2,'2020-02-28 05:38:51','2020-03-02 05:38:51',NULL,NULL);
 /*!40000 ALTER TABLE `issue_return` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `location`
+-- Table structure for table `name`
 --
 
-DROP TABLE IF EXISTS `location`;
+DROP TABLE IF EXISTS `name`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `location` (
-  `location_id` int NOT NULL AUTO_INCREMENT,
-  `city_id` int NOT NULL,
-  `state_id` int DEFAULT NULL,
-  `country_id` int NOT NULL,
-  PRIMARY KEY (`location_id`),
-  KEY `loc_to_country_idx` (`country_id`),
-  KEY `loc_to_state_idx` (`state_id`),
-  KEY `loc_to_city_idx` (`city_id`),
-  CONSTRAINT `loc_to_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`),
-  CONSTRAINT `loc_to_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
-  CONSTRAINT `loc_to_state` FOREIGN KEY (`state_id`) REFERENCES `state` (`state_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+CREATE TABLE `name` (
+  `name_id` int NOT NULL AUTO_INCREMENT,
+  `salutation_id` int NOT NULL,
+  `first_name` varchar(45) NOT NULL,
+  `middle_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`name_id`),
+  KEY `name_to_salutation_idx` (`salutation_id`),
+  CONSTRAINT `name_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `location`
+-- Dumping data for table `name`
 --
 
-LOCK TABLES `location` WRITE;
-/*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,1,1,1),(2,2,1,1),(3,4,1,1),(7,3,2,1),(8,9,8,1);
-/*!40000 ALTER TABLE `location` ENABLE KEYS */;
+LOCK TABLES `name` WRITE;
+/*!40000 ALTER TABLE `name` DISABLE KEYS */;
+/*!40000 ALTER TABLE `name` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -311,30 +450,34 @@ INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device
 UNLOCK TABLES;
 
 --
--- Table structure for table `phone`
+-- Table structure for table `personal_details`
 --
 
-DROP TABLE IF EXISTS `phone`;
+DROP TABLE IF EXISTS `personal_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `phone` (
-  `phone_id` int NOT NULL AUTO_INCREMENT,
-  `number_type` varchar(45) NOT NULL,
-  `country_id` int NOT NULL,
-  `number` varchar(11) NOT NULL,
-  `extension` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`phone_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+CREATE TABLE `personal_details` (
+  `personal_details_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `gender_id` int NOT NULL,
+  `is_married` bit(1) DEFAULT NULL,
+  `alternate_email` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`personal_details_id`),
+  UNIQUE KEY `personal_details_id_UNIQUE` (`personal_details_id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  KEY `personal_details_to_gender_idx` (`gender_id`),
+  CONSTRAINT `personal_details_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
+  CONSTRAINT `personal_details_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `phone`
+-- Dumping data for table `personal_details`
 --
 
-LOCK TABLES `phone` WRITE;
-/*!40000 ALTER TABLE `phone` DISABLE KEYS */;
-INSERT INTO `phone` VALUES (1,'Mobile',1,'6983843875',NULL),(2,'Mobile',1,'4785487584',NULL),(3,'Mobile',1,'5748396602',NULL),(4,'Mobile',1,'4785123584',NULL),(5,'Mobile',1,'4785123584',NULL),(6,'Mobile',1,'2778704032',NULL),(14,'Mobile',1,'2756404032',NULL),(16,'Mobile',1,'2756404032',NULL),(18,'Mobile',1,'2756404032',NULL),(19,'Mobile',1,'2756404032',NULL),(23,'Mobile',1,'4564843278',NULL);
-/*!40000 ALTER TABLE `phone` ENABLE KEYS */;
+LOCK TABLES `personal_details` WRITE;
+/*!40000 ALTER TABLE `personal_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `personal_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -346,13 +489,13 @@ DROP TABLE IF EXISTS `purchase_list`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purchase_list` (
   `order_id` int NOT NULL AUTO_INCREMENT,
-  `emp_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `device_type` varchar(45) NOT NULL,
   `description` text NOT NULL,
   `purchase_status` enum('Pending','Purchased','Rejected') NOT NULL DEFAULT 'Pending',
   PRIMARY KEY (`order_id`),
-  KEY `purchase_emp_to_emp_idx` (`emp_id`),
-  CONSTRAINT `purchase_emp_to_emp` FOREIGN KEY (`emp_id`) REFERENCES `user` (`emp_id`)
+  KEY `purchase_emp_to_emp_idx` (`user_id`),
+  CONSTRAINT `purchase_user_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -362,8 +505,33 @@ CREATE TABLE `purchase_list` (
 
 LOCK TABLES `purchase_list` WRITE;
 /*!40000 ALTER TABLE `purchase_list` DISABLE KEYS */;
-INSERT INTO `purchase_list` VALUES (1,3,'Mobile','OnePlus 7T Pro (Haze Blue, 8GB RAM, Fluid AMOLED Display, 256GB Storage, 4085mAH Battery)','Pending');
 /*!40000 ALTER TABLE `purchase_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `relation`
+--
+
+DROP TABLE IF EXISTS `relation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `relation` (
+  `relation_id` int NOT NULL AUTO_INCREMENT,
+  `relation_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`relation_id`),
+  UNIQUE KEY `relation_id_UNIQUE` (`relation_id`),
+  UNIQUE KEY `relation_name_UNIQUE` (`relation_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `relation`
+--
+
+LOCK TABLES `relation` WRITE;
+/*!40000 ALTER TABLE `relation` DISABLE KEYS */;
+INSERT INTO `relation` VALUES (3,'Father'),(4,'Husband'),(2,'Mother'),(1,'Self'),(5,'Wife');
+/*!40000 ALTER TABLE `relation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -375,17 +543,17 @@ DROP TABLE IF EXISTS `request`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request` (
   `request_id` int NOT NULL AUTO_INCREMENT,
-  `emp_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `specs_id` int NOT NULL,
   `request_date` timestamp NOT NULL,
   `expected_return` timestamp NOT NULL,
   `request_status` enum('Pending','Accepted','Rejected') NOT NULL DEFAULT 'Pending',
   `priority` enum('Low','Medium','High') NOT NULL DEFAULT 'Low',
   PRIMARY KEY (`request_id`),
-  KEY `req_emp_to_emp_idx` (`emp_id`),
+  KEY `req_emp_to_emp_idx` (`user_id`),
   KEY `req_to_specs_idx` (`specs_id`),
-  CONSTRAINT `req_to_emp` FOREIGN KEY (`emp_id`) REFERENCES `user` (`emp_id`),
-  CONSTRAINT `req_to_specs` FOREIGN KEY (`specs_id`) REFERENCES `specifications` (`specs_id`)
+  CONSTRAINT `req_to_specs` FOREIGN KEY (`specs_id`) REFERENCES `specifications` (`specs_id`),
+  CONSTRAINT `req_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='							';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -395,7 +563,6 @@ CREATE TABLE `request` (
 
 LOCK TABLES `request` WRITE;
 /*!40000 ALTER TABLE `request` DISABLE KEYS */;
-INSERT INTO `request` VALUES (1,1,1,'2020-02-27 10:11:11','2020-03-01 10:11:11','Accepted','Medium'),(2,8,2,'2020-02-27 10:11:11','2020-03-01 10:11:11','Accepted','High');
 /*!40000 ALTER TABLE `request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,7 +639,7 @@ CREATE TABLE `salutation` (
 
 LOCK TABLES `salutation` WRITE;
 /*!40000 ALTER TABLE `salutation` DISABLE KEYS */;
-INSERT INTO `salutation` VALUES (4,'Dr'),(1,'Mr'),(3,'Mrs'),(2,'Ms');
+INSERT INTO `salutation` VALUES (4,'Dr'),(1,'Mr'),(2,'Mrs'),(3,'Ms');
 /*!40000 ALTER TABLE `salutation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -522,9 +689,12 @@ DROP TABLE IF EXISTS `state`;
 CREATE TABLE `state` (
   `state_id` int NOT NULL AUTO_INCREMENT,
   `state_name` varchar(45) NOT NULL,
+  `country_id` int NOT NULL,
   PRIMARY KEY (`state_id`),
   UNIQUE KEY `state_id_UNIQUE` (`state_id`),
-  UNIQUE KEY `state_name_UNIQUE` (`state_name`)
+  UNIQUE KEY `state_name_UNIQUE` (`state_name`),
+  KEY `state_to_country_idx` (`country_id`),
+  CONSTRAINT `state_to_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -534,7 +704,7 @@ CREATE TABLE `state` (
 
 LOCK TABLES `state` WRITE;
 /*!40000 ALTER TABLE `state` DISABLE KEYS */;
-INSERT INTO `state` VALUES (1,'Haryana'),(2,'New Delhi'),(8,'Uttar Pradesh');
+INSERT INTO `state` VALUES (1,'Haryana',1),(2,'New Delhi',1),(3,'Uttar Pradesh',1);
 /*!40000 ALTER TABLE `state` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -546,29 +716,21 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `emp_id` int NOT NULL AUTO_INCREMENT,
-  `salutation_id` int NOT NULL,
-  `first_name` varchar(20) NOT NULL,
-  `middle_name` varchar(20) DEFAULT NULL,
-  `last_name` varchar(20) NOT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `department_id` int NOT NULL,
   `designation_id` int NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(224) NOT NULL,
   `date_of_birth` date NOT NULL,
-  `is_married` bit(1) NOT NULL,
-  `gender` enum('m','f','o') NOT NULL,
   `date_of_joining` date NOT NULL,
-  `identification_details_id` int NOT NULL,
   `is_active` bit(1) NOT NULL,
-  PRIMARY KEY (`emp_id`),
+  PRIMARY KEY (`user_id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `user_to_designation_idx` (`designation_id`),
-  KEY `user_to_salutation_idx` (`salutation_id`),
-  KEY `user_to_details_idx` (`identification_details_id`),
-  CONSTRAINT `user_to_designation` FOREIGN KEY (`designation_id`) REFERENCES `designation` (`designation_id`),
-  CONSTRAINT `user_to_details` FOREIGN KEY (`identification_details_id`) REFERENCES `identification_details` (`identification_details_id`),
-  CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+  KEY `user_to_department_idx` (`department_id`),
+  CONSTRAINT `user_to_department` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`),
+  CONSTRAINT `user_to_designation` FOREIGN KEY (`designation_id`) REFERENCES `designation` (`designation_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -577,7 +739,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com','cb60166bbf329c41e3163837cf5b3b969850fcc52306b7bd70537a29','1997-02-10',_binary '','f','2020-01-15',1,_binary ''),(8,1,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com','c8eb04cd283e227a68840003ccd50fbc5b2d230a84d29ef5dfbd4e15','1997-05-12',_binary '\0','m','2020-01-15',4,_binary ''),(9,1,'Rishabh',NULL,'Bisht',1,'rbisht@ex2india.com','2e68eced966a6997474f67d2d283323ff8441cd9cd7269ecb5e418cb','1997-01-01',_binary '\0','m','2020-01-15',5,_binary ''),(10,1,'Jaswinder','Singh','Chawla',1,'jschawla@ex2india.com','e9ddce690a9adc0ae345cd72f41d74120706d9833c2b4799e49f03cb','1998-05-24',_binary '\0','m','2020-01-15',2,_binary '\0'),(11,2,'Prakshee',NULL,'Rajpurohit',1,'prajpurohit@ex2india.com','f6736487a9b4e90bd17e4eab0161f998510d0077d955f0463f7f220c','1998-03-06',_binary '\0','f','2020-01-15',3,_binary ''),(20,1,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com','6114b0c792a88b0b90194e058d3e5a8cc40b5a526f095d94d5c61d6c','1998-12-05',_binary '\0','m','2020-01-15',18,_binary ''),(23,1,'Animash',NULL,'Das',1,'adas@ex2india.com','f51859005e599fe6a1f5565199a4ef4b6ed0938e950e67b16cd3d4b1','1998-06-06',_binary '\0','m','2020-02-03',22,_binary '');
+INSERT INTO `user` VALUES (1,7,1,'mgupta@ex2india.com','d946b71b5a4e4565edee4a5b7560f07ac2af4547276235bf9e1f731f','1997-02-10','2020-02-15',_binary ''),(2,7,1,'ssrawat@ex2india.com','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7','1995-02-01','2020-02-15',_binary '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -589,12 +751,12 @@ DROP TABLE IF EXISTS `user_to_address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_to_address` (
-  `emp_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `address_id` int NOT NULL,
-  PRIMARY KEY (`emp_id`,`address_id`),
+  PRIMARY KEY (`user_id`,`address_id`),
   KEY `address_map_address_idx` (`address_id`),
   CONSTRAINT `address_map_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
-  CONSTRAINT `user_map_address_user` FOREIGN KEY (`emp_id`) REFERENCES `user` (`emp_id`)
+  CONSTRAINT `user_map_address_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -604,35 +766,62 @@ CREATE TABLE `user_to_address` (
 
 LOCK TABLES `user_to_address` WRITE;
 /*!40000 ALTER TABLE `user_to_address` DISABLE KEYS */;
-INSERT INTO `user_to_address` VALUES (1,1),(8,2),(9,3),(10,4),(11,5),(20,6),(23,9),(23,10);
 /*!40000 ALTER TABLE `user_to_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_to_phone`
+-- Table structure for table `user_to_contact`
 --
 
-DROP TABLE IF EXISTS `user_to_phone`;
+DROP TABLE IF EXISTS `user_to_contact`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_to_phone` (
-  `emp_id` int NOT NULL,
-  `phone_id` int NOT NULL,
-  PRIMARY KEY (`emp_id`,`phone_id`),
-  KEY `phone_map_phone_idx` (`phone_id`),
-  CONSTRAINT `phone_map_phone` FOREIGN KEY (`phone_id`) REFERENCES `phone` (`phone_id`),
-  CONSTRAINT `user_map_phone_user` FOREIGN KEY (`emp_id`) REFERENCES `user` (`emp_id`)
+CREATE TABLE `user_to_contact` (
+  `user_id` int NOT NULL,
+  `contact_id` int NOT NULL,
+  PRIMARY KEY (`user_id`,`contact_id`),
+  CONSTRAINT `user_map_user_to_contact` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_to_phone`
+-- Dumping data for table `user_to_contact`
 --
 
-LOCK TABLES `user_to_phone` WRITE;
-/*!40000 ALTER TABLE `user_to_phone` DISABLE KEYS */;
-INSERT INTO `user_to_phone` VALUES (1,1),(8,2),(9,3),(10,5),(11,6),(20,19),(23,23);
-/*!40000 ALTER TABLE `user_to_phone` ENABLE KEYS */;
+LOCK TABLES `user_to_contact` WRITE;
+/*!40000 ALTER TABLE `user_to_contact` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_to_contact` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_to_dependent`
+--
+
+DROP TABLE IF EXISTS `user_to_dependent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_to_dependent` (
+  `user_to_dependent_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `relation_id` int NOT NULL,
+  `dependent_id` int NOT NULL,
+  PRIMARY KEY (`user_to_dependent_id`),
+  KEY `user_map_user_to_dependent_idx` (`user_id`),
+  KEY `relation_map_user_to_dependent_idx` (`relation_id`),
+  KEY `dependent_map_user_to_dependent_idx` (`dependent_id`),
+  CONSTRAINT `dependent_map_user_to_dependent` FOREIGN KEY (`dependent_id`) REFERENCES `dependent` (`dependent_id`),
+  CONSTRAINT `relation_map_user_to_dependent` FOREIGN KEY (`relation_id`) REFERENCES `relation` (`relation_id`),
+  CONSTRAINT `user_map_user_to_dependent` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_to_dependent`
+--
+
+LOCK TABLES `user_to_dependent` WRITE;
+/*!40000 ALTER TABLE `user_to_dependent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_to_dependent` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -643,12 +832,12 @@ DROP TABLE IF EXISTS `user_to_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_to_role` (
-  `emp_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `role_id` int NOT NULL,
-  PRIMARY KEY (`emp_id`,`role_id`),
+  PRIMARY KEY (`user_id`,`role_id`),
   KEY `role_id_idx` (`role_id`),
-  CONSTRAINT `emp_to_emp` FOREIGN KEY (`emp_id`) REFERENCES `user` (`emp_id`),
-  CONSTRAINT `role_id_to_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
+  CONSTRAINT `role_id_to_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
+  CONSTRAINT `user_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -658,7 +847,6 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (1,1),(8,1),(9,1),(10,1),(11,1),(20,1),(23,1);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -682,53 +870,20 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` FUNCTION `insert_address`(
 addres text,
 addres_type varchar(15),
-city varchar(45),
+city_n varchar(45),
 state_n varchar(45),
-country varchar(45),
+country_n varchar(45),
 pin varchar(6)) RETURNS int
     MODIFIES SQL DATA
     DETERMINISTIC
 BEGIN
-	declare city_id varchar(45);
-    declare state_id int;
-    declare ctry_id int;
+	declare city_id int;
     declare adrss_id int;
+    select city.city_id into city_id from city, state, country where country.country_name=country_n and state.state_name=state_n and city.city_name=city_n and state.state_id=city.state_id and country.country_id=state.country_id;
     
-     select country_id into ctry_id from country where country_name=country;
-     
-     if not exists(select city_id from city where city.city_name=city) then
-		begin
-			INSERT INTO `mydb`.`city`(`city_name`) VALUES (city);
-            set city_id:=last_insert_id();
-		end;
-	else
-		select city.city_id into city_id from city where city_name=city;
-	end if;
-    
-    if not exists (select state_id from state where state.state_name=state_n) then
-		begin
-			INSERT INTO `mydb`.`state`(`state_name`) VALUES (state_n);
-            set state_id:=last_insert_id();
-		end;
-	else
-		select state.state_id into state_id from state where state_name=state_n;
-	end if;
-    
-    if(SELECT count(location_id) from location where location.city_id=city_id and location.state_id=state_id and location.country_id=ctry_id) = 0 then
-		begin
-			INSERT INTO `mydb`.`location`(`city_id`,`state_id`,`country_id`) VALUES (city_id, state_id, ctry_id);
-			set adrss_id:=last_insert_id();
-		end;
-	else
-		begin
-			SELECT location_id into adrss_id from location where  location.city_id=city_id and location.state_id=state_id and location.country_id=ctry_id;
-            end;
-	end if;
-    
-    
-    INSERT INTO `mydb`.`address`(`address_type`,`address`, `PIN`, `location_id`)
+    INSERT INTO `mydb`.`address`(`address_type`,`address`, `PIN`, `city_id`)
 	VALUES
-	(addres_type, addres, pin, adrss_id);
+	(addres_type, addres, pin, city_id);
     set adrss_id:=last_insert_id();
 RETURN adrss_id;
 
@@ -753,12 +908,13 @@ in salut varchar(45),
 in f_name varchar(20),
 in m_name varchar(20),
 in l_name varchar(20),
+in dept_name varchar(45),
 in desig varchar(30),
 in email varchar(50),
 in pass varchar(50),
 in dob date,
 in is_m bit(1),
-in gend char(1),
+in gend varchar(45),
 in doj date,
 in ph_num_type varchar(45),
 in ph_number varchar(45),
@@ -781,6 +937,7 @@ BEGIN
 	
     
 	declare sal_id int;
+    declare dept_id int;
     declare des_id int;
     declare city_id int;
     declare state_id int;
@@ -797,24 +954,10 @@ BEGIN
 	end;
     
 	SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
-	SELECT 
-    designation_id
-INTO des_id FROM
-    designation
-WHERE
-    designation = desig;
-	SELECT 
-    country_id
-INTO ctry_id FROM
-    country
-WHERE
-    country_name = country;
-	SELECT 
-    role_id
-INTO user_role FROM
-    role
-WHERE
-    role_name = 'user';
+    SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
+	SELECT designation_id INTO des_id FROM designation WHERE designation = desig;
+	SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
+	SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
     
     
 
@@ -831,9 +974,9 @@ WHERE
 
     
 		INSERT INTO `mydb`.`user`
-		(`salutation_id`,`first_name`,`middle_name`,`last_name`,`designation_id`,`email`,`password`,`date_of_birth`,`is_married`,`gender`,`date_of_joining`,`identification_details_id`,`is_active`)
+		(`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_id`,`designation_id`,`email`,`password`,`date_of_birth`,`is_married`,`gender`,`date_of_joining`,`identification_details_id`,`is_active`)
 		VALUES
-		(sal_id,f_name,m_name,l_name,des_id,email,SHA2(pass, 224),dob,is_m,gend,doj,id_details,is_ac);
+		(sal_id,f_name,m_name,l_name,dept_id,des_id,email,SHA2(pass, 224),dob,is_m,gend,doj,id_details,is_ac);
 		set empl_id:=last_insert_id();
     
     	
@@ -866,4 +1009,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-03 15:20:45
+-- Dump completed on 2020-03-04 16:54:55

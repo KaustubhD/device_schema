@@ -383,6 +383,7 @@ CREATE TABLE `education_details` (
   `field_id` int NOT NULL,
   `starting_date` date NOT NULL,
   `finishing_date` date NOT NULL,
+  `board_university` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`education_details_id`),
   KEY `edu_details_to_level_idx` (`education_level_id`),
   KEY `edu_details_to_field_idx` (`field_id`),
@@ -785,7 +786,7 @@ CREATE TABLE `study_field` (
   `study_field` varchar(45) NOT NULL,
   PRIMARY KEY (`study_field_id`),
   UNIQUE KEY `study_field_UNIQUE` (`study_field`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -794,6 +795,7 @@ CREATE TABLE `study_field` (
 
 LOCK TABLES `study_field` WRITE;
 /*!40000 ALTER TABLE `study_field` DISABLE KEYS */;
+INSERT INTO `study_field` VALUES (1,'Computer Science'),(2,'Engineering'),(3,'Management');
 /*!40000 ALTER TABLE `study_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -809,7 +811,7 @@ CREATE TABLE `study_level` (
   `study_level_name` varchar(45) NOT NULL,
   PRIMARY KEY (`study_level_id`),
   UNIQUE KEY `study_level_name_UNIQUE` (`study_level_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -818,6 +820,7 @@ CREATE TABLE `study_level` (
 
 LOCK TABLES `study_level` WRITE;
 /*!40000 ALTER TABLE `study_level` DISABLE KEYS */;
+INSERT INTO `study_level` VALUES (4,'Diploma'),(3,'Doctorate'),(5,'High School'),(7,'Higher Secondary'),(6,'PG Diploma'),(2,'Post Graduate'),(1,'Under Graduate');
 /*!40000 ALTER TABLE `study_level` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1192,4 +1195,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-05 12:10:45
+-- Dump completed on 2020-03-05 15:50:24

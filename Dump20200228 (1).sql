@@ -152,7 +152,7 @@ CREATE TABLE `contact_number` (
   KEY `contact_to_type_idx` (`contact_type_id`),
   CONSTRAINT `contact_to_type` FOREIGN KEY (`contact_type_id`) REFERENCES `contact_type` (`contact_type_id`),
   CONSTRAINT `country_to_contact` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,7 @@ CREATE TABLE `contact_number` (
 
 LOCK TABLES `contact_number` WRITE;
 /*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
-INSERT INTO `contact_number` VALUES (23,4,1,'','9898765478');
+INSERT INTO `contact_number` VALUES (23,4,1,'','9898765478'),(31,4,1,'','5573483929');
 /*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -622,7 +622,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_to_department_designation_id` FOREIGN KEY (`department_designation_id`) REFERENCES `department_designation` (`department_designation_id`),
   CONSTRAINT `user_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
   CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -631,7 +631,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,8,'abc','cde','def',1,'abc@gmail.com','abc','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'2019-05-05','2019-06-04',_binary ''),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com','Suraj','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-02-02','2020-01-15',_binary '');
+INSERT INTO `user` VALUES (16,8,'abc','cde','def',1,'abc@gmail.com','abc','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'2019-05-05','2019-06-04',_binary ''),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com','Suraj','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-02-02','2020-01-15',_binary ''),(53,5,'Namit',NULL,'Chauhan',1,'nchauhan@ex2india.com','Namit','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-12-03','2020-01-15',_binary '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -658,7 +658,7 @@ CREATE TABLE `user_to_address` (
 
 LOCK TABLES `user_to_address` WRITE;
 /*!40000 ALTER TABLE `user_to_address` DISABLE KEYS */;
-INSERT INTO `user_to_address` VALUES (30,40),(30,41);
+INSERT INTO `user_to_address` VALUES (30,40),(53,40),(30,41),(53,41);
 /*!40000 ALTER TABLE `user_to_address` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -704,7 +704,7 @@ CREATE TABLE `user_to_contact` (
 
 LOCK TABLES `user_to_contact` WRITE;
 /*!40000 ALTER TABLE `user_to_contact` DISABLE KEYS */;
-INSERT INTO `user_to_contact` VALUES (30,23);
+INSERT INTO `user_to_contact` VALUES (30,23),(53,31);
 /*!40000 ALTER TABLE `user_to_contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -784,7 +784,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (30,1);
+INSERT INTO `user_to_role` VALUES (30,1),(53,1);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -876,6 +876,64 @@ BEGIN
     delete from education_details where education_details_id=tempid;
     delete from user where user_id=id;
 	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_all_active_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_active_user`(
+)
+BEGIN
+select salutation,first_name,middle_name,last_name,department_name,designation as 'designation_name',email,username,gender,date_of_birth,date_of_joining,
+  group_concat(if(address_type='Current',address,NULL)) as 'current_address',
+  group_concat(if(address_type='Current',city_name,NULL)) as 'current_city',
+  group_concat(if(address_type='Current',state_name,NULL)) as 'current_state',
+  group_concat(if(address_type='Current',c.country_name,NULL)) as 'current_country',
+  group_concat(if(address_type='Current',pin,NULL)) as 'current_pin',
+  GROUP_CONCAT(if(address_type='Permanant',address,NULL)) AS 'permanant_address',
+  group_concat(if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
+  group_concat(if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
+  group_concat(if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
+  group_concat(if(address_type='Permanant',pin,NULL)) as 'permanant_pin', 
+  group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code', 
+  group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code', 
+  group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number', 
+  group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
+  group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code', 
+  group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
+  group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
+  group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code', 
+  group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
+  from user 
+  inner join user_to_address using(user_id)
+  inner join address using(address_id) 
+  inner join address_type using(address_type_id) 
+  inner join city using(city_id)
+  inner join state using(state_id) 
+  inner join country c on c.country_id=state.country_id 
+  inner join user_to_contact using(user_id) 
+  inner join contact_number using(contact_id) 
+  inner join contact_type using(contact_type_id)
+  inner join country ca on ca.country_id=contact_number.country_id
+  inner join salutation using(salutation_id)
+  inner join department_designation using(department_designation_id)
+  inner join department using(department_id)
+  inner join designation using(designation_id)
+  inner join gender using(gender_id)
+  where user.is_active=1
+  group by user_id;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1029,4 +1087,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-11 17:16:33
+-- Dump completed on 2020-03-13 16:01:11

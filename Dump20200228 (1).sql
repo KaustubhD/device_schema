@@ -795,6 +795,37 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'db_final'
 --
+/*!50003 DROP FUNCTION IF EXISTS `get_full_name` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_full_name`(
+userid int
+) RETURNS varchar(100) CHARSET utf8
+    READS SQL DATA
+BEGIN
+	declare mid_name varchar(45);
+	declare namee varchar(100);
+    
+    select middle_name into mid_name from user where user_id=userid;
+	if(mid_name is null) then
+		select concat(user.first_name, ' ', user.last_name) into namee from user where user_id=userid;
+	else
+		select concat(user.first_name, ' ', user.middle_name, ' ', user.last_name) into namee from user where user_id=userid;
+	end if;
+RETURN namee;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP FUNCTION IF EXISTS `insert_address` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -932,6 +963,127 @@ select salutation,first_name,middle_name,last_name,department_name,designation a
   inner join designation using(designation_id)
   inner join gender using(gender_id)
   where user.is_active=1
+  group by user_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user`(
+IN userid varchar(50)
+)
+BEGIN
+select salutation,first_name,middle_name,last_name,department_name,designation as 'designation_name',email,username,gender,date_of_birth,date_of_joining,
+  group_concat(if(address_type='Current',address,NULL)) as 'current_address',
+  group_concat(if(address_type='Current',city_name,NULL)) as 'current_city',
+  group_concat(if(address_type='Current',state_name,NULL)) as 'current_state',
+  group_concat(if(address_type='Current',c.country_name,NULL)) as 'current_country',
+  group_concat(if(address_type='Current',pin,NULL)) as 'current_pin',
+  GROUP_CONCAT(if(address_type='Permanant',address,NULL)) AS 'permanant_address',
+  group_concat(if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
+  group_concat(if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
+  group_concat(if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
+  group_concat(if(address_type='Permanant',pin,NULL)) as 'permanant_pin', 
+  group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code', 
+  group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code', 
+  group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number', 
+  group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
+  group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code', 
+  group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
+  group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
+  group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code', 
+  group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
+  from user 
+  inner join user_to_address using(user_id)
+  inner join address using(address_id) 
+  inner join address_type using(address_type_id) 
+  inner join city using(city_id)
+  inner join state using(state_id) 
+  inner join country c on c.country_id=state.country_id 
+  inner join user_to_contact using(user_id) 
+  inner join contact_number using(contact_id) 
+  inner join contact_type using(contact_type_id)
+  inner join country ca on ca.country_id=contact_number.country_id
+  inner join salutation using(salutation_id)
+  inner join department_designation using(department_designation_id)
+  inner join department using(department_id)
+  inner join designation using(designation_id)
+  inner join gender using(gender_id)
+  where user.is_active=1
+  and user.user_id=userid
+  group by user_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_users_by_name` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_users_by_name`(
+IN namee varchar(50)
+
+)
+BEGIN
+select salutation,first_name,middle_name,last_name,department_name,designation as 'designation_name',email,username,gender,date_of_birth,date_of_joining,
+  group_concat(if(address_type='Current',address,NULL)) as 'current_address',
+  group_concat(if(address_type='Current',city_name,NULL)) as 'current_city',
+  group_concat(if(address_type='Current',state_name,NULL)) as 'current_state',
+  group_concat(if(address_type='Current',c.country_name,NULL)) as 'current_country',
+  group_concat(if(address_type='Current',pin,NULL)) as 'current_pin',
+  GROUP_CONCAT(if(address_type='Permanant',address,NULL)) AS 'permanant_address',
+  group_concat(if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
+  group_concat(if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
+  group_concat(if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
+  group_concat(if(address_type='Permanant',pin,NULL)) as 'permanant_pin', 
+  group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code', 
+  group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code', 
+  group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number', 
+  group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
+  group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code', 
+  group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
+  group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
+  group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code', 
+  group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
+  from user 
+  inner join user_to_address using(user_id)
+  inner join address using(address_id) 
+  inner join address_type using(address_type_id) 
+  inner join city using(city_id)
+  inner join state using(state_id) 
+  inner join country c on c.country_id=state.country_id 
+  inner join user_to_contact using(user_id) 
+  inner join contact_number using(contact_id) 
+  inner join contact_type using(contact_type_id)
+  inner join country ca on ca.country_id=contact_number.country_id
+  inner join salutation using(salutation_id)
+  inner join department_designation using(department_designation_id)
+  inner join department using(department_id)
+  inner join designation using(designation_id)
+  inner join gender using(gender_id)
+  where user.is_active=1
+  and get_full_name(user.user_id) like CONCAT('%', namee, '%')
   group by user_id;
 
 END ;;
@@ -1087,4 +1239,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-13 16:01:11
+-- Dump completed on 2020-03-16 15:09:24

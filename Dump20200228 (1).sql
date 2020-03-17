@@ -33,7 +33,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`address_id`),
   KEY `address_to_location_idx` (`city_id`),
   CONSTRAINT `address_to_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (40,4,'123,sec 28',1,'121001'),(41,5,'123,sec 28',1,'121001');
+INSERT INTO `address` VALUES (40,4,'123,sec 28',1,'121001'),(41,5,'123,sec 28',1,'121001'),(43,4,'1234 sec 21',1,'121001'),(44,4,'1234 sec 24',1,'121001'),(45,4,'1234',1,'121001');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +161,7 @@ CREATE TABLE `contact_number` (
 
 LOCK TABLES `contact_number` WRITE;
 /*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
-INSERT INTO `contact_number` VALUES (23,4,1,'','9898765478'),(31,4,1,'','5573483929');
+INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555'),(31,4,1,'','47f6847');
 /*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -658,7 +658,7 @@ CREATE TABLE `user_to_address` (
 
 LOCK TABLES `user_to_address` WRITE;
 /*!40000 ALTER TABLE `user_to_address` DISABLE KEYS */;
-INSERT INTO `user_to_address` VALUES (30,40),(53,40),(30,41),(53,41);
+INSERT INTO `user_to_address` VALUES (30,41),(53,41),(30,44),(53,45);
 /*!40000 ALTER TABLE `user_to_address` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1229,6 +1229,39 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_address` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_address`(
+in username varchar(45),
+in addres text,
+in city varchar(45),
+in state varchar(45),
+in country varchar(45),
+in pin varchar(6))
+BEGIN
+		declare adrss_id int;
+        declare uid int;
+        declare old_adrss_id int;
+        select user_id into uid from user where user.username=username;
+        select address_id into old_adrss_id from address inner join user_to_address using(address_id) where address_type_id=4 and user_id=uid;
+		set adrss_id:=insert_address("Current", addres, city, state, country, pin);
+		
+        update user_to_address set address_id= adrss_id where address_id=old_adrss_id and user_to_address.user_id=uid;
+		
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1239,4 +1272,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-16 15:09:24
+-- Dump completed on 2020-03-17 12:29:30

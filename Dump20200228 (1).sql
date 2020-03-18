@@ -33,7 +33,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`address_id`),
   KEY `address_to_location_idx` (`city_id`),
   CONSTRAINT `address_to_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (40,4,'123,sec 28',1,'121001'),(41,5,'123,sec 28',1,'121001'),(43,4,'1234 sec 21',1,'121001'),(44,4,'1234 sec 24',1,'121001'),(45,4,'1234',1,'121001');
+INSERT INTO `address` VALUES (40,4,'123,sec 28',1,'121001'),(41,5,'123,sec 28',1,'121001'),(43,4,'1234 sec 21',1,'121001'),(44,4,'1234 sec 24',1,'121001'),(45,4,'1234',1,'121001'),(46,4,'12364rgeyd',1,'121001'),(47,4,'Nehru Chowk',2,'121001'),(48,4,'911',2,'121001');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +130,7 @@ CREATE TABLE `city` (
 
 LOCK TABLES `city` WRITE;
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
-INSERT INTO `city` VALUES (1,'Faridabad',1);
+INSERT INTO `city` VALUES (1,'Faridabad',1),(2,'Gurgaon',1),(3,'panipat',1);
 /*!40000 ALTER TABLE `city` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `contact_number` (
   KEY `contact_to_type_idx` (`contact_type_id`),
   CONSTRAINT `contact_to_type` FOREIGN KEY (`contact_type_id`) REFERENCES `contact_type` (`contact_type_id`),
   CONSTRAINT `country_to_contact` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,7 @@ CREATE TABLE `contact_number` (
 
 LOCK TABLES `contact_number` WRITE;
 /*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
-INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555'),(31,4,1,'','47f6847');
+INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555'),(39,4,1,'','5231435654');
 /*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -588,7 +588,7 @@ CREATE TABLE `state` (
 
 LOCK TABLES `state` WRITE;
 /*!40000 ALTER TABLE `state` DISABLE KEYS */;
-INSERT INTO `state` VALUES (1,'Haryana',1);
+INSERT INTO `state` VALUES (1,'Haryana',1),(2,'UP',1),(3,'MP',1);
 /*!40000 ALTER TABLE `state` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -622,7 +622,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_to_department_designation_id` FOREIGN KEY (`department_designation_id`) REFERENCES `department_designation` (`department_designation_id`),
   CONSTRAINT `user_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
   CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -631,7 +631,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,8,'abc','cde','def',1,'abc@gmail.com','abc','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'2019-05-05','2019-06-04',_binary ''),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com','Suraj','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-02-02','2020-01-15',_binary ''),(53,5,'Namit',NULL,'Chauhan',1,'nchauhan@ex2india.com','Namit','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-12-03','2020-01-15',_binary '');
+INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@gmail.com','abc','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',_binary ''),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com','Suraj','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-12-03','2020-01-15',_binary ''),(58,5,'Namit',NULL,'han',1,'nchauhan@ex2india.com','Namit','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-12-03','2020-01-15',_binary ''),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','Sagar','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',_binary '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -658,7 +658,7 @@ CREATE TABLE `user_to_address` (
 
 LOCK TABLES `user_to_address` WRITE;
 /*!40000 ALTER TABLE `user_to_address` DISABLE KEYS */;
-INSERT INTO `user_to_address` VALUES (30,41),(53,41),(30,44),(53,45);
+INSERT INTO `user_to_address` VALUES (30,41),(30,44),(16,48),(66,48);
 /*!40000 ALTER TABLE `user_to_address` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -704,7 +704,7 @@ CREATE TABLE `user_to_contact` (
 
 LOCK TABLES `user_to_contact` WRITE;
 /*!40000 ALTER TABLE `user_to_contact` DISABLE KEYS */;
-INSERT INTO `user_to_contact` VALUES (30,23),(53,31);
+INSERT INTO `user_to_contact` VALUES (30,23),(66,39);
 /*!40000 ALTER TABLE `user_to_contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -784,7 +784,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (30,1),(53,1);
+INSERT INTO `user_to_role` VALUES (30,1),(66,1);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -826,7 +826,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP FUNCTION IF EXISTS `insert_address` */;
+/*!50003 DROP FUNCTION IF EXISTS `insert_address_function` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -836,7 +836,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `insert_address`(
+CREATE DEFINER=`root`@`localhost` FUNCTION `insert_address_function`(
 addres_type varchar(15),
 addres text,
 city_n varchar(45),
@@ -1092,7 +1092,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `insert_user_data` */;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_address` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -1102,7 +1102,83 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_user_data`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_address`(
+in addres_type varchar(45),
+in addres text,
+in city varchar(45),
+in state varchar(45),
+in country varchar(45),
+in pin varchar(6),
+in username varchar(50)
+)
+BEGIN
+
+	declare ctry_id int;
+    declare adrss_id int;
+    declare empl_id int;
+    
+    select user_id into empl_id from user where user.username=username;
+	
+    start transaction;
+    set adrss_id:=insert_address_function(addres_type, addres, city, state, country, pin);
+	insert into user_to_address values(empl_id, adrss_id);
+    commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_contact` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_contact`(
+in ph_num_type varchar(45),
+in ph_number varchar(45),
+in ph_ext varchar(15),
+in country_code varchar(50),
+in username varchar(50)
+)
+BEGIN
+	declare ctry_id int;
+    declare contact_id int;
+	declare empl_id int;
+    declare ph_id int;
+    
+    select user_id into empl_id from user where user.username=username;
+	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
+    
+    start transaction;
+	INSERT INTO `db_final`.`contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`)
+		VALUES(contact_id, ctry_id,ph_ext, ph_number);
+		set ph_id:=last_insert_id();
+	insert into user_to_contact values(empl_id, ph_id);
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_user`(
 in salut varchar(45),
 in f_name varchar(20),
 in m_name varchar(20),
@@ -1115,7 +1191,24 @@ in pass varchar(50),
 in dob date,
 in gend varchar(45),
 in doj date,
-in ph_num_type varchar(45),
+in is_ac bit(1),
+out username_out varchar(45)
+)
+BEGIN 
+	
+    declare nam_id int;
+	declare sal_id int;
+    declare dept_id int;
+    declare des_id int;
+   
+    declare empl_id int;
+    declare user_role int;
+    #declare contact_id int;
+    declare dept_desig_id int;
+    declare g_id int;
+    /*
+    
+    in ph_num_type varchar(45),
 in ph_number varchar(45),
 in ph_ext varchar(15),
 in addres_type varchar(45),
@@ -1130,28 +1223,7 @@ in city2 varchar(45),
 in state2 varchar(45),
 in country2 varchar(45),
 in pin2 varchar(6),
-in is_ac bit(1),
-out username_out varchar(45)
-)
-BEGIN 
-	
-    declare nam_id int;
-	declare sal_id int;
-    declare dept_id int;
-    declare des_id int;
-    declare add_type_id int;
-    declare city_id int;
-    declare state_id int;
-    declare ctry_id int;
-    declare ph_id int;
-    declare empl_id int;
-    declare adrss_id int;
-    declare user_role int;
-    declare id_details int;
-    declare contact_id int;
-    declare dept_desig_id int;
-    declare g_id int;
-    /*
+    
     declare exit handler for sqlexception
     begin
 		rollback;
@@ -1161,9 +1233,9 @@ BEGIN
     SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
 	SELECT designation_id INTO des_id FROM designation WHERE designation = desig;
     select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=department_id and department_designation.designation_id=designation_id;
-	SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
+	#SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
 	SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
-    SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+    #SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
     SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
     
     
@@ -1175,17 +1247,17 @@ BEGIN
 		(sal_id,f_name,m_name,l_name,dept_desig_id,email,username,SHA2(pass, 224),g_id,dob,doj,is_ac);
 		set empl_id:=last_insert_id();
 
-   
+   /*
 		INSERT INTO `db_final`.`contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`)
 		VALUES(contact_id, ctry_id,ph_ext, ph_number);
 		set ph_id:=last_insert_id();
-	
+	*/
     
 		#INSERT INTO `db_final`.`bank_details`(`user_id`,`aadhar_number`,`pan_number`,`bank_name`,`bank_branch_name`,`bank_account_number`,`ifsc_code`)
 		#VALUES(empl_id,SHA2(aadhar, 224),SHA2(pan, 224),bank_name,branch_name,SHA2(account_number, 224),SHA2(ifsc, 224));
 		#set id_details:=last_insert_id();
     
-    	
+    	/*
 		set adrss_id:=insert_address(addres_type, addres, city, state, country, pin);
 		insert into user_to_address values(empl_id, adrss_id);
 		if addres2 is not null then
@@ -1195,8 +1267,10 @@ BEGIN
 		
 		insert into user_to_contact values(empl_id, ph_id);
    
-		insert into user_to_role values(empl_id, user_role);
+		
         select username into username_out from user where user_id=empl_id;
+        */
+        insert into user_to_role values(empl_id, user_role);
 	commit;
 		
 END ;;
@@ -1240,21 +1314,182 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_address`(
-in username varchar(45),
+in addres_type varchar(45),
 in addres text,
 in city varchar(45),
 in state varchar(45),
 in country varchar(45),
-in pin varchar(6))
+in pin varchar(6),
+in username varchar(45)
+)
 BEGIN
 		declare adrss_id int;
         declare uid int;
         declare old_adrss_id int;
         select user_id into uid from user where user.username=username;
-        select address_id into old_adrss_id from address inner join user_to_address using(address_id) where address_type_id=4 and user_id=uid;
-		set adrss_id:=insert_address("Current", addres, city, state, country, pin);
+        select address_id into old_adrss_id from address inner join user_to_address using(address_id) inner join address_type using (address_type_id) where address_type.address_type=addres_type and user_id=uid;
+		set adrss_id:=insert_address_function(addres_type, addres, city, state, country, pin);
 		
         update user_to_address set address_id= adrss_id where address_id=old_adrss_id and user_to_address.user_id=uid;
+		
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_contact` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_contact`(
+in ph_num_type varchar(45),
+in ph_number varchar(45),
+in ph_ext varchar(15),
+in country_code varchar(50),
+in username varchar(50)
+)
+BEGIN
+	declare ctry_id int;
+    declare contact_id int;
+	declare empl_id int;
+    declare ph_id int;
+    
+    select user_id into empl_id from user where user.username=username;
+	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
+    
+    start transaction;
+    
+    UPDATE `db_final`.`contact_number` inner join user_to_contact using(contact_id) inner join user using(user_id)
+		SET
+		contact_type_id = contact_id,
+		country_id = ctry_id,
+		area_code = ph_ext,
+		number = ph_number
+		WHERE user.username= username;
+
+    
+    
+    /*
+	INSERT INTO `db_final`.`contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`)
+		VALUES(contact_id, ctry_id,ph_ext, ph_number);
+		set ph_id:=last_insert_id();
+	insert into user_to_contact values(empl_id, ph_id);
+	*/
+    commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user`(
+in salut varchar(45),
+in f_name varchar(20),
+in m_name varchar(20),
+in l_name varchar(20),
+in dept_name varchar(45),
+in desig varchar(30),
+in email varchar(50),
+in username varchar(50),
+in dob date,
+in gend varchar(45),
+in doj date,
+in is_ac bit(1),
+out username_out varchar(45)
+)
+BEGIN 
+	
+    declare nam_id int;
+	declare sal_id int;
+    declare dept_id int;
+    declare des_id int;
+   
+    declare empl_id int;
+    declare user_role int;
+    #declare contact_id int;
+    declare dept_desig_id int;
+    declare g_id int;
+ /*
+    
+    declare exit handler for sqlexception
+    begin
+		rollback;
+	end;
+    */
+	SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
+    SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
+	SELECT designation_id INTO des_id FROM designation WHERE designation = desig;
+    select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=department_id and department_designation.designation_id=designation_id;
+	#SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
+	SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
+    #SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+    SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
+    
+    
+     start transaction;
+     UPDATE db_final.user
+		SET
+		user.salutation_id=sal_id ,
+		user.first_name=f_name,
+		user.middle_name=m_name,
+		user.last_name=l_name,
+		user.department_designation_id=dept_desig_id ,
+        user.email=email,
+		user.gender_id =g_id ,
+		user.date_of_birth =dob,
+		user.date_of_joining =doj,
+		user.is_active = is_ac
+		WHERE user.username=username;
+        /*
+        update `db_final`.`user`
+		(`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_designation_id`,`email`,`username`,`password`,`gender_id`,`date_of_birth`,`date_of_joining`,`is_active`)
+		VALUES
+		(sal_id,f_name,m_name,l_name,dept_desig_id,email,username,SHA2(pass, 224),g_id,dob,doj,is_ac);
+		set empl_id:=last_insert_id();
+*/
+   /*
+		INSERT INTO `db_final`.`contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`)
+		VALUES(contact_id, ctry_id,ph_ext, ph_number);
+		set ph_id:=last_insert_id();
+	*/
+    
+		#INSERT INTO `db_final`.`bank_details`(`user_id`,`aadhar_number`,`pan_number`,`bank_name`,`bank_branch_name`,`bank_account_number`,`ifsc_code`)
+		#VALUES(empl_id,SHA2(aadhar, 224),SHA2(pan, 224),bank_name,branch_name,SHA2(account_number, 224),SHA2(ifsc, 224));
+		#set id_details:=last_insert_id();
+    
+    	/*
+		set adrss_id:=insert_address(addres_type, addres, city, state, country, pin);
+		insert into user_to_address values(empl_id, adrss_id);
+		if addres2 is not null then
+			set adrss_id:=insert_address(addres_type2, addres2, city2, state2, country2, pin2);
+			insert into user_to_address values(empl_id, adrss_id);
+		end if;
+		
+		insert into user_to_contact values(empl_id, ph_id);
+   
+		insert into user_to_role values(empl_id, user_role);
+        select username into username_out from user where user_id=empl_id;
+        */
+        set username_out:=username;
+	commit;
 		
 END ;;
 DELIMITER ;
@@ -1272,4 +1507,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-17 12:29:30
+-- Dump completed on 2020-03-18  9:54:35

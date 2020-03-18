@@ -33,7 +33,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`address_id`),
   KEY `address_to_location_idx` (`city_id`),
   CONSTRAINT `address_to_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (40,4,'123,sec 28',1,'121001'),(41,5,'123,sec 28',1,'121001'),(43,4,'1234 sec 21',1,'121001'),(44,4,'1234 sec 24',1,'121001'),(45,4,'1234',1,'121001'),(46,4,'12364rgeyd',1,'121001'),(47,4,'Nehru Chowk',2,'121001'),(48,4,'911',2,'121001');
+INSERT INTO `address` VALUES (40,4,'123,sec 28',1,'121001'),(41,5,'123,sec 28',1,'121001'),(43,4,'1234 sec 21',1,'121001'),(44,4,'1234 sec 24',1,'121001'),(45,4,'1234',1,'121001'),(46,4,'12364rgeyd',1,'121001'),(47,4,'Nehru Chowk',2,'121001'),(48,4,'911',2,'121001'),(49,4,'14 sec 20',1,'121001'),(50,5,'123,sec 21',2,'121001');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `contact_number` (
   KEY `contact_to_type_idx` (`contact_type_id`),
   CONSTRAINT `contact_to_type` FOREIGN KEY (`contact_type_id`) REFERENCES `contact_type` (`contact_type_id`),
   CONSTRAINT `country_to_contact` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,7 @@ CREATE TABLE `contact_number` (
 
 LOCK TABLES `contact_number` WRITE;
 /*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
-INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555'),(39,4,1,'','5231435654');
+INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555'),(39,4,1,'','5231435654'),(40,4,1,'','123123457');
 /*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -622,7 +622,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_to_department_designation_id` FOREIGN KEY (`department_designation_id`) REFERENCES `department_designation` (`department_designation_id`),
   CONSTRAINT `user_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
   CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -631,7 +631,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@gmail.com','abc','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',_binary ''),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com','Suraj','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-12-03','2020-01-15',_binary ''),(58,5,'Namit',NULL,'han',1,'nchauhan@ex2india.com','Namit','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-12-03','2020-01-15',_binary ''),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','Sagar','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',_binary '');
+INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@gmail.com','abc','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',_binary ''),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com,','Suraj','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-12-03','2020-01-15',_binary ''),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','Sagar','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',_binary ''),(67,5,'Namit',NULL,'Chauhan',1,'nchauhan@ex2india.com,','Namit','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-11-03','2020-02-03',_binary '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -658,7 +658,7 @@ CREATE TABLE `user_to_address` (
 
 LOCK TABLES `user_to_address` WRITE;
 /*!40000 ALTER TABLE `user_to_address` DISABLE KEYS */;
-INSERT INTO `user_to_address` VALUES (30,41),(30,44),(16,48),(66,48);
+INSERT INTO `user_to_address` VALUES (30,41),(30,44),(16,48),(66,48),(67,49),(67,50);
 /*!40000 ALTER TABLE `user_to_address` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -704,7 +704,7 @@ CREATE TABLE `user_to_contact` (
 
 LOCK TABLES `user_to_contact` WRITE;
 /*!40000 ALTER TABLE `user_to_contact` DISABLE KEYS */;
-INSERT INTO `user_to_contact` VALUES (30,23),(66,39);
+INSERT INTO `user_to_contact` VALUES (30,23),(66,39),(67,40);
 /*!40000 ALTER TABLE `user_to_contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -784,7 +784,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (30,1),(66,1);
+INSERT INTO `user_to_role` VALUES (30,1),(66,1),(67,1);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -982,9 +982,11 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user`(
-IN userid varchar(50)
+IN username varchar(50)
 )
 BEGIN
+declare empl_id int;
+select user.user_id into empl_id from user where user.username=username;
 select salutation,first_name,middle_name,last_name,department_name,designation as 'designation_name',email,username,gender,date_of_birth,date_of_joining,
   group_concat(if(address_type='Current',address,NULL)) as 'current_address',
   group_concat(if(address_type='Current',city_name,NULL)) as 'current_city',
@@ -1022,7 +1024,7 @@ select salutation,first_name,middle_name,last_name,department_name,designation a
   inner join designation using(designation_id)
   inner join gender using(gender_id)
   where user.is_active=1
-  and user.user_id=userid
+  and user.user_id=empl_id
   group by user_id;
 
 END ;;
@@ -1507,4 +1509,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-18  9:54:35
+-- Dump completed on 2020-03-18 10:56:08

@@ -1289,7 +1289,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_request`(
 in request_id int)
@@ -1311,12 +1311,12 @@ BEGIN
     select status_id into var_status_id from `device_management_final`.`status` where status_name="Cancelled";
 
     
-    INSERT INTO `device_management_final`.`request_history`
+    INSERT INTO `request_history`
 	(`specification_id`,`device_type`,`device_brand`,`device_model`,`status_id`,`request_date`,`user_id`)
 	VALUES
     (var_specification_id,var_type_id,var_brand_id,var_model_id,var_status_id,var_request_date,var_user_id);
 
-	DELETE FROM `device_management_final`.`request_device`
+	DELETE FROM `request_device`
 	WHERE request_device_id=request_id;
     
 END ;;
@@ -1451,7 +1451,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_request`(
 	in var_user_id int,
@@ -1472,7 +1472,7 @@ BEGIN
     select device_type_id into _type_id from device_type where device_type.type = var_device_type;
     select device_model_id into _model_id from device_model where device_model.model = var_device_model;
 
-	INSERT INTO `device_management_final`.`request_device`
+	INSERT INTO `request_device`
 	(`user_id`, `device_model_id`, `device_type_id`, `device_brand_id`, `specification_id`, `request_date`, `no_of_days`, `comment`)
 	VALUES
 	(var_user_id, _model_id, _type_id, _brand_id, var_specification_id, date(now()), var_no_of_days, var_comment);
@@ -1543,12 +1543,12 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `rejected_requests_count`()
 BEGIN
 	
-	select count(*) as total_requests_rejected from device_management_final.request_history inner join `device_management_final`.`status` using(status_id) where `device_management_final`.`status`.status_name="Rejected";
+	select count(*) as total_requests_rejected from device_management_final.request_history inner join `status` using(status_id) where `status`.status_name="Rejected";
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1605,4 +1605,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-01 18:44:22
+-- Dump completed on 2020-04-01 19:01:37

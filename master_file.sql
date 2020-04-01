@@ -89,17 +89,13 @@ CREATE TABLE `assign_device` (
   `return_date` date DEFAULT NULL,
   `assign_date` date NOT NULL,
   `assigned_by` int NOT NULL,
-  `return_to` int DEFAULT NULL,
+  `return_to` int NOT NULL,
   PRIMARY KEY (`assign_device_id`),
   KEY `employee_id_assign_idx` (`user_id`),
   KEY `device_id_assign_idx` (`device_id`),
-  KEY `assign_by_assign_device_to_user_id_idx` (`assigned_by`),
-  KEY `return_to_assign_device_to_user_id_idx` (`return_to`),
-  CONSTRAINT `assign_by_assign_device_to_user_id` FOREIGN KEY (`assigned_by`) REFERENCES `assign_device` (`user_id`),
   CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
-  CONSTRAINT `return_to_assign_device_to_user_id` FOREIGN KEY (`return_to`) REFERENCES `assign_device` (`user_id`),
-  CONSTRAINT `user_id_assign_device_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `employee_id_assign` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,6 +104,7 @@ CREATE TABLE `assign_device` (
 
 LOCK TABLES `assign_device` WRITE;
 /*!40000 ALTER TABLE `assign_device` DISABLE KEYS */;
+INSERT INTO `assign_device` VALUES (6,16,3,'2020-04-03','2020-04-01',16,16),(7,66,4,'2020-04-09','2020-04-01',16,16);
 /*!40000 ALTER TABLE `assign_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,13 +184,13 @@ CREATE TABLE `complaints` (
   `employee_id` int NOT NULL,
   `device_id` int NOT NULL,
   `comments` varchar(50) NOT NULL,
-  `image` blob NOT NULL,
+  `image` blob,
   PRIMARY KEY (`complaint_id`),
   KEY `employee_id_complaints_idx` (`employee_id`),
   KEY `device_id_complaints_idx` (`device_id`),
   CONSTRAINT `device_id_complaints` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `employee_id_complaints` FOREIGN KEY (`employee_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,6 +199,7 @@ CREATE TABLE `complaints` (
 
 LOCK TABLES `complaints` WRITE;
 /*!40000 ALTER TABLE `complaints` DISABLE KEYS */;
+INSERT INTO `complaints` VALUES (1,16,1,'Broken',NULL);
 /*!40000 ALTER TABLE `complaints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -470,7 +468,7 @@ CREATE TABLE `device` (
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,1,1,2,'black','40000','1',2,'2019-03-11',3,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',4,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',4,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',4,3,'2019-03-19 00:00:00');
+INSERT INTO `device` VALUES (1,1,1,1,'black','40000','1',2,'2019-03-11',4,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',4,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',3,3,'2019-03-19 00:00:00');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -753,7 +751,7 @@ CREATE TABLE `request_device` (
   CONSTRAINT `request_device_to_model_id` FOREIGN KEY (`device_model_id`) REFERENCES `device_model` (`device_model_id`),
   CONSTRAINT `request_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
   CONSTRAINT `request_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -762,7 +760,7 @@ CREATE TABLE `request_device` (
 
 LOCK TABLES `request_device` WRITE;
 /*!40000 ALTER TABLE `request_device` DISABLE KEYS */;
-INSERT INTO `request_device` VALUES (1,16,1,1,1,1,'2020-03-27',4,'Hi'),(3,66,3,2,5,3,'2020-03-27',6,'HKFDG'),(4,67,3,2,5,3,'2020-03-27',6,'regre');
+INSERT INTO `request_device` VALUES (22,30,1,1,2,1,'2020-04-01',5,'work'),(23,67,1,1,2,1,'2020-04-01',8,'workwork');
 /*!40000 ALTER TABLE `request_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -780,13 +778,13 @@ CREATE TABLE `request_history` (
   `device_brand` int NOT NULL,
   `device_model` int NOT NULL,
   `status_id` int NOT NULL,
-  `request_date` date NOT NULL,
+  `request_date` date DEFAULT NULL,
   `assign_date` date DEFAULT NULL,
   `assign_days` tinyint DEFAULT NULL,
   `return_date` date DEFAULT NULL,
   `user_id` int NOT NULL,
   `device_id` int DEFAULT NULL,
-  `action_by` int NOT NULL,
+  `action_by` int DEFAULT NULL,
   `return_to` int DEFAULT NULL,
   PRIMARY KEY (`request_history_id`),
   KEY `specification_id_request_idx` (`specification_id`),
@@ -794,10 +792,12 @@ CREATE TABLE `request_history` (
   KEY `status_id_request_idx` (`status_id`),
   KEY `request_history_to_user_id_returned_idx` (`return_to`),
   KEY `request_history_to_user_id_assign_by_idx` (`action_by`),
+  KEY `request_history_to_device_id_idx` (`device_id`),
   KEY `request_history_to_device_model_idx` (`device_model`),
-  KEY `request_history_to_device_brand_idx` (`device_brand`),
   KEY `request_history_to_device_type_idx` (`device_type`),
+  KEY `request_history_to_device_brand_idx` (`device_brand`),
   CONSTRAINT `request_history_to_device_brand` FOREIGN KEY (`device_brand`) REFERENCES `device_brand` (`device_brand_id`),
+  CONSTRAINT `request_history_to_device_id` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `request_history_to_device_model` FOREIGN KEY (`device_model`) REFERENCES `device_model` (`device_model_id`),
   CONSTRAINT `request_history_to_device_type` FOREIGN KEY (`device_type`) REFERENCES `device_type` (`device_type_id`),
   CONSTRAINT `request_history_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
@@ -805,7 +805,7 @@ CREATE TABLE `request_history` (
   CONSTRAINT `request_history_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_action_by` FOREIGN KEY (`action_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_returned` FOREIGN KEY (`return_to`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -814,7 +814,7 @@ CREATE TABLE `request_history` (
 
 LOCK TABLES `request_history` WRITE;
 /*!40000 ALTER TABLE `request_history` DISABLE KEYS */;
-INSERT INTO `request_history` VALUES (3,1,1,1,1,1,'2020-03-22','2020-03-22',4,'2020-03-22',67,1,30,NULL),(4,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,30,NULL);
+INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(5,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,30,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16);
 /*!40000 ALTER TABLE `request_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -970,7 +970,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES (1,'Active'),(2,' Inactive'),(3,'Allocated'),(4,'Free'),(5,'Pending'),(6,'Accepted'),(7,'Returned'),(8,'Rejected');
+INSERT INTO `status` VALUES (1,'Active'),(2,'Inactive'),(3,'Allocated'),(4,'Free'),(5,'Accepted'),(6,'Rejected'),(7,'Returned'),(8,'Cancelled');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1093,7 +1093,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (30,1),(66,1),(67,1);
+INSERT INTO `user_to_role` VALUES (30,1),(66,1),(67,1),(16,2);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1134,6 +1134,218 @@ BEGIN
     ;
 
 RETURN specs_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `accept_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `accept_request`(
+in request_id int)
+BEGIN
+	declare var_specification_id int;
+    declare var_type_id int;
+    declare var_brand_id int;
+    declare var_model_id int;
+    declare var_return_date date;
+    declare var_user_id int;
+    declare var_assigned_by_id int;
+    declare var_device_id int;
+    declare var_status_id int;
+
+    
+    select specification_id into var_specification_id from request_device where request_device_id=request_id;
+	select device_type_id into var_type_id from request_device where request_device_id=request_id;
+    select device_brand_id into var_brand_id from request_device where request_device_id=request_id;
+    select device_model_id into var_model_id from request_device where request_device_id=request_id;
+    select user_id into var_user_id from request_device where request_device_id=request_id;
+	select date_add(request_date,interval no_of_days day) into var_return_date from request_device where request_device_id=request_id;
+
+    select device_id into var_device_id from device inner join `status` using (status_id)
+    where device.device_type_id = var_type_id
+    and device.device_brand_id= var_brand_id
+    and device.device_model_id=var_model_id
+    and device.specification_id= var_specification_id
+    and device.status_id=`status`.status_id
+    and `status`.status_name="Free"
+    limit 1;
+     
+	select user_id into var_assigned_by_id from `user` inner join `user_to_role` using (user_id) inner join `role` using (role_id) where `role`.role_name="admin";
+    
+    INSERT INTO `assign_device`
+	(`user_id`,`device_id`,`return_date`,`assign_date`,`assigned_by`,`return_to`)
+	VALUES
+    (var_user_id,var_device_id,var_return_date,now(),var_assigned_by_id,var_assigned_by_id);
+    
+	select status_id into var_status_id from `status` where status_name="Allocated";
+	UPDATE `device`
+	SET status_id=var_status_id
+    where
+	`device_id` = var_device_id;
+    
+    DELETE FROM `request_device`
+	WHERE request_device_id=request_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `accept_return` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `accept_return`(
+in assigned_id int)
+BEGIN
+	declare var_specification_id int;
+    declare var_type_id int;
+    declare var_brand_id int;
+    declare var_model_id int;
+    declare var_status_id int;
+	declare var_assign_date date;
+    declare var_assign_days int;
+    declare var_user_id int;
+    declare var_device_id int;
+    declare var_return_to_id int;
+
+    
+	select user_id into var_user_id from assign_device where assign_device_id=assigned_id;
+    select device_id into var_device_id from assign_device where assign_device_id=assigned_id;
+	select assign_date into var_assign_date from assign_device where assign_device_id=assigned_id;
+	select return_to into var_return_to_id from assign_device where assign_device_id=assigned_id;
+    
+	select specification_id into var_specification_id from device where device_id = var_device_id;
+    select device_type_id into var_type_id from device where device_id = var_device_id;
+    select device_brand_id into var_brand_id from device where device_id = var_device_id;
+    select device_model_id into var_model_id from device where device_id = var_device_id;
+	
+    select datediff(now(),assign_date) into var_assign_days from assign_device where assign_device_id=assigned_id;
+	
+    select status_id into var_status_id from `device_management_final`.`status` where status_name="Returned";
+
+		
+    INSERT INTO `request_history`
+	(`specification_id`,`device_type`,`device_brand`,`device_model`,`status_id`,`assign_date`,`assign_days`,`return_date`,`user_id`,`device_id`,`return_to`)
+	VALUES
+    (var_specification_id,var_type_id,var_brand_id,var_model_id,var_status_id,var_assign_date,var_assign_days,now(),var_user_id,var_device_id,var_return_to_id);
+    
+	select status_id into var_status_id from `status` where status_name="Free";
+	UPDATE `device`
+	SET status_id=var_status_id
+    where
+	`device_id` = var_device_id;
+    
+    DELETE FROM `assign_device`
+	WHERE assign_device_id=assigned_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `all_devices` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `all_devices`()
+BEGIN
+		select count(*) as total_devices from device;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `cancel_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_request`(
+in request_id int)
+BEGIN
+	declare var_specification_id int;
+    declare var_type_id int;
+    declare var_brand_id int;
+    declare var_model_id varchar(50);
+    declare var_request_date date;
+    declare var_user_id int;
+    declare var_status_id int;
+    
+    select specification_id into var_specification_id from request_device where request_device_id=request_id;
+	select device_type_id into var_type_id from request_device where request_device_id=request_id;
+    select device_brand_id into var_brand_id from request_device where request_device_id=request_id;
+    select device_model_id into var_model_id from request_device where request_device_id=request_id;
+    select request_date into var_request_date from request_device where request_device_id=request_id;
+    select user_id into var_user_id from request_device where request_device_id=request_id;
+    select status_id into var_status_id from `device_management_final`.`status` where status_name="Cancelled";
+
+    
+    INSERT INTO `device_management_final`.`request_history`
+	(`specification_id`,`device_type`,`device_brand`,`device_model`,`status_id`,`request_date`,`user_id`)
+	VALUES
+    (var_specification_id,var_type_id,var_brand_id,var_model_id,var_status_id,var_request_date,var_user_id);
+
+	DELETE FROM `device_management_final`.`request_device`
+	WHERE request_device_id=request_id;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `device_return_dates` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `device_return_dates`(in email varchar(45))
+BEGIN
+	declare empl_id int;
+    select user_id into empl_id from user where user.email=email;
+    
+    SELECT device_type.type,device_model.model,assign_device.return_date
+    FROM device
+    inner join device_type using(device_type_id)
+	inner join device_model using(device_model_id)
+    inner join assign_device using(device_id)
+    where user_id=empl_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1184,6 +1396,28 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_faults` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_faults`()
+BEGIN
+	select type, model, comments as description from complaints
+    inner join device using(device_id)
+    inner join device_type using(device_type_id)
+    inner join device_model using(device_model_id);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_user_pending_requests` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1217,7 +1451,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_request`(
 	in var_user_id int,
@@ -1239,11 +1473,82 @@ BEGIN
     select device_model_id into _model_id from device_model where device_model.model = var_device_model;
 
 	INSERT INTO `device_management_final`.`request_device`
-	(`user_id`, `device_model`, `device_type_id`, `device_brand_id`, `specification_id`, `request_date`, `no_of_days`, `comment`)
+	(`user_id`, `device_model_id`, `device_type_id`, `device_brand_id`, `specification_id`, `request_date`, `no_of_days`, `comment`)
 	VALUES
 	(var_user_id, _model_id, _type_id, _brand_id, var_specification_id, date(now()), var_no_of_days, var_comment);
 
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `latest_accepted_requests` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `latest_accepted_requests`()
+BEGIN
+
+	SELECT device_id, type, model, user_id, assign_date 
+    FROM device_management_final.assign_device 
+    inner join device_management_final.device using(device_id) 
+    inner join device_management_final.device_type using(device_type_id)
+    inner join device_management_final.device_model using(device_model_id)
+    order by device_management_final.assign_device.assign_date desc limit 10;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `latest_pending_requests` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `latest_pending_requests`()
+BEGIN
+    
+    SELECT specification_id, type, model, user_id
+    FROM request_device
+    inner join device_type using (device_type_id)
+    inner join device_model using (device_model_id)
+    order by device_management_final.request_device.request_device_id desc limit 10;
+    
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `rejected_requests_count` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `rejected_requests_count`()
+BEGIN
+	
+	select count(*) as total_requests_rejected from device_management_final.request_history inner join `device_management_final`.`status` using(status_id) where `device_management_final`.`status`.status_name="Rejected";
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1300,4 +1605,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-01 16:53:38
+-- Dump completed on 2020-04-01 18:44:22

@@ -778,14 +778,14 @@ CREATE TABLE `request_history` (
   `specification_id` int NOT NULL,
   `device_type` int NOT NULL,
   `device_brand` int NOT NULL,
-  `device_model` varchar(50) NOT NULL,
+  `device_model` int NOT NULL,
   `status_id` int NOT NULL,
   `request_date` date NOT NULL,
   `assign_date` date DEFAULT NULL,
   `assign_days` tinyint DEFAULT NULL,
   `return_date` date DEFAULT NULL,
   `user_id` int NOT NULL,
-  `device_id` int NOT NULL,
+  `device_id` int DEFAULT NULL,
   `action_by` int NOT NULL,
   `return_to` int DEFAULT NULL,
   PRIMARY KEY (`request_history_id`),
@@ -794,12 +794,18 @@ CREATE TABLE `request_history` (
   KEY `status_id_request_idx` (`status_id`),
   KEY `request_history_to_user_id_returned_idx` (`return_to`),
   KEY `request_history_to_user_id_assign_by_idx` (`action_by`),
+  KEY `request_history_to_device_model_idx` (`device_model`),
+  KEY `request_history_to_device_brand_idx` (`device_brand`),
+  KEY `request_history_to_device_type_idx` (`device_type`),
+  CONSTRAINT `request_history_to_device_brand` FOREIGN KEY (`device_brand`) REFERENCES `device_brand` (`device_brand_id`),
+  CONSTRAINT `request_history_to_device_model` FOREIGN KEY (`device_model`) REFERENCES `device_model` (`device_model_id`),
+  CONSTRAINT `request_history_to_device_type` FOREIGN KEY (`device_type`) REFERENCES `device_type` (`device_type_id`),
   CONSTRAINT `request_history_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
   CONSTRAINT `request_history_to_status_id` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`),
   CONSTRAINT `request_history_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_action_by` FOREIGN KEY (`action_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_returned` FOREIGN KEY (`return_to`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -808,6 +814,7 @@ CREATE TABLE `request_history` (
 
 LOCK TABLES `request_history` WRITE;
 /*!40000 ALTER TABLE `request_history` DISABLE KEYS */;
+INSERT INTO `request_history` VALUES (3,1,1,1,1,1,'2020-03-22','2020-03-22',4,'2020-03-22',67,1,30,NULL),(4,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,30,NULL);
 /*!40000 ALTER TABLE `request_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -954,7 +961,7 @@ CREATE TABLE `status` (
   `status_id` int NOT NULL AUTO_INCREMENT,
   `status_name` varchar(45) NOT NULL,
   PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -963,7 +970,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES (1,'Active'),(2,' Inactive'),(3,'Allocated'),(4,'Free');
+INSERT INTO `status` VALUES (1,'Active'),(2,' Inactive'),(3,'Allocated'),(4,'Free'),(5,'Pending'),(6,'Accepted'),(7,'Returned'),(8,'Rejected');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1097,50 +1104,6 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'device_management_final'
 --
-/*!50003 DROP FUNCTION IF EXISTS `accept_request` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `accept_request`(
-	var_request_id int
-) RETURNS int
-    MODIFIES SQL DATA
-    DETERMINISTIC
-BEGIN
-
-	declare _allocated_device_id int;
-    
-    select device_id into _allocated_device_id from device
-    
-    inner join(request_device)
-	on device.device_model = request_device.device_model
-	and device.device_type_id = request_device.device_type_id
-	and device.device_brand_id = request_device.device_brand_id
-	and device.specification_id = request_device.specification_id
-    
-    inner join status using (status_id)
-    
-    where status_name = 'Free'
-    and device.device_model = request_device.device_model
-    and device.device_type_id = request_device.device_type_id
-    and device.device_brand_id = request_device.device_brand_id
-    and device.specification_id = request_device.specification_id
-    limit 1
-    ;
-
-RETURN _allocated_device_id;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP FUNCTION IF EXISTS `get_specification_id` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1287,6 +1250,46 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `reject_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reject_request`(
+	in var_request_id int,
+	in var_admin_id int
+)
+BEGIN
+
+	declare _user_id, _device_model_id, _device_type_id, _device_brand_id, _specification_id int;
+    declare _request_date date;
+	declare _reject_status_id int;
+    
+	select user_id, device_model_id, device_type_id, device_brand_id, specification_id, request_date into
+	_user_id, _device_model_id, _device_type_id, _device_brand_id, _specification_id, _request_date
+    from request_device where request_device_id=var_request_id;
+    
+    select status_id into _reject_status_id from status where status.status_name = 'Rejected';
+    
+    INSERT INTO `request_history`(
+		`specification_id`, `device_type`, `device_brand`, `device_model`, `status_id`, `request_date`, `user_id`, `action_by`)
+	VALUES(
+		_specification_id, _device_type_id, _device_brand_id, _device_model_id, _reject_status_id, _request_date, _user_id, var_admin_id);
+     
+     DELETE FROM `request_device`
+     where request_device_id=var_request_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1297,4 +1300,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-31 15:57:13
+-- Dump completed on 2020-04-01 16:53:38

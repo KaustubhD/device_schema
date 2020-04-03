@@ -1104,6 +1104,36 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'device_management_final'
 --
+/*!50003 DROP FUNCTION IF EXISTS `get_full_name` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_full_name`(userid int) RETURNS varchar(50) CHARSET utf8mb4
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+	declare mid_name varchar(45);
+	declare name varchar(100);
+
+    select middle_name into mid_name from user where user_id=userid;
+	if(mid_name is null) then
+		select concat(user.first_name, ' ', user.last_name) into name from user where user_id=userid;
+	else
+		select concat(user.first_name, ' ', user.middle_name, ' ', user.last_name) into name from user where user_id=userid;
+	end if;
+RETURN name;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP FUNCTION IF EXISTS `get_specification_id` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1262,6 +1292,75 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `addbrand` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addbrand`(
+
+in brand varchar(50)
+)
+BEGIN
+insert into device_brand (brand) values (brand);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `addSpecification` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addSpecification`(
+in RAM varchar(50),
+in storage varchar(50),
+in screen_size varchar(50),
+in connectivity varchar(50)
+)
+BEGIN
+insert into specification (RAM,storage,screen_size,connectivity) values
+(RAM,storage,screen_size,connectivity);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `addtype` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addtype`(
+
+in type varchar(50)
+)
+BEGIN
+insert into device_type (type) values (type);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `all_devices` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1325,6 +1424,25 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delbyid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delbyid`(IN device_id int)
+BEGIN
+delete from device where device.device_id=device_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `device_return_dates` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1346,6 +1464,159 @@ BEGIN
 	inner join device_model using(device_model_id)
     inner join assign_device using(device_id)
     where user_id=empl_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getAllDevice` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllDevice`(IN limit1 int ,offset1 int)
+BEGIN
+select  ad.assign_date,ad.return_date, 
+u1.first_name as assign_by_first_name,u1.middle_name as assign_by_middle_name,u1.last_name 
+ as assign_by_last_name,
+ u.first_name as assign_to_first_name,u.middle_name as assign_to_middle_name,u.last_name 
+ as assign_to_last_name,d.device_id,dm.model,d.color,d.price,d.serial_number,d.purchase_date,
+ d.entry_date,d.warranty_year, sf.* ,s.status_name, dt.type , db.brand
+ from device as d inner join 
+device_type as dt inner join 
+device_brand as db inner join
+device_model as dm inner join  
+status as s inner join 
+ specification as sf  
+ on 
+d.device_model_id = dm.device_model_id and
+d.device_type_id = dt.device_type_id and
+d.device_brand_id =  db.device_brand_id and 
+d.status_id = s.status_id and 
+d.specification_id = sf.specification_id left join assign_device as ad 
+on d.device_id = ad.device_id left join 
+ user as u  on  ad.user_id= u.user_id 
+ left  join user as u1 on 
+ u1.user_id = ad.assigned_by
+limit limit1 offset offset1
+;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getdevicebyid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getdevicebyid`(
+in device_id int
+)
+BEGIN
+select device_id,device_type_id,device_brand_id,device_model_id,color,price,serial_number,
+warranty_year,purchase_date,status_id,specification_id,entry_date
+from device where device.device_id=device_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getDevicesBySearch` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDevicesBySearch`(IN search varchar(45))
+BEGIN
+select  ad.assign_date,ad.return_date, 
+u1.first_name as assign_by_first_name,u1.middle_name as assign_by_middle_name,u1.last_name  as assign_by_last_name,
+ u.first_name as assign_to_first_name,u.middle_name as assign_to_middle_name,u.last_name 
+ as assign_to_last_name,d.device_id,dm.model, d.color,d.price,d.serial_number,d.purchase_date,
+ d.entry_date,d.warranty_year, sf.* ,s.status_name, dt.type , db.brand
+ from device as d inner join 
+device_type as dt inner join 
+device_brand as db inner join  
+device_model as dm inner join
+status as s inner join 
+ specification as sf  
+ on 
+d.device_model_id = dm.device_model_id and
+d.device_type_id = dt.device_type_id and
+d.device_brand_id =  db.device_brand_id and 
+d.status_id = s.status_id and 
+d.specification_id = sf.specification_id left join assign_device as ad 
+on d.device_id = ad.device_id left join 
+ user as u  on  ad.user_id= u.user_id 
+ left  join user as u1 on 
+ u1.user_id = ad.assigned_by
+
+where s.status like CONCAT('%', search, '%')
+
+or dm.model like CONCAT('%', search, '%') 
+or dt.type like CONCAT('%', search, '%')
+or db.brand like CONCAT('%', search, '%')
+or d.color like CONCAT('%', search, '%')
+or d.serial_number like CONCAT('%', search, '%')
+or sf.RAM like CONCAT('%', search, '%')
+or sf.storage like CONCAT('%', search, '%')
+or sf.screen_size like CONCAT('%', search, '%')
+or sf.connectivity like CONCAT('%', search, '%')
+or d.price like CONCAT('%', search, '%')
+
+ or d.warranty_year like CONCAT('%', search, '%')
+or u1.first_name like CONCAT('%', search, '%')
+or u1.middle_name like CONCAT('%', search, '%')
+or u1.last_name  like CONCAT('%', search, '%')
+or u.first_name like CONCAT('%', search, '%')
+or u.middle_name like CONCAT('%', search, '%')
+or u.last_name  like CONCAT('%', search, '%');
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getSpecificationId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSpecificationId`(
+IN RAM varchar(30),
+IN storage varchar(30),
+IN screen_size varchar(30),
+IN connectivity varchar(30))
+BEGIN
+select s.specification_id from specification s
+where s.RAM like CONCAT('%', RAM, '%')
+and s.screen_size like CONCAT('%', screen_size, '%')
+and s.storage like CONCAT('%', storage, '%')
+and s.connectivity  like CONCAT('%', connectivity, '%');
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1437,6 +1708,40 @@ BEGIN
     from request_device
     where user_id = var_user_id;
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insertdevice` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertdevice`(
+in device_type_id int,
+in device_brand_id int,
+in device_model_id int,
+in color varchar(50),
+in price varchar(50),
+in  serial_number int,
+ in warranty_year int,
+in  purchase_date date,
+in status_id int,
+in specification_id int,
+ in entry_date datetime
+)
+BEGIN
+insert into device   (device_type_id,device_brand_id,device_model_id,color,
+price,serial_number,warranty_year,purchase_date,status_id,specification_id,
+entry_date) values (device_type_id,device_brand_id,device_model_id,color,
+price,serial_number,warranty_year,purchase_date,status_id,specification_id,entry_date);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1595,6 +1900,75 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `updatedevice` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updatedevice`(
+in device_id int,
+in device_type_id int,
+in device_brand_id int,
+in device_model_id int,
+in color varchar(50),
+in price varchar(50),
+in  serial_number int,
+in warranty_year int,
+in  purchase_date date,
+in status_id int,
+in specification_id int,
+in entry_date datetime
+)
+BEGIN
+update device set device.device_type_id=device_type_id,
+device.device_brand_id=device_brand_id,
+device.device_model_id=device_model_id,
+device.color=color,
+device.price=price,
+device.serial_number=serial_number,
+device.warranty_year=warranty_year,
+device.purchase_date=purchase_date,
+device.status_id=status_id,
+device.specification_id=specification_id,
+device.entry_date=entry_date where device.device_id=device_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `updatespecification` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updatespecification`(
+in specification_id int,
+in RAM varchar(50),
+in storage varchar(50),
+in screen_size varchar(50),
+in connectivity varchar(50)
+)
+BEGIN
+update specification set specification.RAM=RAM,specification.storage=storage,
+specification.screen_size=screen_size,specification.connectivity=connectivity
+where specification.specification_id=specification_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1605,4 +1979,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-01 19:01:37
+-- Dump completed on 2020-04-04  0:26:45

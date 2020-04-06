@@ -1,15 +1,15 @@
 CREATE DATABASE  IF NOT EXISTS `device_management_final` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `device_management_final`;
--- MySQL dump 10.13  Distrib 8.0.11, for macos10.13 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: device_management_final
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	8.0.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8 ;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `device_management_final`;
 
 DROP TABLE IF EXISTS `address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address` (
   `address_id` int NOT NULL AUTO_INCREMENT,
   `address_type_id` int NOT NULL,
@@ -56,7 +56,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `address_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address_type` (
   `address_type_id` int NOT NULL AUTO_INCREMENT,
   `address_type` varchar(45) NOT NULL,
@@ -81,7 +81,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `assign_device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `assign_device` (
   `assign_device_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE `assign_device` (
   KEY `device_id_assign_idx` (`device_id`),
   CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `employee_id_assign` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `assign_device` (
 
 LOCK TABLES `assign_device` WRITE;
 /*!40000 ALTER TABLE `assign_device` DISABLE KEYS */;
-INSERT INTO `assign_device` VALUES (6,16,3,'2020-04-03','2020-04-01',16,16),(7,66,4,'2020-04-09','2020-04-01',16,16);
+INSERT INTO `assign_device` VALUES (6,16,3,'2020-04-03','2020-04-01',16,16),(7,66,4,'2020-04-09','2020-04-01',16,16),(8,16,1,'2020-04-10','2020-04-05',16,16);
 /*!40000 ALTER TABLE `assign_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +114,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `bank_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bank_details` (
   `bank_details_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -149,7 +149,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `city`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `city` (
   `city_id` int NOT NULL AUTO_INCREMENT,
   `city_name` varchar(45) NOT NULL,
@@ -178,7 +178,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `complaints`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `complaints` (
   `complaint_id` int NOT NULL AUTO_INCREMENT,
   `employee_id` int NOT NULL,
@@ -209,7 +209,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `contact_number`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contact_number` (
   `contact_id` int NOT NULL AUTO_INCREMENT,
   `contact_type_id` int NOT NULL,
@@ -243,7 +243,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `contact_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contact_type` (
   `contact_type_id` int NOT NULL AUTO_INCREMENT,
   `contact_type` varchar(45) NOT NULL,
@@ -269,7 +269,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `country` (
   `country_id` int NOT NULL AUTO_INCREMENT,
   `country_name` varchar(45) NOT NULL,
@@ -295,7 +295,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `course`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `course` (
   `course_id` int NOT NULL AUTO_INCREMENT,
   `course_name` varchar(45) NOT NULL,
@@ -319,7 +319,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `department`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `department` (
   `department_id` int NOT NULL AUTO_INCREMENT,
   `department_name` varchar(45) NOT NULL,
@@ -344,7 +344,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `department_designation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `department_designation` (
   `department_designation_id` int NOT NULL AUTO_INCREMENT,
   `department_id` int NOT NULL,
@@ -373,7 +373,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `dependent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `dependent` (
   `dependent_id` int NOT NULL AUTO_INCREMENT,
   `relation_id` int DEFAULT NULL,
@@ -408,7 +408,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `designation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `designation` (
   `designation_id` int NOT NULL AUTO_INCREMENT,
   `designation_name` varchar(30) NOT NULL,
@@ -433,7 +433,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `device` (
   `device_id` int NOT NULL AUTO_INCREMENT,
   `device_type_id` int NOT NULL,
@@ -442,7 +442,7 @@ CREATE TABLE `device` (
   `color` varchar(50) NOT NULL,
   `price` varchar(50) NOT NULL,
   `serial_number` varchar(50) NOT NULL,
-  `warranty_year` tinyint DEFAULT NULL,
+  `warranty_year` tinyint(4) DEFAULT NULL,
   `purchase_date` date DEFAULT NULL,
   `status_id` int NOT NULL,
   `specification_id` int NOT NULL,
@@ -468,7 +468,7 @@ CREATE TABLE `device` (
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,1,1,1,'black','40000','1',2,'2019-03-11',4,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',4,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',3,3,'2019-03-19 00:00:00');
+INSERT INTO `device` VALUES (1,1,1,1,'black','40000','1',2,'2019-03-11',3,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',4,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',3,3,'2019-03-19 00:00:00');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -478,7 +478,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `device_brand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `device_brand` (
   `device_brand_id` int NOT NULL AUTO_INCREMENT,
   `brand` varchar(200) NOT NULL,
@@ -502,7 +502,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `device_model`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `device_model` (
   `device_model_id` int NOT NULL AUTO_INCREMENT,
   `model` varchar(45) NOT NULL,
@@ -526,7 +526,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `device_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `device_type` (
   `device_type_id` int NOT NULL AUTO_INCREMENT,
   `type` varchar(50) NOT NULL,
@@ -550,7 +550,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `education_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `education_details` (
   `education_details_id` int NOT NULL AUTO_INCREMENT,
   `institution_name` varchar(100) NOT NULL,
@@ -583,7 +583,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `education_streams`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `education_streams` (
   `education_streams_id` int NOT NULL AUTO_INCREMENT,
   `stream_name` varchar(45) NOT NULL,
@@ -607,7 +607,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gender`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `gender` (
   `gender_id` int NOT NULL AUTO_INCREMENT,
   `gender` varchar(45) NOT NULL,
@@ -632,7 +632,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `new_device_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `new_device_request` (
   `new_device_request_id` int NOT NULL AUTO_INCREMENT,
   `employee_id` int NOT NULL,
@@ -656,7 +656,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notification` (
   `notification_id` int NOT NULL AUTO_INCREMENT,
   `employee_id` int NOT NULL,
@@ -684,7 +684,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `permission` (
   `permission_id` int NOT NULL AUTO_INCREMENT,
   `permission_name` varchar(45) NOT NULL,
@@ -708,7 +708,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `relation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `relation` (
   `relation_id` int NOT NULL AUTO_INCREMENT,
   `relation_name` varchar(45) NOT NULL,
@@ -733,7 +733,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `request_device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request_device` (
   `request_device_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -751,7 +751,7 @@ CREATE TABLE `request_device` (
   CONSTRAINT `request_device_to_model_id` FOREIGN KEY (`device_model_id`) REFERENCES `device_model` (`device_model_id`),
   CONSTRAINT `request_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
   CONSTRAINT `request_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -760,7 +760,7 @@ CREATE TABLE `request_device` (
 
 LOCK TABLES `request_device` WRITE;
 /*!40000 ALTER TABLE `request_device` DISABLE KEYS */;
-INSERT INTO `request_device` VALUES (22,30,1,1,2,1,'2020-04-01',5,'work'),(23,67,1,1,2,1,'2020-04-01',8,'workwork');
+INSERT INTO `request_device` VALUES (26,66,1,1,1,1,'2020-04-05',4,''),(27,66,3,2,5,3,'2020-04-05',14,''),(28,67,3,2,5,3,'2020-04-05',14,'');
 /*!40000 ALTER TABLE `request_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -770,7 +770,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `request_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request_history` (
   `request_history_id` int NOT NULL AUTO_INCREMENT,
   `specification_id` int NOT NULL,
@@ -780,7 +780,7 @@ CREATE TABLE `request_history` (
   `status_id` int NOT NULL,
   `request_date` date DEFAULT NULL,
   `assign_date` date DEFAULT NULL,
-  `assign_days` tinyint DEFAULT NULL,
+  `assign_days` tinyint(4) DEFAULT NULL,
   `return_date` date DEFAULT NULL,
   `user_id` int NOT NULL,
   `device_id` int DEFAULT NULL,
@@ -805,7 +805,7 @@ CREATE TABLE `request_history` (
   CONSTRAINT `request_history_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_action_by` FOREIGN KEY (`action_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_returned` FOREIGN KEY (`return_to`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -814,7 +814,7 @@ CREATE TABLE `request_history` (
 
 LOCK TABLES `request_history` WRITE;
 /*!40000 ALTER TABLE `request_history` DISABLE KEYS */;
-INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(5,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,30,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16);
+INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(5,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,30,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16),(8,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,30,NULL,16,NULL),(9,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,67,NULL,16,NULL);
 /*!40000 ALTER TABLE `request_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -824,7 +824,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
   `role_id` int NOT NULL AUTO_INCREMENT,
   `role_name` varchar(20) NOT NULL,
@@ -849,7 +849,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `role_to_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role_to_permission` (
   `role_id` int NOT NULL,
   `permission_id` int NOT NULL,
@@ -876,7 +876,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `salutation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `salutation` (
   `salutation_id` int NOT NULL AUTO_INCREMENT,
   `salutation` varchar(45) NOT NULL,
@@ -901,7 +901,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `specification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `specification` (
   `specification_id` int NOT NULL AUTO_INCREMENT,
   `RAM` varchar(50) DEFAULT NULL,
@@ -928,7 +928,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `state`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `state` (
   `state_id` int NOT NULL AUTO_INCREMENT,
   `state_name` varchar(45) NOT NULL,
@@ -956,7 +956,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `status` (
   `status_id` int NOT NULL AUTO_INCREMENT,
   `status_name` varchar(45) NOT NULL,
@@ -980,7 +980,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `salutation_id` int NOT NULL,
@@ -1023,7 +1023,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_to_dependent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_to_dependent` (
   `user_to_dependent_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -1051,7 +1051,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_to_education`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_to_education` (
   `user_id` int NOT NULL,
   `education_details_id` int NOT NULL,
@@ -1076,7 +1076,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_to_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_to_role` (
   `user_id` int NOT NULL,
   `role_id` int NOT NULL,
@@ -1170,7 +1170,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `accept_request` */;
+/*!50003 DROP FUNCTION IF EXISTS `insert_address_function` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -1179,6 +1179,52 @@ DELIMITER ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `insert_address_function`(
+add_type varchar(15),
+addres1 text,
+addres2 text,
+city_n varchar(45),
+state_n varchar(45),
+country_n varchar(45),
+pin varchar(6),
+userr_id int) RETURNS int
+    MODIFIES SQL DATA
+    DETERMINISTIC
+BEGIN
+	declare ci_id int;
+    declare adrss_id int;
+    declare add_type_id int;
+    
+	SELECT address_type_id INTO add_type_id FROM address_type WHERE address_type.address_type = add_type;
+
+    #select city_id into ci_id from city where city.city_name=city_n;
+    select city.city_id into ci_id from city, state, country where country.country_name=country_n and state.state_name=state_n and city.city_name=city_n and state.state_id=city.state_id and country.country_id=state.country_id;
+    
+    SELECT address_id INTO adrss_id FROM address WHERE address.address_type_id=add_type_id and address.address_Line1=addres1 and address.address_Line2=addres2 and address.city_id=ci_id and address.PIN=pin and address.user_id = userr_id;
+    if(adrss_id is null)
+    then
+		INSERT INTO `final_db`.`address`(`address_type_id`,`address_Line1`,`address_Line2`, `city_id`, `PIN`,`user_id`)
+		VALUES(add_type_id, addres1,addres2, ci_id, pin,userr_id);
+		set adrss_id:=last_insert_id();
+	end if;
+RETURN adrss_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `accept_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `accept_request`(
 in request_id int)
@@ -1443,6 +1489,55 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `delete_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user`(
+	in userr_id int
+)
+BEGIN
+	declare id int;
+	declare tempid int;
+    /*declare exit handler for sqlexception
+    begin
+		rollback;
+	end;*/
+    start transaction;
+    set id:= userr_id;
+    #select user_id into id from user where user.username=username;
+	#delete user, contact_number, user_to_contact, user_to_address, education_details, user_to_education, bank_details, user_to_dependent from user inner join user_to_contact on user.user_id=id and user.user_id=user_to_contact.user_id inner join contact_number on user_to_contact.contact_id=contact_number.contact_id inner join user_to_address on user.user_id=user_to_address.user_id inner join user_to_role on user.user_id=user_to_role.user_id inner join user_to_education on user.user_id=user_to_education.user_id inner join education_details on education_details.education_id=user_to_education.education_id inner join user_to_dependent on user.user_id=user_to_dependent.user_id inner join bank_details on user.user_id=bank_details.user_id where user.user_id=id;  
+	#set id:=68;
+    delete from bank_details where user_id=id;
+    delete from address where user_id=id;
+    #select user_to_contact.contact_id into tempid from user_to_contact where user_to_contact.user_id=id;
+    
+    delete from contact_number
+	where contact_number.user_id=id;
+    delete from request_device where request_device.employee_id = id;
+    #delete from user_to_contact where user_id=id;
+    
+    #delete from contact_number where contact_id=tempid;
+    delete from user_to_dependent where user_id=id;
+    delete from user_to_role where user_id=id;
+    
+    select user_to_education.education_details_id into tempid from user_to_education where user_to_education.user_id=id;
+    delete from user_to_education where user_id=id;
+    delete from education_details where education_details_id=tempid;
+    delete from user where user_id=id;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `device_return_dates` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1667,6 +1762,71 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_all_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_user`(
+)
+BEGIN
+select salutation,user_id,first_name,middle_name,last_name,department_name,designation,
+role_name,email,gender,status_name,date_of_birth,date_of_joining,
+ group_concat(distinct if(address_type='Current',address_Line1,NULL)) as 'current_address_Line1',
+  group_concat(distinct if(address_type='Current',address_Line2,NULL)) as 'current_address_Line2',
+  group_concat(distinct if(address_type='Current',city_name,NULL)) as 'current_city',
+  group_concat(distinct if(address_type='Current',state_name,NULL)) as 'current_state',
+  group_concat(distinct if(address_type='Current',c.country_name,NULL)) as 'current_country',
+  group_concat(distinct if(address_type='Current',pin,NULL)) as 'current_pin',
+  group_concat(distinct if(address_type='Permanant',address_Line1,NULL)) AS 'permanant_address_Line1',
+  group_concat(distinct if(address_type='Permanant',address_Line2,NULL)) AS 'permanant_address_Line2',
+  group_concat(distinct if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
+  group_concat(distinct if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
+  group_concat(distinct if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
+  group_concat(distinct if(address_type='Permanant',pin,NULL)) as 'permanant_pin',
+  group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code',
+  group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code',
+  group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number',
+  group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
+  group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code',
+  group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
+  group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
+  group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code',
+  group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
+  /*role.role_name*/
+  from user
+  /*inner join user_to_address using(user_id)*/
+  inner join address using(user_id)
+  inner join address_type using(address_type_id)
+  inner join city using(city_id)
+  inner join state using(state_id)
+  inner join country c on c.country_id=state.country_id
+ /* inner join user_to_contact using(user_id) */
+  inner join contact_number using(user_id)
+  inner join contact_type using(contact_type_id)
+  inner join country ca on ca.country_id=contact_number.country_id
+  inner join salutation using(salutation_id)
+  inner join department_designation using(department_designation_id)
+  inner join department using(department_id)
+  inner join designation using(designation_id)
+  inner join gender using(gender_id)
+  inner join status on user.status=status.status_id
+  inner join user_to_role using (user_id)
+   inner join role using (role_id)
+  /*inner join role using(role_id)*/
+
+  group by user_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_faults` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1683,6 +1843,136 @@ BEGIN
     inner join device using(device_id)
     inner join device_type using(device_type_id)
     inner join device_model using(device_model_id);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_users_by_id` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_users_by_id`(
+IN user_id int(100)
+)
+BEGIN
+select salutation,user_id,role_name,first_name,middle_name,last_name,department_name,
+designation_name,email,gender,status_name,date_of_birth,date_of_joining,
+  group_concat(distinct if(address_type='Current',address_Line1,NULL)) as 'current_address_Line1',
+  group_concat(distinct if(address_type='Current',address_Line2,NULL)) as 'current_address_Line2',
+  group_concat(distinct if(address_type='Current',city_name,NULL)) as 'current_city',
+  group_concat(distinct if(address_type='Current',state_name,NULL)) as 'current_state',
+  group_concat(distinct if(address_type='Current',c.country_name,NULL)) as 'current_country',
+  group_concat(distinct if(address_type='Current',pin,NULL)) as 'current_pin',
+  group_concat(distinct if(address_type='Permanant',address_Line1,NULL)) AS 'permanant_address_Line1',
+  group_concat(distinct if(address_type='Permanant',address_Line2,NULL)) AS 'permanant_address_Line2',
+  group_concat(distinct if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
+  group_concat(distinct if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
+  group_concat(distinct if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
+  group_concat(distinct if(address_type='Permanant',pin,NULL)) as 'permanant_pin',
+  group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code',
+  group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code',
+  group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number',
+  group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
+  group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code',
+  group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
+  group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
+  group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code',
+  group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
+  from user
+  /*inner join user_to_address using(user_id)*/
+  inner join address using(user_id)
+  inner join address_type using(address_type_id)
+  inner join city using(city_id)
+  inner join state using(state_id)
+  inner join country c on c.country_id=state.country_id
+  /*inner join user_to_contact using(user_id) */
+  inner join contact_number using(user_id)
+  inner join contact_type using(contact_type_id)
+  inner join country ca on ca.country_id=contact_number.country_id
+  inner join salutation using(salutation_id)
+  inner join department_designation using(department_designation_id)
+  inner join department using(department_id)
+  inner join designation using(designation_id)
+  inner join gender using(gender_id)
+  inner join status on user.status=status.status_id
+  inner join user_to_role using(user_id)
+  inner join role using(role_id)
+ # where user.status=1 and
+ where user.user_id=user_id
+  /*and get_full_name(user.user_id) like CONCAT('%', namee, '%')*/
+  group by user_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_users_by_name` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_users_by_name`(
+IN namee varchar(50)
+)
+BEGIN
+
+select user_id,salutation,first_name,middle_name,last_name,role_name,department_name,designation_name as 'designation_name',email,gender,date_of_birth,date_of_joining,status.status_name,
+  group_concat(distinct if(address_type='Current',address_Line1,NULL)) as 'current_address_Line1',
+  group_concat(distinct if(address_type='Current',address_Line2,NULL)) as 'current_address_Line2',
+  group_concat(distinct if(address_type='Current',city_name,NULL)) as 'current_city',
+  group_concat(distinct if(address_type='Current',state_name,NULL)) as 'current_state',
+  group_concat(distinct if(address_type='Current',c.country_name,NULL)) as 'current_country',
+  group_concat(distinct if(address_type='Current',pin,NULL)) as 'current_pin',
+   group_concat(distinct if(address_type='Permanant',address_Line1,NULL)) AS 'permanant_address_Line1',
+  group_concat(distinct if(address_type='Permanant',address_Line2,NULL)) AS 'permanant_address_Line2',
+  group_concat(distinct if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
+  group_concat(distinct if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
+  group_concat(distinct if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
+  group_concat(distinct if(address_type='Permanant',pin,NULL)) as 'permanant_pin',
+  group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code',
+  group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code',
+  group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number',
+  group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
+  group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code',
+  group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
+  group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
+  group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code',
+  group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
+  from user
+  inner join salutation using(salutation_id)
+  inner join department_designation using(department_designation_id)
+  inner join department using(department_id)
+  inner join designation using(designation_id)
+  inner join gender using(gender_id)
+  inner join status on status.status_id=user.status
+  left join address using(user_id)
+  inner join address_type using(address_type_id)
+  inner join city using(city_id)
+  inner join state using(state_id)
+  inner join country c on c.country_id=state.country_id
+  left join contact_number using(user_id)
+  inner join contact_type using(contact_type_id)
+  inner join country ca on ca.country_id=contact_number.country_id
+  inner join user_to_role using(user_id)
+  inner join role using(role_id)
+  
+  where user.status_id=1
+  and get_full_name(user.user_id) like CONCAT('%', namee, '%') or user.email like CONCAT('%', namee, '%') or status_name like CONCAT('%', namee, '%')
+  group by user_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1748,6 +2038,71 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_address` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_address`(
+in addres_type varchar(45),
+in addres1 text,
+in addres2 text,
+in city_n varchar(45),
+in state_n varchar(45),
+in country_n varchar(45),
+in pin varchar(6),
+in userr_id int
+)
+BEGIN
+	declare adrss_id int;
+    
+    set adrss_id:=insert_address_function(addres_type, addres1,addres2, city_n,state_n,country_n, pin, userr_id);
+	#insert into `final_db`.`address` values(adrss_id);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_contact` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_contact`(
+in ph_num_type varchar(45),
+in ph_number varchar(45),
+in ph_ext varchar(15),
+in country_code varchar(50),
+in userr_id int
+)
+BEGIN
+	declare ctry_id int;
+    declare contact_id int;
+    
+	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
+    
+	INSERT INTO `final_db`.`contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`,`user_id`)
+		VALUES(contact_id, ctry_id,ph_ext, ph_number,userr_id);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `insert_request` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1783,6 +2138,69 @@ BEGIN
 	(var_user_id, _model_id, _type_id, _brand_id, var_specification_id, date(now()), var_no_of_days, var_comment);
 
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_user`(
+in salut varchar(45),
+in f_name varchar(20),
+in m_name varchar(20),
+in l_name varchar(20),
+in dept_name varchar(45),
+in desig varchar(30),
+in email varchar(50),
+in pass varchar(50),
+in dob date,
+in gend varchar(45),
+in doj date,
+in is_ac varchar(45),
+out user_id_out int
+)
+BEGIN 
+	
+    declare nam_id int;
+	declare sal_id int;
+    declare dept_id int;
+    declare des_id int;
+   
+    declare empl_id int;
+    declare user_role int;
+    #declare contact_id int;
+    declare dept_desig_id int;
+     declare _status_id int;
+    declare g_id int;
+
+	SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
+    SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
+	SELECT designation_id INTO des_id FROM designation WHERE designation_name = desig;
+    select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
+	select status_id into _status_id from status where status.status_name = is_ac;
+	SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
+
+    SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
+    
+        INSERT INTO `final_db`.`user`
+		(`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_designation_id`,`email`,`password`,`gender_id`,`date_of_birth`,`date_of_joining`,`status_id`)
+		VALUES
+		(sal_id,f_name,m_name,l_name,dept_desig_id,email,SHA2(pass, 224),g_id,dob,doj,_status_id);
+		set empl_id:=last_insert_id();
+        insert into user_to_role values(empl_id, user_role);
+        
+        set user_id_out:= empl_id;
+		
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1969,6 +2387,179 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_address` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_address`(
+in addres_type varchar(45),
+in addres1 text,
+in addres2 text,
+in city_n varchar(45),
+in state_n varchar(45),
+in country_n varchar(45),
+in pin varchar(6),
+in userr_id int
+)
+BEGIN
+		declare adrss_id int;
+        #declare uid int;
+        declare old_adrss_id int;
+        declare cityy_id int;
+        declare adrss_type_id int;
+        select address_type_id into adrss_type_id from address_type where address_type.address_type = addres_type;
+        #select user_id into uid from user where user.user_id=userr_id;
+        select address_id into old_adrss_id from address inner join address_type
+        using (address_type_id) where address_type.address_type=addres_type and user_id=userr_id;
+        select city.city_id into cityy_id from city, state, country where country.country_name=country_n and state.state_name=state_n
+        and city.city_name=city_n and state.state_id=city.state_id and country.country_id=state.country_id;
+        if old_adrss_id is null then
+        INSERT INTO `address`
+		(`address_type_id`,
+		`address_Line1`,
+		`address_Line2`,
+		`city_id`,
+		`PIN`,
+		`user_id`) values 
+        (adrss_type_id,addres1,addres2,cityy_id,pin,userr_id);
+        else 
+       update address set
+		`address_type_id` = adrss_type_id,
+		`address_Line1` = addres1,
+		`address_Line2` = addres2,
+		`city_id` = cityy_id,
+		`PIN` = pin,
+		`user_id` = userr_id
+		 where address_id=old_adrss_id;
+         end if;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_contact` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_contact`(
+in ph_num_type varchar(45),
+in ph_number varchar(45),
+in ph_ext varchar(15),
+in country_code varchar(50),
+in userr_id int
+)
+BEGIN
+	declare ctry_id int;
+    declare contact_id int;
+	#declare empl_id int;
+    declare ph_id int;
+    #select user_id into empl_id from user where user.user_id=userr_id;
+	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
+    SELECT contact_id into ph_id from contact_number where contact_type_id = contact_id and user_id = userr_id;
+    if ph_id is null then 
+    INSERT INTO `contact_number`
+	(`contact_type_id`,`country_id`,`area_code`,`number`,`user_id`) 
+	values(contact_id,ctry_id,ph_ext,ph_number,userr_id);
+    else 
+    UPDATE contact_number
+		SET
+		country_id = ctry_id,
+		area_code = ph_ext,
+		number = ph_number
+		WHERE contact_number.user_id= userr_id and
+        contact_type_id=contact_id;
+	end if;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user`(
+in salut varchar(45),
+in f_name varchar(20),
+in m_name varchar(20),
+in l_name varchar(20),
+in dept_name varchar(45),
+in desig varchar(30),
+in email varchar(50),
+in pass varchar(50),
+in userr_id varchar(50),
+in dob date,
+in gend varchar(45),
+in doj date,
+in is_ac varchar(45)
+)
+BEGIN
+    declare nam_id int;
+	declare sal_id int;
+    declare dept_id int;
+    declare des_id int;
+    declare empl_id int;
+    declare _status_id int;
+    #declare user_role int;
+    #declare contact_id int;
+    declare dept_desig_id int;
+    declare g_id int;
+ /*
+    declare exit handler for sqlexception
+    begin
+		rollback;
+	end;
+    */
+	SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
+    SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
+	SELECT designation_id INTO des_id FROM designation WHERE designation_name = desig;
+    select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
+	select status_id into _status_id from status where status.status_name = is_ac;
+    #SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
+	#SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
+    #SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+    SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
+     UPDATE final_db.user
+		SET
+		user.salutation_id=sal_id ,
+		user.first_name=f_name,
+		user.middle_name=m_name,
+		user.last_name=l_name,
+		user.department_designation_id=dept_desig_id ,
+        user.email=email,
+        user.password=SHA2(pass, 224),
+		user.gender_id =g_id ,
+		user.date_of_birth =dob,
+		user.date_of_joining =doj,
+		user.status_id = _status_id
+		WHERE user.user_id=userr_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1979,4 +2570,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-04  0:26:45
+-- Dump completed on 2020-04-06 10:54:32

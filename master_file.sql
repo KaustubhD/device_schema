@@ -1857,58 +1857,55 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_users_by_id`(
 IN user_id int(100)
 )
 BEGIN
-select salutation,user_id,role_name,first_name,middle_name,last_name,department_name,
-designation_name,email,gender,status_name,date_of_birth,date_of_joining,
-  group_concat(distinct if(address_type='Current',address_Line1,NULL)) as 'current_address_Line1',
-  group_concat(distinct if(address_type='Current',address_Line2,NULL)) as 'current_address_Line2',
-  group_concat(distinct if(address_type='Current',city_name,NULL)) as 'current_city',
-  group_concat(distinct if(address_type='Current',state_name,NULL)) as 'current_state',
-  group_concat(distinct if(address_type='Current',c.country_name,NULL)) as 'current_country',
-  group_concat(distinct if(address_type='Current',pin,NULL)) as 'current_pin',
-  group_concat(distinct if(address_type='Permanant',address_Line1,NULL)) AS 'permanant_address_Line1',
-  group_concat(distinct if(address_type='Permanant',address_Line2,NULL)) AS 'permanant_address_Line2',
-  group_concat(distinct if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
-  group_concat(distinct if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
-  group_concat(distinct if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
-  group_concat(distinct if(address_type='Permanant',pin,NULL)) as 'permanant_pin',
-  group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code',
-  group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code',
-  group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number',
-  group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
-  group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code',
-  group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
-  group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
-  group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code',
-  group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
-  from user
-  /*inner join user_to_address using(user_id)*/
-  inner join address using(user_id)
-  inner join address_type using(address_type_id)
-  inner join city using(city_id)
-  inner join state using(state_id)
-  inner join country c on c.country_id=state.country_id
-  /*inner join user_to_contact using(user_id) */
-  inner join contact_number using(user_id)
-  inner join contact_type using(contact_type_id)
-  inner join country ca on ca.country_id=contact_number.country_id
-  inner join salutation using(salutation_id)
-  inner join department_designation using(department_designation_id)
-  inner join department using(department_id)
-  inner join designation using(designation_id)
-  inner join gender using(gender_id)
-  inner join status on user.status=status.status_id
-  inner join user_to_role using(user_id)
-  inner join role using(role_id)
- # where user.status=1 and
- where user.user_id=user_id
-  /*and get_full_name(user.user_id) like CONCAT('%', namee, '%')*/
-  group by user_id;
+select salutation.salutation,user_id,role_name,first_name,middle_name,last_name,department_name,
+designation_name,email,gender,status_name,date_of_birth,date_of_joining,password,
+group_concat(distinct if(address_type='Current',address_Line1,NULL)) as 'current_address_Line1',
+group_concat(distinct if(address_type='Current',address_Line2,NULL)) as 'current_address_Line2',
+group_concat(distinct if(address_type='Current',city_name,NULL)) as 'current_city',
+group_concat(distinct if(address_type='Current',state_name,NULL)) as 'current_state',
+group_concat(distinct if(address_type='Current',c.country_name,NULL)) as 'current_country',
+group_concat(distinct if(address_type='Current',pin,NULL)) as 'current_pin',
+group_concat(distinct if(address_type='Permanant',address_Line1,NULL)) AS 'permanant_address_Line1',
+group_concat(distinct if(address_type='Permanant',address_Line2,NULL)) AS 'permanant_address_Line2',
+group_concat(distinct if(address_type='Permanant',city_name,NULL)) as 'permanant_city',
+group_concat(distinct if(address_type='Permanant',state_name,NULL)) as 'permanant_state',
+group_concat(distinct if(address_type='Permanant',c.country_name,NULL)) as 'permanant_country',
+group_concat(distinct if(address_type='Permanant',pin,NULL)) as 'permanant_pin',
+group_concat(distinct if(contact_type='Mobile',ca.country_code,NULL)) as 'mobile_country_code',
+group_concat(distinct if(contact_type='Mobile',area_code,NULL)) as 'mobile_area_code',
+group_concat(distinct if(contact_type='Mobile',number,NULL)) as 'mobile_number',
+group_concat(distinct if(contact_type='Work',ca.country_code,NULL)) as 'work_country_code',
+group_concat(distinct if(contact_type='Work',area_code,NULL)) as 'work_area_code',
+group_concat(distinct if(contact_type='Work',number,NULL)) as 'work_number',
+group_concat(distinct if(contact_type='home',ca.country_code,NULL)) as 'home_country_code',
+group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code',
+group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
+from user
+/*inner join user_to_address using(user_id)*/
+inner join address using(user_id)
+inner join address_type using(address_type_id)
+inner join city using(city_id)
+inner join state using(state_id)
+inner join country c on c.country_id=state.country_id
+/*inner join user_to_contact using(user_id) */
+inner join contact_number using(user_id)
+inner join contact_type using(contact_type_id)
+inner join country ca on ca.country_id=contact_number.country_id
+inner join salutation using(salutation_id)
+inner join department_designation using(department_designation_id)
+inner join department using(department_id)
+inner join designation using(designation_id)
+inner join gender using(gender_id)
+inner join status on user.status=status.status_id
+inner join user_to_role using(user_id)
+inner join role using(role_id)
+where user.user_id=user_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2395,7 +2392,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_address`(
 in addres_type varchar(45),
@@ -2408,36 +2405,36 @@ in pin varchar(6),
 in userr_id int
 )
 BEGIN
-		declare adrss_id int;
-        #declare uid int;
-        declare old_adrss_id int;
-        declare cityy_id int;
-        declare adrss_type_id int;
-        select address_type_id into adrss_type_id from address_type where address_type.address_type = addres_type;
-        #select user_id into uid from user where user.user_id=userr_id;
-        select address_id into old_adrss_id from address inner join address_type
-        using (address_type_id) where address_type.address_type=addres_type and user_id=userr_id;
-        select city.city_id into cityy_id from city, state, country where country.country_name=country_n and state.state_name=state_n
-        and city.city_name=city_n and state.state_id=city.state_id and country.country_id=state.country_id;
-        if old_adrss_id is null then
-        INSERT INTO `address`
-		(`address_type_id`,
-		`address_Line1`,
-		`address_Line2`,
-		`city_id`,
-		`PIN`,
-		`user_id`) values 
-        (adrss_type_id,addres1,addres2,cityy_id,pin,userr_id);
-        else 
-       update address set
-		`address_type_id` = adrss_type_id,
-		`address_Line1` = addres1,
-		`address_Line2` = addres2,
-		`city_id` = cityy_id,
-		`PIN` = pin,
-		`user_id` = userr_id
-		 where address_id=old_adrss_id;
-         end if;
+declare adrss_id int;
+#declare uid int;
+declare old_adrss_id int;
+declare cityy_id int;
+declare adrss_type_id int;
+select address_type_id into adrss_type_id from address_type where address_type.address_type = addres_type;
+#select user_id into uid from user where user.user_id=userr_id;
+select address_id into old_adrss_id from address inner join address_type
+using (address_type_id) where address_type.address_type=addres_type and user_id=userr_id;
+select city.city_id into cityy_id from city, state, country where country.country_name=country_n and state.state_name=state_n
+and city.city_name=city_n and state.state_id=city.state_id and country.country_id=state.country_id;
+if old_adrss_id is null then
+INSERT INTO `address`
+(`address_type_id`,
+`address_Line1`,
+`address_Line2`,
+`city_id`,
+`PIN`,
+`user_id`) values
+(adrss_type_id,addres1,addres2,cityy_id,pin,userr_id);
+else
+update address set
+`address_type_id` = adrss_type_id,
+`address_Line1` = addres1,
+`address_Line2` = addres2,
+`city_id` = cityy_id,
+`PIN` = pin,
+`user_id` = userr_id
+where address_id=old_adrss_id;
+end if;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2452,7 +2449,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_contact`(
 in ph_num_type varchar(45),
@@ -2462,27 +2459,27 @@ in country_code varchar(50),
 in userr_id int
 )
 BEGIN
-	declare ctry_id int;
-    declare contact_id int;
-	#declare empl_id int;
-    declare ph_id int;
-    #select user_id into empl_id from user where user.user_id=userr_id;
-	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
-	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
-    SELECT contact_id into ph_id from contact_number where contact_type_id = contact_id and user_id = userr_id;
-    if ph_id is null then 
-    INSERT INTO `contact_number`
-	(`contact_type_id`,`country_id`,`area_code`,`number`,`user_id`) 
-	values(contact_id,ctry_id,ph_ext,ph_number,userr_id);
-    else 
-    UPDATE contact_number
-		SET
-		country_id = ctry_id,
-		area_code = ph_ext,
-		number = ph_number
-		WHERE contact_number.user_id= userr_id and
-        contact_type_id=contact_id;
-	end if;
+declare ctry_id int;
+declare contact_id int;
+#declare empl_id int;
+declare ph_id int;
+#select user_id into empl_id from user where user.user_id=userr_id;
+SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
+SELECT contact_id into ph_id from contact_number where contact_type_id = contact_id and user_id = userr_id;
+if ph_id is null then
+INSERT INTO contact_number
+(contact_type_id,country_id,area_code,number,user_id)
+values(contact_id,ctry_id,ph_ext,ph_number,userr_id);
+else
+UPDATE contact_number
+SET
+country_id = ctry_id,
+area_code = ph_ext,
+number = ph_number
+WHERE contact_number.user_id= userr_id and
+contact_type_id=contact_id;
+end if;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2497,7 +2494,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user`(
 in salut varchar(45),
@@ -2507,7 +2504,7 @@ in l_name varchar(20),
 in dept_name varchar(45),
 in desig varchar(30),
 in email varchar(50),
-in pass varchar(50),
+in password varchar(50),
 in userr_id varchar(50),
 in dob date,
 in gend varchar(45),
@@ -2515,45 +2512,44 @@ in doj date,
 in is_ac varchar(45)
 )
 BEGIN
-    declare nam_id int;
-	declare sal_id int;
-    declare dept_id int;
-    declare des_id int;
-    declare empl_id int;
-    declare _status_id int;
-    #declare user_role int;
-    #declare contact_id int;
-    declare dept_desig_id int;
-    declare g_id int;
- /*
-    declare exit handler for sqlexception
-    begin
-		rollback;
-	end;
-    */
-	SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
-    SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
-	SELECT designation_id INTO des_id FROM designation WHERE designation_name = desig;
-    select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
-	select status_id into _status_id from status where status.status_name = is_ac;
-    #SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
-	#SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
-    #SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
-    SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
-     UPDATE final_db.user
-		SET
-		user.salutation_id=sal_id ,
-		user.first_name=f_name,
-		user.middle_name=m_name,
-		user.last_name=l_name,
-		user.department_designation_id=dept_desig_id ,
-        user.email=email,
-        user.password=SHA2(pass, 224),
-		user.gender_id =g_id ,
-		user.date_of_birth =dob,
-		user.date_of_joining =doj,
-		user.status_id = _status_id
-		WHERE user.user_id=userr_id;
+declare nam_id int;
+declare sal_id int;
+declare dept_id int;
+declare des_id int;
+declare empl_id int;
+declare _status_id int;
+#declare user_role int;
+#declare contact_id int;
+declare dept_desig_id int;
+declare g_id int;
+/*
+declare exit handler for sqlexception
+begin
+rollback;
+end;
+*/
+SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
+SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
+SELECT designation_id INTO des_id FROM designation WHERE designation_name = desig;
+select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
+select status_id into _status_id from status where status.status_name = is_ac;
+#SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
+#SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
+#SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
+UPDATE user
+SET
+user.salutation_id=sal_id ,
+user.first_name=f_name,
+user.middle_name=m_name,
+user.last_name=l_name,
+user.department_designation_id=dept_desig_id ,
+user.email=email,
+user.password=if(password is null,user.password,SHA2(password,224)),
+user.gender_id =g_id ,
+user.date_of_birth =dob,
+user.date_of_joining =doj
+WHERE user.user_id=userr_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2570,4 +2566,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-06 14:11:26
+-- Dump completed on 2020-04-08 12:13:15

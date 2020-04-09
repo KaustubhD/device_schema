@@ -95,7 +95,7 @@ CREATE TABLE `assign_device` (
   KEY `device_id_assign_idx` (`device_id`),
   CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `employee_id_assign` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `assign_device` (
 
 LOCK TABLES `assign_device` WRITE;
 /*!40000 ALTER TABLE `assign_device` DISABLE KEYS */;
-INSERT INTO `assign_device` VALUES (6,16,3,'2020-04-03','2020-04-01',16,16),(7,66,4,'2020-04-09','2020-04-01',16,16),(8,16,1,'2020-04-10','2020-04-05',16,16),(9,67,2,'2020-04-16','2020-04-09',16,16);
+INSERT INTO `assign_device` VALUES (6,16,3,'2020-04-03','2020-04-01',16,16),(7,66,4,'2020-04-09','2020-04-01',16,16),(8,16,1,'2020-04-10','2020-04-05',16,16),(10,67,2,'2020-04-16','2020-04-09',16,16);
 /*!40000 ALTER TABLE `assign_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -757,7 +757,7 @@ CREATE TABLE `request_device` (
   CONSTRAINT `request_device_to_model_id` FOREIGN KEY (`device_model_id`) REFERENCES `device_model` (`device_model_id`),
   CONSTRAINT `request_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
   CONSTRAINT `request_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -832,7 +832,7 @@ DROP TABLE IF EXISTS `return_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `return_request` (
-  `return_request_id` int NOT NULL,
+  `return_request_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `device_id` int NOT NULL,
   `return_date` date NOT NULL,
@@ -841,7 +841,7 @@ CREATE TABLE `return_request` (
   KEY `request_return_to_device_idx` (`device_id`),
   CONSTRAINT `request_return_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `return_request_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -850,6 +850,7 @@ CREATE TABLE `return_request` (
 
 LOCK TABLES `return_request` WRITE;
 /*!40000 ALTER TABLE `return_request` DISABLE KEYS */;
+INSERT INTO `return_request` VALUES (1,16,3,'2020-04-09'),(2,66,4,'2020-04-09');
 /*!40000 ALTER TABLE `return_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2568,4 +2569,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-09 18:02:41
+-- Dump completed on 2020-04-09 22:10:55

@@ -95,7 +95,7 @@ CREATE TABLE `assign_device` (
   KEY `device_id_assign_idx` (`device_id`),
   CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `employee_id_assign` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `assign_device` (
 
 LOCK TABLES `assign_device` WRITE;
 /*!40000 ALTER TABLE `assign_device` DISABLE KEYS */;
-INSERT INTO `assign_device` VALUES (6,16,3,'2020-04-03','2020-04-01',16,16),(7,66,4,'2020-04-09','2020-04-01',16,16),(8,16,1,'2020-04-10','2020-04-05',16,16),(10,67,2,'2020-04-16','2020-04-09',16,16);
+INSERT INTO `assign_device` VALUES (7,66,4,'2020-04-09','2020-04-01',16,16),(8,16,1,'2020-04-10','2020-04-05',16,16),(11,67,3,'2020-04-19','2020-04-10',16,16);
 /*!40000 ALTER TABLE `assign_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -468,7 +468,7 @@ CREATE TABLE `device` (
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,1,1,1,'black','40000','1',2,'2019-03-11',3,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',3,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',3,3,'2019-03-19 00:00:00');
+INSERT INTO `device` VALUES (1,1,1,1,'black','40000','1',2,'2019-03-11',3,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',4,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',3,3,'2019-03-19 00:00:00');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -671,7 +671,7 @@ CREATE TABLE `notification` (
   KEY `notification_to_status_idx` (`status_id`),
   CONSTRAINT `notification_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `notification_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -680,7 +680,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (1,16,'Public',3,'2020-04-09',9,'Submit possible?'),(2,66,'Public',4,'2020-04-09',9,'Submit possible?');
+INSERT INTO `notification` VALUES (13,67,'Public',3,'2020-04-10',9,'Submit Possible?'),(14,66,'Public',4,'2020-04-10',9,'Submit Possible?');
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -766,7 +766,7 @@ CREATE TABLE `request_device` (
 
 LOCK TABLES `request_device` WRITE;
 /*!40000 ALTER TABLE `request_device` DISABLE KEYS */;
-INSERT INTO `request_device` VALUES (26,66,1,1,1,1,'2020-04-05',4,''),(27,66,3,2,5,3,'2020-04-05',14,''),(28,67,3,2,5,3,'2020-04-05',14,'');
+INSERT INTO `request_device` VALUES (26,66,1,1,1,1,'2020-04-05',4,''),(27,66,3,2,5,3,'2020-04-05',14,'');
 /*!40000 ALTER TABLE `request_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -811,7 +811,7 @@ CREATE TABLE `request_history` (
   CONSTRAINT `request_history_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_action_by` FOREIGN KEY (`action_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_returned` FOREIGN KEY (`return_to`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -820,7 +820,7 @@ CREATE TABLE `request_history` (
 
 LOCK TABLES `request_history` WRITE;
 /*!40000 ALTER TABLE `request_history` DISABLE KEYS */;
-INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(5,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,30,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16),(8,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,30,NULL,16,NULL),(9,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,67,NULL,16,NULL);
+INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(5,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,30,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16),(8,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,30,NULL,16,NULL),(9,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,67,NULL,16,NULL),(10,3,2,5,3,7,NULL,'2020-04-01',8,'2020-04-09',16,3,NULL,16),(11,2,1,2,1,7,NULL,'2020-04-09',1,'2020-04-10',67,2,NULL,16);
 /*!40000 ALTER TABLE `request_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -841,7 +841,7 @@ CREATE TABLE `return_request` (
   KEY `request_return_to_device_idx` (`device_id`),
   CONSTRAINT `request_return_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `return_request_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -850,7 +850,7 @@ CREATE TABLE `return_request` (
 
 LOCK TABLES `return_request` WRITE;
 /*!40000 ALTER TABLE `return_request` DISABLE KEYS */;
-INSERT INTO `return_request` VALUES (1,16,3,'2020-04-09'),(2,66,4,'2020-04-09');
+INSERT INTO `return_request` VALUES (2,66,4,'2020-04-09');
 /*!40000 ALTER TABLE `return_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2148,27 +2148,33 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_notification`(in var_request_id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_notification`(
+in var_device_model varchar(50),
+in var_device_type varchar(50),
+in var_device_brand varchar(50),
+in specification_id int
+)
 BEGIN
-	declare var_specification_id int;
-    declare var_type_id int;
-    declare var_brand_id int;
-    declare var_model_id int;
-    declare var_device_id int;
-    declare var_status_id int;
+    declare brand_id int;
+    declare type_id int;
+    declare model_id int;
     
-    select specification_id into var_specification_id from request_device where request_device_id=var_request_id;
-	select device_type_id into var_type_id from request_device where request_device_id=var_request_id;
-    select device_brand_id into var_brand_id from request_device where request_device_id=var_request_id;
-    select device_model_id into var_model_id from request_device where request_device_id=var_request_id;
-    
-    select device_id into var_device_id from device
-    where device.device_type_id = var_type_id
-    and device.device_brand_id= var_brand_id
-    and device.device_model_id=var_model_id
-    and device.specification_id= var_specification_id;
-    
-END ;;
+    select device_brand_id into brand_id from device_brand where device_brand.brand = var_device_brand;
+    select device_type_id into type_id from device_type where device_type.type = var_device_type;
+    select device_model_id into model_id from device_model where device_model.model = var_device_model;
+
+
+	insert into notification(`user_id`,`notification_type`,`device_id`,
+	`notification_date`,`status_id`,`message`) (select user_id,'Public',device_id,now(),status.status_id,'Submit Possible?' 
+	from status, device 
+    inner join assign_device using (device_id)
+	where device.device_model_id=model_id
+	and device.specification_id=specification_id
+	and device.device_brand_id=brand_id
+	and device.device_type_id=type_id
+    and status.status_name='Pending');
+
+	END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -2569,4 +2575,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-09 22:10:55
+-- Dump completed on 2020-04-10 12:09:49

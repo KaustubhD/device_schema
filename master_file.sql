@@ -90,6 +90,7 @@ CREATE TABLE `assign_device` (
   `assign_date` date NOT NULL,
   `assigned_by` int NOT NULL,
   `return_to` int NOT NULL,
+  `status_id` int NOT NULL,
   PRIMARY KEY (`assign_device_id`),
   KEY `employee_id_assign_idx` (`user_id`),
   KEY `device_id_assign_idx` (`device_id`),
@@ -104,7 +105,7 @@ CREATE TABLE `assign_device` (
 
 LOCK TABLES `assign_device` WRITE;
 /*!40000 ALTER TABLE `assign_device` DISABLE KEYS */;
-INSERT INTO `assign_device` VALUES (7,66,4,'2020-04-09','2020-04-01',16,16),(8,16,1,'2020-04-10','2020-04-05',16,16),(11,67,3,'2020-04-19','2020-04-10',16,16);
+INSERT INTO `assign_device` VALUES (7,66,4,'2020-04-09','2020-04-01',16,16,5),(8,16,1,'2020-04-10','2020-04-05',16,16,5),(11,67,3,'2020-04-19','2020-04-10',16,16,5);
 /*!40000 ALTER TABLE `assign_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -997,7 +998,7 @@ CREATE TABLE `status` (
   `status_id` int NOT NULL AUTO_INCREMENT,
   `status_name` varchar(45) NOT NULL,
   PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1006,7 +1007,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES (1,'Active'),(2,'Inactive'),(3,'Allocated'),(4,'Free'),(5,'Accepted'),(6,'Rejected'),(7,'Returned'),(8,'Cancelled'),(9,'Pending');
+INSERT INTO `status` VALUES (1,'Active'),(2,'Inactive'),(3,'Allocated'),(4,'Free'),(5,'Accepted'),(6,'Rejected'),(7,'Returned'),(8,'Cancelled'),(9,'Pending'),(10,'Return');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1019,27 +1020,30 @@ DROP TABLE IF EXISTS `user`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `salutation_id` int NOT NULL,
+  `salutation_id` int DEFAULT NULL,
   `first_name` varchar(45) NOT NULL,
   `middle_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `department_designation_id` int NOT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `department_designation_id` int DEFAULT NULL,
   `email` varchar(70) NOT NULL,
   `password` varchar(224) NOT NULL,
-  `gender_id` int NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `date_of_joining` date NOT NULL,
-  `status` int NOT NULL,
+  `gender_id` int DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  `date_of_joining` date DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `hashpassword` longblob,
+  `saltpassword` longblob,
+  `guid` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `user_to_salutation_idx` (`salutation_id`),
   KEY `user_to_department_designation_id_idx` (`department_designation_id`),
   KEY `user_to_gender_idx` (`gender_id`),
   KEY `status_id_user_idx` (`status`),
-  CONSTRAINT `status_id_user` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`),
   CONSTRAINT `user_to_department_designation_id` FOREIGN KEY (`department_designation_id`) REFERENCES `department_designation` (`department_designation_id`),
   CONSTRAINT `user_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
-  CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`)
+  CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`),
+  CONSTRAINT `user_to_status` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1049,7 +1053,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@gmail.com','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',1),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com,','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-12-03','2020-01-15',1),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',1),(67,5,'Namit',NULL,'Chauhan',1,'nchauhan@ex2india.com,','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-11-03','2020-02-03',1);
+INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com,','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit',NULL,'Chauhan',1,'nchauhan@ex2india.com','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1075,7 +1079,7 @@ CREATE TABLE `user_auth` (
 
 LOCK TABLES `user_auth` WRITE;
 /*!40000 ALTER TABLE `user_auth` DISABLE KEYS */;
-INSERT INTO `user_auth` VALUES (16,'abc@123.com','¨\Ô\Â#ö\å»×‡®-Ñ¬¸A;+CoóKV\È0\Òm\ç÷¯\Ø\ÑWñ\ãš\ÊcW­.ƒºr¼ùF\×GAu','²d	A@©\ìŽù\æ~P\Ï\ì\ÏùZ¤V–\Ãk¹-ˆ\Ýaù\Õ\áÚ’\ÌfkkšZï‘¡é¨»\ÓG\à\ë\è°°µðÑ‚\çöï¬³\Èÿžzåž«ü/7“´/¦\ïxñ\\?ù\0´|R‘\Þ,Hˆ—¸\ØüŒu\nö^\Ê+R\Ø,Y:€'),(67,'nchauhan@ex2india.com','†\Ûþ]§z¤~S\×\Ñ\Ètt\î/>‰\Ù\Â\ÕÝ³£ð@tƒ\å2\ZÖ¯\ÕÓœUJ“+£©L«\r@‘\ÒG°\Ú$\Å\Í3h\å°\Ó\ä\Ú','úU\Þ\ÑUQ:£´~!&>™1—2p}—0U%\à<\î£`\Âç€¿“q+÷Ëœ\èWg4\ä6\"üL0X\ß\ÐÁ\ØvN:`iö\çW\ZXRŒo\ØøŒ\â_\×Qú®¼¯\ÇöY\ä\é>\åniM\íúÁ’b0&ùVº\à¦\Þß’ˆz7ü\ÎÊ›0n');
+INSERT INTO `user_auth` VALUES (16,'abc@ex2india.com','¨\Ô\Â#ö\å»×‡®-Ñ¬¸A;+CoóKV\È0\Òm\ç÷¯\Ø\ÑWñ\ãš\ÊcW­.ƒºr¼ùF\×GAu','²d	A@©\ìŽù\æ~P\Ï\ì\ÏùZ¤V–\Ãk¹-ˆ\Ýaù\Õ\áÚ’\ÌfkkšZï‘¡é¨»\ÓG\à\ë\è°°µðÑ‚\çöï¬³\Èÿžzåž«ü/7“´/¦\ïxñ\\?ù\0´|R‘\Þ,Hˆ—¸\ØüŒu\nö^\Ê+R\Ø,Y:€'),(67,'nchauhan@ex2india.com','†\Ûþ]§z¤~S\×\Ñ\Ètt\î/>‰\Ù\Â\ÕÝ³£ð@tƒ\å2\ZÖ¯\ÕÓœUJ“+£©L«\r@‘\ÒG°\Ú$\Å\Í3h\å°\Ó\ä\Ú','úU\Þ\ÑUQ:£´~!&>™1—2p}—0U%\à<\î£`\Âç€¿“q+÷Ëœ\èWg4\ä6\"üL0X\ß\ÐÁ\ØvN:`iö\çW\ZXRŒo\ØøŒ\â_\×Qú®¼¯\ÇöY\ä\é>\åniM\íúÁ’b0&ùVº\à¦\Þß’ˆz7ü\ÎÊ›0n');
 /*!40000 ALTER TABLE `user_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1286,7 +1290,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `accept_request`(
 in request_id int,
@@ -1300,15 +1304,12 @@ BEGIN
     declare var_user_id int;
     declare var_device_id int;
     declare var_status_id int;
-
-    
     select specification_id into var_specification_id from request_device where request_device_id=request_id;
 	select device_type_id into var_type_id from request_device where request_device_id=request_id;
     select device_brand_id into var_brand_id from request_device where request_device_id=request_id;
     select device_model_id into var_model_id from request_device where request_device_id=request_id;
     select user_id into var_user_id from request_device where request_device_id=request_id;
 	select date_add(request_date,interval no_of_days day) into var_return_date from request_device where request_device_id=request_id;
-
     select device_id into var_device_id from device inner join `status` using (status_id)
     where device.device_type_id = var_type_id
     and device.device_brand_id= var_brand_id
@@ -1317,22 +1318,18 @@ BEGIN
     and device.status_id=`status`.status_id
     and `status`.status_name="Free"
     limit 1;
-     
-	
-    INSERT INTO `assign_device`
-	(`user_id`,`device_id`,`return_date`,`assign_date`,`assigned_by`,`return_to`)
-	VALUES
-    (var_user_id,var_device_id,var_return_date,now(),var_admin_id,var_admin_id);
-    
 	select status_id into var_status_id from `status` where status_name="Allocated";
+    INSERT INTO `assign_device`
+	(`user_id`,`device_id`,`return_date`,`assign_date`,`assigned_by`,`return_to`,status_id)
+	VALUES
+    (var_user_id,var_device_id,var_return_date,now(),var_admin_id,var_admin_id,var_status_id);
+	
 	UPDATE `device`
 	SET status_id=var_status_id
     where
 	`device_id` = var_device_id;
-    
     DELETE FROM `request_device`
 	WHERE request_device_id=request_id;
-
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2210,7 +2207,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_notification`(
 in var_device_model varchar(50),
@@ -2222,22 +2219,23 @@ BEGIN
     declare brand_id int;
     declare type_id int;
     declare model_id int;
-    
     select device_brand_id into brand_id from device_brand where device_brand.brand = var_device_brand;
     select device_type_id into type_id from device_type where device_type.type = var_device_type;
     select device_model_id into model_id from device_model where device_model.model = var_device_model;
-
-
 	insert into notification(`user_id`,`notification_type`,`device_id`,
-	`notification_date`,`status_id`,`message`) (select user_id,'Public',device_id,now(),status.status_id,'Submit Possible?' 
-	from status, device 
+	`notification_date`,`status_id`,`message`) (select user_id,'Public',device_id,now(),status.status_id,'Submit Possible?'
+	from status, device
     inner join assign_device using (device_id)
 	where device.device_model_id=model_id
 	and device.specification_id=specification_id
 	and device.device_brand_id=brand_id
 	and device.device_type_id=type_id
-    and status.status_name='Pending');
-
+    and status.status_name='Pending'
+    and not exists (select user_id, device_id,status_id from notification
+    inner join status using(status_id)
+    where notification.user_id=assign_device.user_id
+    and notification.device_id=assign_device.device_id
+    and status.status_name='Pending'));
 	END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2285,6 +2283,37 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_return_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_return_request`(
+in var_user_id int,
+in var_device_id int
+)
+BEGIN
+	declare var_status_id int;
+    if((select count(*) from assign_device inner join status using(status_id) where device_id=var_device_id and user_id=var_user_id and status.status_name='Return')=0)then
+		insert into return_request(user_id,device_id,return_date) values (var_user_id,var_device_id,now());
+        select status.status_id into var_status_id from status where status_name='Accepted';
+        update notification set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id
+        and status_id=(select status_id from status where status_name='Pending');
+        select status.status_id into var_status_id from status where status_name='Return';
+        update assign_device set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id;
+    end if;
+	
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `insert_user` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2293,7 +2322,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_user`(
 in salut varchar(45),
@@ -2303,45 +2332,40 @@ in l_name varchar(20),
 in dept_name varchar(45),
 in desig varchar(30),
 in email varchar(50),
-in pass varchar(50),
+in password varchar(50),
+in passwordHash longblob,
+in passwordSalt longblob,
 in dob date,
 in gend varchar(45),
 in doj date,
 in is_ac varchar(45),
 out user_id_out int
 )
-BEGIN 
-	
-    declare nam_id int;
-	declare sal_id int;
-    declare dept_id int;
-    declare des_id int;
-   
-    declare empl_id int;
-    declare user_role int;
-    #declare contact_id int;
-    declare dept_desig_id int;
-     declare _status_id int;
-    declare g_id int;
-
-	SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
-    SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
-	SELECT designation_id INTO des_id FROM designation WHERE designation_name = desig;
-    select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
-	select status_id into _status_id from status where status.status_name = is_ac;
-	SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
-
-    SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
-    
-        INSERT INTO `final_db`.`user`
-		(`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_designation_id`,`email`,`password`,`gender_id`,`date_of_birth`,`date_of_joining`,`status_id`)
-		VALUES
-		(sal_id,f_name,m_name,l_name,dept_desig_id,email,SHA2(pass, 224),g_id,dob,doj,_status_id);
-		set empl_id:=last_insert_id();
-        insert into user_to_role values(empl_id, user_role);
-        
-        set user_id_out:= empl_id;
-		
+BEGIN
+declare nam_id int;
+declare sal_id int;
+declare dept_id int;
+declare des_id int;
+declare empl_id int;
+declare user_role int;
+#declare contact_id int;
+declare dept_desig_id int;
+declare _status_id int;
+declare g_id int;
+SELECT salutation_id INTO sal_id FROM salutation WHERE salutation = salut;
+SELECT department_id INTO dept_id FROM department WHERE department_name = dept_name;
+SELECT designation_id INTO des_id FROM designation WHERE designation_name = desig;
+select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
+select status_id into _status_id from status where status.status_name = is_ac;
+SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
+SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
+INSERT INTO `user`
+(`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_designation_id`,`email`,`password`,`hashpassword`,`saltpassword`,`gender_id`,`date_of_birth`,`date_of_joining`,`status`)
+VALUES
+(sal_id,f_name,m_name,l_name,dept_desig_id,email,SHA2(password, 224),passwordHash,passwordSalt,g_id,dob,doj,_status_id);
+set empl_id:=last_insert_id();
+insert into user_to_role values(empl_id, user_role);
+set user_id_out:= empl_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2673,6 +2697,8 @@ in dept_name varchar(45),
 in desig varchar(30),
 in email varchar(50),
 in password varchar(50),
+in passwordHash longblob,
+in passwordSalt longblob,
 in userr_id varchar(50),
 in dob date,
 in gend varchar(45),
@@ -2714,6 +2740,8 @@ user.last_name=l_name,
 user.department_designation_id=dept_desig_id ,
 user.email=email,
 user.password=if(password is null,user.password,SHA2(password,224)),
+user.hashpassword=if(passwordHash is null,user.hashpassword,passwordHash),
+user.saltpassword=if(passwordSalt is null,user.saltpassword,passwordSalt),
 user.gender_id =g_id ,
 user.date_of_birth =dob,
 user.date_of_joining =doj
@@ -2734,4 +2762,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-13 11:37:10
+-- Dump completed on 2020-04-13 17:52:21

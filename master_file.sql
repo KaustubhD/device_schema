@@ -1270,7 +1270,7 @@ BEGIN
     SELECT address_id INTO adrss_id FROM address WHERE address.address_type_id=add_type_id and address.address_Line1=addres1 and address.address_Line2=addres2 and address.city_id=ci_id and address.PIN=pin and address.user_id = userr_id;
     if(adrss_id is null)
     then
-		INSERT INTO `final_db`.`address`(`address_type_id`,`address_Line1`,`address_Line2`, `city_id`, `PIN`,`user_id`)
+		INSERT INTO `address`(`address_type_id`,`address_Line1`,`address_Line2`, `city_id`, `PIN`,`user_id`)
 		VALUES(add_type_id, addres1,addres2, ci_id, pin,userr_id);
 		set adrss_id:=last_insert_id();
 	end if;
@@ -2174,7 +2174,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_contact`(
 in ph_num_type varchar(45),
@@ -2190,7 +2190,7 @@ BEGIN
 	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
 	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
     
-	INSERT INTO `final_db`.`contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`,`user_id`)
+	INSERT INTO `contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`,`user_id`)
 		VALUES(contact_id, ctry_id,ph_ext, ph_number,userr_id);
 
 END ;;
@@ -2762,4 +2762,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-13 18:01:29
+-- Dump completed on 2020-04-13 21:27:35

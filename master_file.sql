@@ -90,9 +90,12 @@ CREATE TABLE `assign_device` (
   `assign_date` date NOT NULL,
   `assigned_by` int NOT NULL,
   `return_to` int NOT NULL,
+  `status_id` int NOT NULL,
   PRIMARY KEY (`assign_device_id`),
   KEY `employee_id_assign_idx` (`user_id`),
   KEY `device_id_assign_idx` (`device_id`),
+  KEY `assign_device_to_status_idx` (`status_id`),
+  CONSTRAINT `assign_device_to_status` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`),
   CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `employee_id_assign` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
@@ -104,7 +107,7 @@ CREATE TABLE `assign_device` (
 
 LOCK TABLES `assign_device` WRITE;
 /*!40000 ALTER TABLE `assign_device` DISABLE KEYS */;
-INSERT INTO `assign_device` VALUES (7,66,4,'2020-04-09','2020-04-01',16,16),(8,16,1,'2020-04-10','2020-04-05',16,16),(11,67,3,'2020-04-19','2020-04-10',16,16);
+INSERT INTO `assign_device` VALUES (7,66,4,'2020-04-09','2020-04-01',16,16,10),(8,16,1,'2020-04-10','2020-04-05',16,16,10),(11,67,3,'2020-04-19','2020-04-10',16,16,10);
 /*!40000 ALTER TABLE `assign_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -680,7 +683,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (13,67,'Public',3,'2020-04-10',9,'Submit Possible?'),(14,66,'Public',4,'2020-04-10',9,'Submit Possible?');
+INSERT INTO `notification` VALUES (13,67,'Public',3,'2020-04-10',5,'Submit Possible?'),(14,66,'Public',4,'2020-04-10',5,'Submit Possible?');
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -841,7 +844,7 @@ CREATE TABLE `return_request` (
   KEY `request_return_to_device_idx` (`device_id`),
   CONSTRAINT `request_return_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `return_request_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -850,7 +853,7 @@ CREATE TABLE `return_request` (
 
 LOCK TABLES `return_request` WRITE;
 /*!40000 ALTER TABLE `return_request` DISABLE KEYS */;
-INSERT INTO `return_request` VALUES (2,66,4,'2020-04-09');
+INSERT INTO `return_request` VALUES (2,66,4,'2020-04-09'),(7,67,3,'2020-04-13'),(8,16,1,'2020-04-13');
 /*!40000 ALTER TABLE `return_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -997,7 +1000,7 @@ CREATE TABLE `status` (
   `status_id` int NOT NULL AUTO_INCREMENT,
   `status_name` varchar(45) NOT NULL,
   PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1006,7 +1009,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES (1,'Active'),(2,'Inactive'),(3,'Allocated'),(4,'Free'),(5,'Accepted'),(6,'Rejected'),(7,'Returned'),(8,'Cancelled'),(9,'Pending');
+INSERT INTO `status` VALUES (1,'Active'),(2,'Inactive'),(3,'Allocated'),(4,'Free'),(5,'Accepted'),(6,'Rejected'),(7,'Returned'),(8,'Cancelled'),(9,'Pending'),(10,'Return');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1051,6 +1054,32 @@ LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@gmail.com','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',1),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com,','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-12-03','2020-01-15',1),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',1),(67,5,'Namit',NULL,'Chauhan',1,'nchauhan@ex2india.com,','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-11-03','2020-02-03',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_auth`
+--
+
+DROP TABLE IF EXISTS `user_auth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_auth` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `hashpassword` varbinary(500) DEFAULT NULL,
+  `saltpassword` varbinary(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_auth`
+--
+
+LOCK TABLES `user_auth` WRITE;
+/*!40000 ALTER TABLE `user_auth` DISABLE KEYS */;
+INSERT INTO `user_auth` VALUES (16,'abc@123.com',_binary 'ɜԙ\£򜥻ׇέѬف;+Co󋖜Ȱ\ӭ\癷Мٜҗޱ\㘚\ˣW͋Ϯúrܝ񆜗GAu',_binary 'Ӥ	A@ʜ쏹\翐\М옜йZŖלīٙ-ɜ݆a񜕜⚒\ͦkkځZ騻\ԇ\ᝫ\萏ݰе𑂜趞דּ\ɿޔz垫𯷓ԑ/ǜ񜜿񜰴|Rў\ެHȗٜټ͵\n򞜊+R\جY:'),(67,'nchauhan@ex2india.com',_binary 'ǜܾ]ȺžS\؜ҜȖtt\ʜڜÜ֝ӣퟃ񐱜峜Z֯֓ݕJӫéL̜r@ҜӇќڤ\Ɯͳh\屜Ԝ坚',_binary '򕜞\ҕQ:ô~!&>ٱײp}װU%\ཛྷ\ç?Ա+󘋜\阧4\䶂\"􌰘\ࠜс\ٶN:`i򜧗\ZXRͯ\ٸ̜\㠜ؑ򮼯\ȶY\坩>\殞iM\ힺRb0&񖺜Ǧ\ߟ҈z7𜎊۰n');
+/*!40000 ALTER TABLE `user_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1292,13 +1321,13 @@ BEGIN
     and `status`.status_name="Free"
     limit 1;
      
-	
-    INSERT INTO `assign_device`
-	(`user_id`,`device_id`,`return_date`,`assign_date`,`assigned_by`,`return_to`)
-	VALUES
-    (var_user_id,var_device_id,var_return_date,now(),var_admin_id,var_admin_id);
-    
 	select status_id into var_status_id from `status` where status_name="Allocated";
+    INSERT INTO `assign_device`
+	(`user_id`,`device_id`,`return_date`,`assign_date`,`assigned_by`,`return_to`,status_id)
+	VALUES
+    (var_user_id,var_device_id,var_return_date,now(),var_admin_id,var_admin_id,var_status_id);
+    
+	
 	UPDATE `device`
 	SET status_id=var_status_id
     where
@@ -1450,6 +1479,55 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `admin_assign_device` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `admin_assign_device`(IN device_id int,
+IN return_date varchar(30),
+IN first_name varchar(40),
+IN middle_name varchar(40),
+IN last_name varchar(40))
+BEGIN
+declare id int;
+declare status_id int;
+	select user_id into id from user where user.first_name=first_name and user.middle_name=middle_name
+    and user.last_name = last_name;
+	insert into assign_device(`device_id`,`return_date`,`assign_date`,`user_id`,
+    `assigned_by`,`return_to`) values(device_id,return_date,curdate(),id,30,30);
+    select status.status_id into status_id from status where status.status_name ="Allocated";
+     update device set status_id=status_id where device_id=device_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `all_devices` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `all_devices`()
+BEGIN
+		select count(*) as total_devices from device;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `cancel_request` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1524,38 +1602,45 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user`(
-	in userr_id int
+in userr_id int
 )
 BEGIN
-	declare id int;
-	declare tempid int;
-    /*declare exit handler for sqlexception
-    begin
-		rollback;
-	end;*/
-    start transaction;
-    set id:= userr_id;
-    #select user_id into id from user where user.username=username;
-	#delete user, contact_number, user_to_contact, user_to_address, education_details, user_to_education, bank_details, user_to_dependent from user inner join user_to_contact on user.user_id=id and user.user_id=user_to_contact.user_id inner join contact_number on user_to_contact.contact_id=contact_number.contact_id inner join user_to_address on user.user_id=user_to_address.user_id inner join user_to_role on user.user_id=user_to_role.user_id inner join user_to_education on user.user_id=user_to_education.user_id inner join education_details on education_details.education_id=user_to_education.education_id inner join user_to_dependent on user.user_id=user_to_dependent.user_id inner join bank_details on user.user_id=bank_details.user_id where user.user_id=id;  
-	#set id:=68;
-    delete from bank_details where user_id=id;
-    delete from address where user_id=id;
-    #select user_to_contact.contact_id into tempid from user_to_contact where user_to_contact.user_id=id;
-    
-    delete from contact_number
-	where contact_number.user_id=id;
-    delete from request_device where request_device.employee_id = id;
-    #delete from user_to_contact where user_id=id;
-    
-    #delete from contact_number where contact_id=tempid;
-    delete from user_to_dependent where user_id=id;
-    delete from user_to_role where user_id=id;
-    
-    select user_to_education.education_details_id into tempid from user_to_education where user_to_education.user_id=id;
-    delete from user_to_education where user_id=id;
-    delete from education_details where education_details_id=tempid;
-    delete from user where user_id=id;
-	commit;
+
+declare id int;
+declare tempid int;
+/*declare exit handler for sqlexception
+begin
+rollback;
+end;*/
+start transaction;
+set id:= userr_id;
+#select user_id into id from user where user.username=username;
+#delete user, contact_number, user_to_contact, user_to_address, education_details, user_to_education, bank_details, user_to_dependent from user inner join user_to_contact on user.user_id=id and user.user_id=user_to_contact.user_id inner join contact_number on user_to_contact.contact_id=contact_number.contact_id inner join user_to_address on user.user_id=user_to_address.user_id inner join user_to_role on user.user_id=user_to_role.user_id inner join user_to_education on user.user_id=user_to_education.user_id inner join education_details on education_details.education_id=user_to_education.education_id inner join user_to_dependent on user.user_id=user_to_dependent.user_id inner join bank_details on user.user_id=bank_details.user_id where user.user_id=id;
+#set id:=68;
+delete from bank_details where user_id=id;
+delete from address where user_id=id;
+#select user_to_contact.contact_id into tempid from user_to_contact where user_to_contact.user_id=id;
+delete from contact_number
+where contact_number.user_id=id;
+delete from request_device where request_device.user_id = id;
+#delete from user_to_contact where user_id=id;
+set sql_safe_updates = 0;
+delete from request_history where request_history.user_id = id and request_history_id <> 0;
+
+delete from assign_device where assign_device.user_id = id;
+delete from complaints where complaints.employee_id = id;
+delete from new_device_request where new_device_request.employee_id = id;
+delete from notification where notification.employee_id = id;
+#delete from contact_number where contact_id=tempid;
+delete from user_to_dependent where user_id=id;
+delete from user_to_role where user_id=id;
+select user_to_education.education_details_id into tempid from user_to_education where user_to_education.user_id=id;
+delete from user_to_education where user_id=id;
+delete from education_details where education_details_id=tempid;
+delete from user where user_id=id;
+set sql_safe_updates =1;
+commit;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1575,7 +1660,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `device_return_dates`(in email varchar(45))
 BEGIN
 	declare empl_id int;
-    select user_id into empl_id from user where user.email=email;
+    select user_id into empl_id from user where user.email like CONCAT(email, '%');
     
     SELECT device_type.type,device_model.model,assign_device.return_date
     FROM device
@@ -1662,53 +1747,34 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getDevicesBySearch`(IN search varchar(45))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDevicesBySearch`(IN device_name varchar(45),IN serial_number varchar(40),IN status_name varchar(40))
 BEGIN
-select  ad.assign_date,ad.return_date, 
+select  ad.assign_date,ad.return_date,
 u1.first_name as assign_by_first_name,u1.middle_name as assign_by_middle_name,u1.last_name  as assign_by_last_name,
- u.first_name as assign_to_first_name,u.middle_name as assign_to_middle_name,u.last_name 
- as assign_to_last_name,d.device_id,dm.model, d.color,d.price,d.serial_number,d.purchase_date,
- d.entry_date,d.warranty_year, sf.* ,s.status_name, dt.type , db.brand
- from device as d inner join 
-device_type as dt inner join 
-device_brand as db inner join  
+u.first_name as assign_to_first_name,u.middle_name as assign_to_middle_name,u.last_name
+as assign_to_last_name,d.device_id,dm.model, d.color,d.price,d.serial_number,d.purchase_date,
+d.entry_date,d.warranty_year, sf.* ,s.status_name, dt.type , db.brand
+from device as d inner join
+device_type as dt inner join
+device_brand as db inner join
 device_model as dm inner join
-status as s inner join 
- specification as sf  
- on 
+status as s inner join
+specification as sf
+on
 d.device_model_id = dm.device_model_id and
 d.device_type_id = dt.device_type_id and
-d.device_brand_id =  db.device_brand_id and 
-d.status_id = s.status_id and 
-d.specification_id = sf.specification_id left join assign_device as ad 
-on d.device_id = ad.device_id left join 
- user as u  on  ad.user_id= u.user_id 
- left  join user as u1 on 
- u1.user_id = ad.assigned_by
-
-where s.status like CONCAT('%', search, '%')
-
-or dm.model like CONCAT('%', search, '%') 
-or dt.type like CONCAT('%', search, '%')
-or db.brand like CONCAT('%', search, '%')
-or d.color like CONCAT('%', search, '%')
-or d.serial_number like CONCAT('%', search, '%')
-or sf.RAM like CONCAT('%', search, '%')
-or sf.storage like CONCAT('%', search, '%')
-or sf.screen_size like CONCAT('%', search, '%')
-or sf.connectivity like CONCAT('%', search, '%')
-or d.price like CONCAT('%', search, '%')
-
- or d.warranty_year like CONCAT('%', search, '%')
-or u1.first_name like CONCAT('%', search, '%')
-or u1.middle_name like CONCAT('%', search, '%')
-or u1.last_name  like CONCAT('%', search, '%')
-or u.first_name like CONCAT('%', search, '%')
-or u.middle_name like CONCAT('%', search, '%')
-or u.last_name  like CONCAT('%', search, '%');
-
+d.device_brand_id =  db.device_brand_id and
+d.status_id = s.status_id and
+d.specification_id = sf.specification_id left join assign_device as ad
+on d.device_id = ad.device_id left join
+user as u  on  ad.user_id= u.user_id
+left  join user as u1 on
+u1.user_id = ad.assigned_by
+where concat(dt.type, ' ' , db.brand , ' ' , dm.model ) like concat('%' , device_name , '%') and
+if(serial_number is null , d.serial_number like  concat('%' , d.serial_number , '%') ,d.serial_number = serial_number  ) and
+if(status_name is null , s.status_name like  concat('%' , s.status_name , '%') ,s.status_name = status_name  ) ;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1929,7 +1995,8 @@ inner join gender using(gender_id)
 inner join status on user.status=status.status_id
 inner join user_to_role using(user_id)
 inner join role using(role_id)
-where user.user_id=user_id;
+where user.user_id=user_id
+group by user_id, role_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2221,6 +2288,38 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_return_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_return_request`(
+in var_user_id int,
+in var_device_id int
+)
+BEGIN
+	declare var_status_id int;
+    
+    if((select count(*) from assign_device inner join status using(status_id) where device_id=var_device_id and user_id=var_user_id and status.status_name='Return')=0)then
+		insert into return_request(user_id,device_id,return_date) values (var_user_id,var_device_id,now());
+        select status.status_id into var_status_id from status where status_name='Accepted';
+        update notification set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id;
+        select status.status_id into var_status_id from status where status_name='Return';
+        update assign_device set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id;
+        
+    end if;
+	
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `insert_user` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2284,6 +2383,77 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `latest_accepted_requests` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `latest_accepted_requests`()
+BEGIN
+
+	SELECT device_id, type, model, user_id, assign_date 
+    FROM device_management_final.assign_device 
+    inner join device_management_final.device using(device_id) 
+    inner join device_management_final.device_type using(device_type_id)
+    inner join device_management_final.device_model using(device_model_id)
+    order by device_management_final.assign_device.assign_date desc limit 10;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `latest_pending_requests` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `latest_pending_requests`()
+BEGIN
+    
+    SELECT specification_id, type, model, user_id
+    FROM request_device
+    inner join device_type using (device_type_id)
+    inner join device_model using (device_model_id)
+    order by device_management_final.request_device.request_device_id desc limit 10;
+    
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `rejected_requests_count` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `rejected_requests_count`()
+BEGIN
+	
+	select count(*) as total_requests_rejected from device_management_final.request_history inner join `status` using(status_id) where `status`.status_name="Rejected";
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `reject_request` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2318,6 +2488,30 @@ BEGIN
      DELETE FROM `request_device`
      where request_device_id=var_request_id;
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `reject_user_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reject_user_request`(
+in var_user_id int,
+in var_device_id int
+)
+BEGIN
+    declare var_status_id int;
+    select status.status_id into var_status_id from status where status_name='Rejected';
+    update notification set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2575,4 +2769,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-10 12:09:49
+-- Dump completed on 2020-04-13 12:52:34

@@ -94,7 +94,7 @@ CREATE TABLE `assign_device` (
   PRIMARY KEY (`assign_device_id`),
   KEY `employee_id_assign_idx` (`user_id`),
   KEY `device_id_assign_idx` (`device_id`),
-  CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
+  CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`) ON DELETE CASCADE,
   CONSTRAINT `employee_id_assign` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -670,7 +670,7 @@ CREATE TABLE `notification` (
   KEY `employee_id_notification_idx` (`user_id`),
   KEY `notification_to_device_idx` (`device_id`),
   KEY `notification_to_status_idx` (`status_id`),
-  CONSTRAINT `notification_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
+  CONSTRAINT `notification_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `notification_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -804,7 +804,7 @@ CREATE TABLE `request_history` (
   KEY `request_history_to_device_type_idx` (`device_type`),
   KEY `request_history_to_device_brand_idx` (`device_brand`),
   CONSTRAINT `request_history_to_device_brand` FOREIGN KEY (`device_brand`) REFERENCES `device_brand` (`device_brand_id`),
-  CONSTRAINT `request_history_to_device_id` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
+  CONSTRAINT `request_history_to_device_id` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`) ON DELETE CASCADE,
   CONSTRAINT `request_history_to_device_model` FOREIGN KEY (`device_model`) REFERENCES `device_model` (`device_model_id`),
   CONSTRAINT `request_history_to_device_type` FOREIGN KEY (`device_type`) REFERENCES `device_type` (`device_type_id`),
   CONSTRAINT `request_history_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
@@ -840,7 +840,7 @@ CREATE TABLE `return_request` (
   PRIMARY KEY (`return_request_id`),
   KEY `return_request_to_user_idx` (`user_id`),
   KEY `request_return_to_device_idx` (`device_id`),
-  CONSTRAINT `request_return_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
+  CONSTRAINT `request_return_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`) ON DELETE CASCADE,
   CONSTRAINT `return_request_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2762,4 +2762,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-13 17:52:21
+-- Dump completed on 2020-04-13 18:01:29

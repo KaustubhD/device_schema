@@ -1488,19 +1488,20 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `admin_assign_device`(IN device_id int,
-IN return_date date,
+IN return_date varchar(30),
 IN first_name varchar(40),
 IN middle_name varchar(40),
-IN last_name varchar(40))
+IN last_name varchar(40),
+IN admin_id int)
 BEGIN
 declare id int;
-declare s_id int;
-	select user_id into id from user where user.first_name=first_name and user.middle_name=middle_name
+declare status_id int;	select user_id into id from user where user.first_name=first_name and if(user.middle_name is null
+     ,true ,user.middle_name=middle_name)
     and user.last_name = last_name;
+    select status.status_id into status_id from status where status.status_name ="Allocated";
 	insert into assign_device(`device_id`,`return_date`,`assign_date`,`user_id`,
-    `assigned_by`,`return_to`,`status_id`) values(device_id,return_date,curdate(),id,30,30,3);
-    select status.status_id into s_id from status where status.status_name ="Allocated";
-     update device set device.status_id=s_id where device.device_id=device_id;
+    `assigned_by`,`return_to`,`status_id`) values(device_id,return_date,curdate(),id,admin_id,admin_id,status_id);
+    update device set device.status_id=status_id where device.device_id=device_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1637,6 +1638,34 @@ delete from user where user_id=id;
 set sql_safe_updates =1;
 commit;
 END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `device_description_byid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `device_description_byid`(
+in id int)
+BEGIN
+select device.device_id,device_type.type,device_brand.brand,device_model.model,color,price,serial_number,
+warranty_year,purchase_date,status_name,entry_date,group_concat(complaints.comments) as comments,RAM,storage,screen_size,connectivity
+from device,device_brand,device_model,device_type,specification,status
+left join complaints on complaints.device_id = id
+where device.device_id=id
+and device.status_id = status.status_id
+and device.specification_id=specification.specification_id
+and device.device_brand_id=device_brand.device_brand_id
+and device.device_type_id=device_type.device_type_id
+and device.device_model_id=device_model.device_model_id;END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -1858,7 +1887,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_user`(
 )
@@ -1906,9 +1935,7 @@ role_name,email,gender,status_name,date_of_birth,date_of_joining,
   inner join status on user.status=status.status_id
   inner join user_to_role using (user_id)
    inner join role using (role_id)
-  /*inner join role using(role_id)*/
-
-  group by user_id;
+  /*inner join role using(role_id)*/  group by user_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1952,7 +1979,7 @@ IN user_id int(100)
 )
 BEGIN
 select salutation.salutation,user_id,role_name,first_name,middle_name,last_name,department_name,
-designation_name,email,gender,status_name,date_of_birth,date_of_joining,password,
+designation_name,email,gender,status_name,date_of_birth,date_of_joining,
 group_concat(distinct if(address_type='Current',address_Line1,NULL)) as 'current_address_Line1',
 group_concat(distinct if(address_type='Current',address_Line2,NULL)) as 'current_address_Line2',
 group_concat(distinct if(address_type='Current',city_name,NULL)) as 'current_city',
@@ -2009,13 +2036,12 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_users_by_name`(
 IN namee varchar(50)
 )
 BEGIN
-
 select user_id,salutation,first_name,middle_name,last_name,role_name,department_name,designation_name as 'designation_name',email,gender,date_of_birth,date_of_joining,status.status_name,
   group_concat(distinct if(address_type='Current',address_Line1,NULL)) as 'current_address_Line1',
   group_concat(distinct if(address_type='Current',address_Line2,NULL)) as 'current_address_Line2',
@@ -2054,9 +2080,7 @@ select user_id,salutation,first_name,middle_name,last_name,role_name,department_
   inner join contact_type using(contact_type_id)
   inner join country ca on ca.country_id=contact_number.country_id
   inner join user_to_role using(user_id)
-  inner join role using(role_id)
-  
-  where user.status_id=1
+  inner join role using(role_id)  where user.status_id=1
   and get_full_name(user.user_id) like CONCAT('%', namee, '%') or user.email like CONCAT('%', namee, '%') or status_name like CONCAT('%', namee, '%')
   group by user_id;
 END ;;
@@ -2354,7 +2378,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_user`(
 in salut varchar(45),
@@ -2364,7 +2388,7 @@ in l_name varchar(20),
 in dept_name varchar(45),
 in desig varchar(30),
 in email varchar(50),
-in password varchar(50),
+#in password varchar(50),
 in passwordHash longblob,
 in passwordSalt longblob,
 in dob date,
@@ -2393,9 +2417,9 @@ select status_id into _status_id from status where status.status_name = is_ac;
 SELECT role_id INTO user_role FROM role WHERE role.role_name = role_name;
 SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
 INSERT INTO `user`
-(`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_designation_id`,`email`,`password`,`hashpassword`,`saltpassword`,`gender_id`,`date_of_birth`,`date_of_joining`,`status`)
+(`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_designation_id`,`email`,`hashpassword`,`saltpassword`,`gender_id`,`date_of_birth`,`date_of_joining`,`status`)
 VALUES
-(sal_id,f_name,m_name,l_name,dept_desig_id,email,SHA2(password, 224),passwordHash,passwordSalt,g_id,dob,doj,_status_id);
+(sal_id,f_name,m_name,l_name,dept_desig_id,email,passwordHash,passwordSalt,g_id,dob,doj,_status_id);
 set empl_id:=last_insert_id();
 insert into user_auth values (empl_id,email,passwordHash,passwordSalt);
 insert into user_to_role values(empl_id, user_role);
@@ -2812,7 +2836,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user`(
 in salut varchar(45),
@@ -2822,7 +2846,7 @@ in l_name varchar(20),
 in dept_name varchar(45),
 in desig varchar(30),
 in email varchar(50),
-in password varchar(50),
+#in password varchar(50),
 in passwordHash longblob,
 in passwordSalt longblob,
 in role_name varchar(45),
@@ -2866,7 +2890,7 @@ user.middle_name=m_name,
 user.last_name=l_name,
 user.department_designation_id=dept_desig_id ,
 user.email=email,
-user.password=if(password is null,user.password,SHA2(password,224)),
+#user.password=if(password is null,user.password,SHA2(password,224)),
 user.hashpassword=if(passwordHash is null,user.hashpassword,passwordHash),
 user.saltpassword=if(passwordSalt is null,user.saltpassword,passwordSalt),
 user_to_role.role_id = user_role,
@@ -2890,4 +2914,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 13:32:24
+-- Dump completed on 2020-04-22 19:32:20

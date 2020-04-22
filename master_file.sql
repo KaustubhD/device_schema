@@ -4,7 +4,7 @@ USE `device_management_final`;
 --
 -- Host: localhost    Database: device_management_final
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	8.0.16
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,19 +25,19 @@ DROP TABLE IF EXISTS `address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `address` (
-  `address_id` int NOT NULL AUTO_INCREMENT,
-  `address_type_id` int NOT NULL,
+  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `address_type_id` int(11) NOT NULL,
   `address_Line1` varchar(70) NOT NULL,
   `address_Line2` varchar(70) DEFAULT NULL,
-  `city_id` int NOT NULL,
+  `city_id` int(11) NOT NULL,
   `PIN` varchar(6) NOT NULL,
-  `user_id` int NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`address_id`),
   KEY `address_to_location_idx` (`city_id`),
   KEY `user_id_address_idx` (`user_id`),
   CONSTRAINT `address_to_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (40,4,'HNO.123','sec-28',1,'121001',16),(41,5,'HNO.123','sec-28',1,'121001',16),(43,4,'HNO.1234 ','sec-21',1,'121001',30),(44,5,'1234 ','sec-24',1,'121001',30),(45,4,'1234','sec-19',1,'121001',66),(46,5,'879','sec-7',1,'121001',66),(47,4,'456','patel nagar',2,'121001',67),(48,5,'911','sec-82',2,'121001',67);
+INSERT INTO `address` VALUES (40,4,'HNO.123','sec-28',1,'121001',16),(41,5,'HNO.123','sec-28',1,'121001',16),(45,4,'1234','sec-19',1,'121001',66),(46,5,'879','sec-7',1,'121001',66),(47,4,'4567569','patel nagar',2,'121001',67),(48,5,'911756895680','sec-82',2,'121001',67),(57,4,'HNo. 964','sec- 20',1119,'121005',74),(58,5,'HNo. 964','sec- 20',1119,'121005',75);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `address_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `address_type` (
-  `address_type_id` int NOT NULL AUTO_INCREMENT,
+  `address_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `address_type` varchar(45) NOT NULL,
   PRIMARY KEY (`address_type_id`),
   UNIQUE KEY `address_type_UNIQUE` (`address_type`)
@@ -83,20 +83,20 @@ DROP TABLE IF EXISTS `assign_device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `assign_device` (
-  `assign_device_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `device_id` int NOT NULL,
+  `assign_device_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `device_id` int(11) NOT NULL,
   `return_date` date DEFAULT NULL,
   `assign_date` date NOT NULL,
-  `assigned_by` int NOT NULL,
-  `return_to` int NOT NULL,
-  `status_id` int NOT NULL,
+  `assigned_by` int(11) NOT NULL,
+  `return_to` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
   PRIMARY KEY (`assign_device_id`),
   KEY `employee_id_assign_idx` (`user_id`),
   KEY `device_id_assign_idx` (`device_id`),
   CONSTRAINT `device_id_assign` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`) ON DELETE CASCADE,
   CONSTRAINT `employee_id_assign` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `assign_device` (
 
 LOCK TABLES `assign_device` WRITE;
 /*!40000 ALTER TABLE `assign_device` DISABLE KEYS */;
-INSERT INTO `assign_device` VALUES (7,66,4,'2020-04-09','2020-04-01',16,16,5),(8,16,1,'2020-04-10','2020-04-05',16,16,5),(11,67,3,'2020-04-19','2020-04-10',16,16,5);
+INSERT INTO `assign_device` VALUES (7,66,4,'2020-04-09','2020-04-01',16,16,3),(8,16,1,'2020-04-10','2020-04-05',16,16,3),(11,67,3,'2020-04-19','2020-04-10',16,16,3);
 /*!40000 ALTER TABLE `assign_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,8 +117,8 @@ DROP TABLE IF EXISTS `bank_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `bank_details` (
-  `bank_details_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `bank_details_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `aadhar_number` varchar(224) DEFAULT NULL,
   `pan_number` varchar(224) NOT NULL,
   `bank_name` varchar(45) NOT NULL,
@@ -152,9 +152,9 @@ DROP TABLE IF EXISTS `city`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `city` (
-  `city_id` int NOT NULL AUTO_INCREMENT,
+  `city_id` int(11) NOT NULL AUTO_INCREMENT,
   `city_name` varchar(45) NOT NULL,
-  `state_id` int NOT NULL,
+  `state_id` int(11) NOT NULL,
   PRIMARY KEY (`city_id`),
   UNIQUE KEY `city_id_UNIQUE` (`city_id`),
   KEY `city_to_state_idx` (`state_id`),
@@ -181,14 +181,19 @@ DROP TABLE IF EXISTS `complaints`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `complaints` (
-  `complaint_id` int NOT NULL AUTO_INCREMENT,
-  `employee_id` int NOT NULL,
-  `device_id` int NOT NULL,
+  `complaint_id` int(11) NOT NULL AUTO_INCREMENT,
+  `employee_id` int(11) NOT NULL,
+  `device_id` int(11) NOT NULL,
   `comments` varchar(50) NOT NULL,
   `image` blob,
+  `complaint_date` date DEFAULT NULL,
+  `resolve_date` date DEFAULT NULL,
+  `complaint_status_id` int(11) DEFAULT '11',
   PRIMARY KEY (`complaint_id`),
   KEY `employee_id_complaints_idx` (`employee_id`),
   KEY `device_id_complaints_idx` (`device_id`),
+  KEY `complaint_status_id_to_status_idx` (`complaint_status_id`),
+  CONSTRAINT `complaint_status_id` FOREIGN KEY (`complaint_status_id`) REFERENCES `status` (`status_id`),
   CONSTRAINT `device_id_complaints` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`),
   CONSTRAINT `employee_id_complaints` FOREIGN KEY (`employee_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -200,7 +205,7 @@ CREATE TABLE `complaints` (
 
 LOCK TABLES `complaints` WRITE;
 /*!40000 ALTER TABLE `complaints` DISABLE KEYS */;
-INSERT INTO `complaints` VALUES (1,16,1,'Broken',NULL);
+INSERT INTO `complaints` VALUES (1,16,1,'Broken',NULL,NULL,NULL,11);
 /*!40000 ALTER TABLE `complaints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,12 +217,12 @@ DROP TABLE IF EXISTS `contact_number`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `contact_number` (
-  `contact_id` int NOT NULL AUTO_INCREMENT,
-  `contact_type_id` int NOT NULL,
-  `country_id` int NOT NULL,
+  `contact_id` int(11) NOT NULL AUTO_INCREMENT,
+  `contact_type_id` int(11) NOT NULL,
+  `country_id` int(11) NOT NULL,
   `area_code` varchar(6) DEFAULT NULL,
   `number` varchar(11) NOT NULL,
-  `user_id` int NOT NULL DEFAULT '16',
+  `user_id` int(11) NOT NULL DEFAULT '16',
   PRIMARY KEY (`contact_id`),
   KEY `contact_to_country_idx` (`country_id`),
   KEY `contact_to_type_idx` (`contact_type_id`),
@@ -225,7 +230,7 @@ CREATE TABLE `contact_number` (
   CONSTRAINT `contact_to_type` FOREIGN KEY (`contact_type_id`) REFERENCES `contact_type` (`contact_type_id`),
   CONSTRAINT `country_to_contact` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
   CONSTRAINT `user_id_contact` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +239,7 @@ CREATE TABLE `contact_number` (
 
 LOCK TABLES `contact_number` WRITE;
 /*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
-INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555',16),(39,6,1,'','5231435654',16),(40,4,1,'','123123457',30),(48,6,1,NULL,'535341233',30),(49,4,1,NULL,'87845534',66),(50,6,1,NULL,'345423423',66),(51,4,1,NULL,'776857332',67),(52,6,1,NULL,'535344342',67);
+INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555',16),(39,6,1,'','5231435654',16),(49,4,1,NULL,'87845534',66),(50,6,1,NULL,'345423423',66),(51,4,101,'0129','7768573327',67),(52,6,101,'0129','5353443427',67),(58,4,101,'0129','8523697410',74),(59,4,101,'0129','7894561332',75);
 /*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,7 +251,7 @@ DROP TABLE IF EXISTS `contact_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `contact_type` (
-  `contact_type_id` int NOT NULL AUTO_INCREMENT,
+  `contact_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `contact_type` varchar(45) NOT NULL,
   PRIMARY KEY (`contact_type_id`),
   UNIQUE KEY `contact_type_id_UNIQUE` (`contact_type_id`),
@@ -272,7 +277,7 @@ DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `country` (
-  `country_id` int NOT NULL AUTO_INCREMENT,
+  `country_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_name` varchar(45) NOT NULL,
   `country_code` varchar(45) NOT NULL,
   PRIMARY KEY (`country_id`),
@@ -298,7 +303,7 @@ DROP TABLE IF EXISTS `course`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `course` (
-  `course_id` int NOT NULL AUTO_INCREMENT,
+  `course_id` int(11) NOT NULL AUTO_INCREMENT,
   `course_name` varchar(45) NOT NULL,
   PRIMARY KEY (`course_id`),
   UNIQUE KEY `study_level_name_UNIQUE` (`course_name`)
@@ -322,7 +327,7 @@ DROP TABLE IF EXISTS `department`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `department` (
-  `department_id` int NOT NULL AUTO_INCREMENT,
+  `department_id` int(11) NOT NULL AUTO_INCREMENT,
   `department_name` varchar(45) NOT NULL,
   PRIMARY KEY (`department_id`),
   UNIQUE KEY `department_name_UNIQUE` (`department_name`)
@@ -347,9 +352,9 @@ DROP TABLE IF EXISTS `department_designation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `department_designation` (
-  `department_designation_id` int NOT NULL AUTO_INCREMENT,
-  `department_id` int NOT NULL,
-  `designation_id` int NOT NULL,
+  `department_designation_id` int(11) NOT NULL AUTO_INCREMENT,
+  `department_id` int(11) NOT NULL,
+  `designation_id` int(11) NOT NULL,
   PRIMARY KEY (`department_id`,`designation_id`),
   UNIQUE KEY `department_designation_id_UNIQUE` (`department_designation_id`),
   KEY `designation_map_department_designation_idx` (`designation_id`),
@@ -376,13 +381,13 @@ DROP TABLE IF EXISTS `dependent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `dependent` (
-  `dependent_id` int NOT NULL AUTO_INCREMENT,
-  `relation_id` int DEFAULT NULL,
-  `salutation_id` int NOT NULL,
+  `dependent_id` int(11) NOT NULL AUTO_INCREMENT,
+  `relation_id` int(11) DEFAULT NULL,
+  `salutation_id` int(11) NOT NULL,
   `first_name` varchar(45) NOT NULL,
   `middle_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) NOT NULL,
-  `contact_id` int NOT NULL,
+  `contact_id` int(11) NOT NULL,
   PRIMARY KEY (`dependent_id`),
   UNIQUE KEY `dependant_id_UNIQUE` (`dependent_id`),
   KEY `dependant_to_contact_idx` (`contact_id`),
@@ -411,7 +416,7 @@ DROP TABLE IF EXISTS `designation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `designation` (
-  `designation_id` int NOT NULL AUTO_INCREMENT,
+  `designation_id` int(11) NOT NULL AUTO_INCREMENT,
   `designation_name` varchar(30) NOT NULL,
   PRIMARY KEY (`designation_id`),
   UNIQUE KEY `designation_UNIQUE` (`designation_name`)
@@ -436,17 +441,17 @@ DROP TABLE IF EXISTS `device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `device` (
-  `device_id` int NOT NULL AUTO_INCREMENT,
-  `device_type_id` int NOT NULL,
-  `device_brand_id` int NOT NULL,
-  `device_model_id` int NOT NULL,
+  `device_id` int(11) NOT NULL AUTO_INCREMENT,
+  `device_type_id` int(11) NOT NULL,
+  `device_brand_id` int(11) NOT NULL,
+  `device_model_id` int(11) NOT NULL,
   `color` varchar(50) NOT NULL,
   `price` varchar(50) NOT NULL,
   `serial_number` varchar(50) NOT NULL,
-  `warranty_year` tinyint DEFAULT NULL,
+  `warranty_year` tinyint(4) DEFAULT NULL,
   `purchase_date` date DEFAULT NULL,
-  `status_id` int NOT NULL,
-  `specification_id` int NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `specification_id` int(11) NOT NULL,
   `entry_date` datetime NOT NULL,
   PRIMARY KEY (`device_id`),
   UNIQUE KEY `serial_number_UNIQUE` (`serial_number`),
@@ -460,7 +465,7 @@ CREATE TABLE `device` (
   CONSTRAINT `device_type` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`device_type_id`),
   CONSTRAINT `specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
   CONSTRAINT `status_id` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -469,7 +474,7 @@ CREATE TABLE `device` (
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,1,1,1,'black','40000','1',2,'2019-03-11',3,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',4,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',3,3,'2019-03-19 00:00:00');
+INSERT INTO `device` VALUES (1,1,1,1,'black','40000','1',2,'2019-03-11',3,1,'2019-04-15 00:00:00'),(2,1,2,1,'black','50000','2',3,'2019-09-02',4,2,'2019-03-10 00:00:00'),(3,2,5,3,'Pink','80000','3',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(4,2,5,3,'Black','85000','4',4,'2019-01-01',3,3,'2019-03-19 00:00:00'),(5,2,5,10,'Black','70000','5',1,'2019-05-29',4,6,'2019-04-14 00:00:00'),(6,2,5,11,'Black','62500','6',1,'2019-07-19',4,6,'2019-04-14 00:00:00'),(7,2,7,15,'Black','55000','7',1,'2019-09-09',4,7,'2019-04-14 00:00:00'),(8,2,7,16,'Black','60000','8',1,'2019-10-29',4,7,'2019-04-14 00:00:00'),(9,2,15,17,'Black','38000','9',1,'2019-05-17',4,8,'2019-04-14 00:00:00'),(10,2,15,18,'Black','52000','10',1,'2019-05-03',4,8,'2019-03-19 00:00:00'),(11,1,3,4,'Black','60000','11',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(12,1,1,5,'Black','62000','12',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(13,1,1,6,'Black','60000','13',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(14,1,1,7,'Black','60000','14',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(15,1,2,8,'Black','60000','15',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(16,1,2,9,'Black','60000','16',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(17,1,5,12,'Black','60000','17',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(18,1,5,13,'Black','60000','18',2,'2019-09-09',4,2,'2020-04-14 00:00:00'),(19,1,4,14,'Black','60000','19',2,'2019-09-09',4,2,'2020-04-14 00:00:00');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -481,10 +486,10 @@ DROP TABLE IF EXISTS `device_brand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `device_brand` (
-  `device_brand_id` int NOT NULL AUTO_INCREMENT,
+  `device_brand_id` int(11) NOT NULL AUTO_INCREMENT,
   `brand` varchar(200) NOT NULL,
   PRIMARY KEY (`device_brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -493,7 +498,7 @@ CREATE TABLE `device_brand` (
 
 LOCK TABLES `device_brand` WRITE;
 /*!40000 ALTER TABLE `device_brand` DISABLE KEYS */;
-INSERT INTO `device_brand` VALUES (1,'Dell'),(2,'HP'),(3,'Lenovo'),(4,'Xiaomi'),(5,'Apple'),(6,'Logitech');
+INSERT INTO `device_brand` VALUES (1,'Dell'),(2,'HP'),(3,'Lenovo'),(4,'Xiaomi'),(5,'Apple'),(6,'Logitech'),(7,'Samsung'),(8,'Asus'),(9,'Acer'),(10,'MSI'),(11,'Razor'),(12,'LG'),(13,'Sony'),(14,'Google'),(15,'One Plus');
 /*!40000 ALTER TABLE `device_brand` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -505,10 +510,10 @@ DROP TABLE IF EXISTS `device_model`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `device_model` (
-  `device_model_id` int NOT NULL AUTO_INCREMENT,
+  `device_model_id` int(11) NOT NULL AUTO_INCREMENT,
   `model` varchar(45) NOT NULL,
   PRIMARY KEY (`device_model_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -517,7 +522,7 @@ CREATE TABLE `device_model` (
 
 LOCK TABLES `device_model` WRITE;
 /*!40000 ALTER TABLE `device_model` DISABLE KEYS */;
-INSERT INTO `device_model` VALUES (1,'Chromebook'),(2,'Ideapad 330'),(3,'Iphone X');
+INSERT INTO `device_model` VALUES (1,'Chromebook'),(2,'Ideapad 330'),(3,'Iphone X'),(4,'ThinkPad E490'),(5,'XPS 13'),(6,'Alienware M51'),(7,'Inspiron 15'),(8,'ELitebook'),(9,'Spectre'),(10,'Iphone Xs'),(11,'Iphone 11'),(12,'Macbook Pro '),(13,'Macbook Air '),(14,'Mi Air'),(15,'S10+'),(16,'S20'),(17,'7T '),(18,'7T Pro');
 /*!40000 ALTER TABLE `device_model` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -529,7 +534,7 @@ DROP TABLE IF EXISTS `device_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `device_type` (
-  `device_type_id` int NOT NULL AUTO_INCREMENT,
+  `device_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(50) NOT NULL,
   PRIMARY KEY (`device_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -553,10 +558,10 @@ DROP TABLE IF EXISTS `education_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `education_details` (
-  `education_details_id` int NOT NULL AUTO_INCREMENT,
+  `education_details_id` int(11) NOT NULL AUTO_INCREMENT,
   `institution_name` varchar(100) NOT NULL,
-  `course_id` int NOT NULL,
-  `stream_id` int NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `stream_id` int(11) NOT NULL,
   `starting_date` date NOT NULL,
   `finishing_date` date NOT NULL,
   `board_university` varchar(45) DEFAULT NULL,
@@ -586,7 +591,7 @@ DROP TABLE IF EXISTS `education_streams`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `education_streams` (
-  `education_streams_id` int NOT NULL AUTO_INCREMENT,
+  `education_streams_id` int(11) NOT NULL AUTO_INCREMENT,
   `stream_name` varchar(45) NOT NULL,
   PRIMARY KEY (`education_streams_id`),
   UNIQUE KEY `study_field_UNIQUE` (`stream_name`)
@@ -610,7 +615,7 @@ DROP TABLE IF EXISTS `gender`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `gender` (
-  `gender_id` int NOT NULL AUTO_INCREMENT,
+  `gender_id` int(11) NOT NULL AUTO_INCREMENT,
   `gender` varchar(45) NOT NULL,
   PRIMARY KEY (`gender_id`),
   UNIQUE KEY `gender_UNIQUE` (`gender`)
@@ -635,8 +640,8 @@ DROP TABLE IF EXISTS `new_device_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `new_device_request` (
-  `new_device_request_id` int NOT NULL AUTO_INCREMENT,
-  `employee_id` int NOT NULL,
+  `new_device_request_id` int(11) NOT NULL AUTO_INCREMENT,
+  `employee_id` int(11) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`new_device_request_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -659,12 +664,12 @@ DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `notification` (
-  `notification_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `notification_type` varchar(50) NOT NULL,
-  `device_id` int NOT NULL,
+  `device_id` int(11) NOT NULL,
   `notification_date` date NOT NULL,
-  `status_id` int NOT NULL,
+  `status_id` int(11) NOT NULL,
   `message` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`notification_id`),
   KEY `employee_id_notification_idx` (`user_id`),
@@ -681,7 +686,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (13,67,'Public',3,'2020-04-10',9,'Submit Possible?'),(14,66,'Public',4,'2020-04-10',9,'Submit Possible?');
+INSERT INTO `notification` VALUES (13,67,'Public',3,'2020-04-10',5,'Submit Possible?'),(14,66,'Public',4,'2020-04-10',9,'Submit Possible?');
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -693,10 +698,10 @@ DROP TABLE IF EXISTS `permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `permission` (
-  `permission_id` int NOT NULL AUTO_INCREMENT,
+  `permission_id` int(11) NOT NULL AUTO_INCREMENT,
   `permission_name` varchar(45) NOT NULL,
   PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -705,7 +710,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device'),(4,'write_device'),(5,'request_device');
+INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device'),(4,'write_device'),(5,'request_device'),(9,'abcd');
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -717,7 +722,7 @@ DROP TABLE IF EXISTS `relation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `relation` (
-  `relation_id` int NOT NULL AUTO_INCREMENT,
+  `relation_id` int(11) NOT NULL AUTO_INCREMENT,
   `relation_name` varchar(45) NOT NULL,
   PRIMARY KEY (`relation_id`),
   UNIQUE KEY `relation_id_UNIQUE` (`relation_id`),
@@ -742,14 +747,14 @@ DROP TABLE IF EXISTS `request_device`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `request_device` (
-  `request_device_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `device_model_id` int NOT NULL,
-  `device_type_id` int NOT NULL,
-  `device_brand_id` int NOT NULL,
-  `specification_id` int NOT NULL,
+  `request_device_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `device_model_id` int(11) NOT NULL,
+  `device_type_id` int(11) NOT NULL,
+  `device_brand_id` int(11) NOT NULL,
+  `specification_id` int(11) NOT NULL,
   `request_date` date NOT NULL,
-  `no_of_days` int NOT NULL,
+  `no_of_days` int(11) NOT NULL,
   `comment` text,
   PRIMARY KEY (`request_device_id`),
   KEY `employeeId_idx` (`user_id`),
@@ -758,7 +763,7 @@ CREATE TABLE `request_device` (
   CONSTRAINT `request_device_to_model_id` FOREIGN KEY (`device_model_id`) REFERENCES `device_model` (`device_model_id`),
   CONSTRAINT `request_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
   CONSTRAINT `request_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -767,7 +772,7 @@ CREATE TABLE `request_device` (
 
 LOCK TABLES `request_device` WRITE;
 /*!40000 ALTER TABLE `request_device` DISABLE KEYS */;
-INSERT INTO `request_device` VALUES (26,66,1,1,1,1,'2020-04-05',4,''),(27,66,3,2,5,3,'2020-04-05',14,'');
+INSERT INTO `request_device` VALUES (26,66,1,1,1,1,'2020-04-05',4,''),(27,66,3,2,5,3,'2020-04-05',14,''),(33,67,16,2,7,7,'2020-04-05',20,NULL),(34,67,17,2,15,8,'2020-04-05',20,NULL),(35,16,18,2,15,8,'2020-04-05',14,NULL),(36,16,15,2,7,7,'2020-04-05',16,NULL),(37,67,11,2,5,6,'2020-04-14',14,'');
 /*!40000 ALTER TABLE `request_device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -779,20 +784,20 @@ DROP TABLE IF EXISTS `request_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `request_history` (
-  `request_history_id` int NOT NULL AUTO_INCREMENT,
-  `specification_id` int NOT NULL,
-  `device_type` int NOT NULL,
-  `device_brand` int NOT NULL,
-  `device_model` int NOT NULL,
-  `status_id` int NOT NULL,
+  `request_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `specification_id` int(11) NOT NULL,
+  `device_type` int(11) NOT NULL,
+  `device_brand` int(11) NOT NULL,
+  `device_model` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
   `request_date` date DEFAULT NULL,
   `assign_date` date DEFAULT NULL,
-  `assign_days` tinyint DEFAULT NULL,
+  `assign_days` tinyint(4) DEFAULT NULL,
   `return_date` date DEFAULT NULL,
-  `user_id` int NOT NULL,
-  `device_id` int DEFAULT NULL,
-  `action_by` int DEFAULT NULL,
-  `return_to` int DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `device_id` int(11) DEFAULT NULL,
+  `action_by` int(11) DEFAULT NULL,
+  `return_to` int(11) DEFAULT NULL,
   PRIMARY KEY (`request_history_id`),
   KEY `specification_id_request_idx` (`specification_id`),
   KEY `employee_id_request_idx` (`user_id`),
@@ -812,7 +817,7 @@ CREATE TABLE `request_history` (
   CONSTRAINT `request_history_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_action_by` FOREIGN KEY (`action_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_returned` FOREIGN KEY (`return_to`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -821,7 +826,7 @@ CREATE TABLE `request_history` (
 
 LOCK TABLES `request_history` WRITE;
 /*!40000 ALTER TABLE `request_history` DISABLE KEYS */;
-INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(5,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,30,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16),(8,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,30,NULL,16,NULL),(9,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,67,NULL,16,NULL),(10,3,2,5,3,7,NULL,'2020-04-01',8,'2020-04-09',16,3,NULL,16),(11,2,1,2,1,7,NULL,'2020-04-09',1,'2020-04-10',67,2,NULL,16);
+INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16),(9,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,67,NULL,16,NULL),(10,3,2,5,3,7,NULL,'2020-04-01',8,'2020-04-09',16,3,NULL,16),(11,2,1,2,1,7,NULL,'2020-04-09',1,'2020-04-10',67,2,NULL,16),(12,7,2,7,16,8,'2020-04-05',NULL,NULL,NULL,67,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `request_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -833,16 +838,16 @@ DROP TABLE IF EXISTS `return_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `return_request` (
-  `return_request_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `device_id` int NOT NULL,
+  `return_request_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `device_id` int(11) NOT NULL,
   `return_date` date NOT NULL,
   PRIMARY KEY (`return_request_id`),
   KEY `return_request_to_user_idx` (`user_id`),
   KEY `request_return_to_device_idx` (`device_id`),
   CONSTRAINT `request_return_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`) ON DELETE CASCADE,
   CONSTRAINT `return_request_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -851,7 +856,7 @@ CREATE TABLE `return_request` (
 
 LOCK TABLES `return_request` WRITE;
 /*!40000 ALTER TABLE `return_request` DISABLE KEYS */;
-INSERT INTO `return_request` VALUES (2,66,4,'2020-04-09');
+INSERT INTO `return_request` VALUES (2,66,4,'2020-04-09'),(4,67,3,'2020-04-14'),(5,16,5,'2020-04-14'),(6,16,2,'2020-04-14');
 /*!40000 ALTER TABLE `return_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -863,11 +868,11 @@ DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `role` (
-  `role_id` int NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(20) NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_name_UNIQUE` (`role_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -888,8 +893,8 @@ DROP TABLE IF EXISTS `role_to_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `role_to_permission` (
-  `role_id` int NOT NULL,
-  `permission_id` int NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`role_id`,`permission_id`),
   KEY `permission_to_permission_idx` (`permission_id`),
   CONSTRAINT `permission_to_permission` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`),
@@ -903,7 +908,7 @@ CREATE TABLE `role_to_permission` (
 
 LOCK TABLES `role_to_permission` WRITE;
 /*!40000 ALTER TABLE `role_to_permission` DISABLE KEYS */;
-INSERT INTO `role_to_permission` VALUES (2,1),(3,1),(3,2),(1,3),(2,3),(3,3),(2,4),(1,5);
+INSERT INTO `role_to_permission` VALUES (1,1),(2,1),(3,1),(3,2),(3,3),(3,4);
 /*!40000 ALTER TABLE `role_to_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -915,7 +920,7 @@ DROP TABLE IF EXISTS `salutation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `salutation` (
-  `salutation_id` int NOT NULL AUTO_INCREMENT,
+  `salutation_id` int(11) NOT NULL AUTO_INCREMENT,
   `salutation` varchar(45) NOT NULL,
   PRIMARY KEY (`salutation_id`),
   UNIQUE KEY `salutation_UNIQUE` (`salutation`)
@@ -940,13 +945,13 @@ DROP TABLE IF EXISTS `specification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `specification` (
-  `specification_id` int NOT NULL AUTO_INCREMENT,
+  `specification_id` int(11) NOT NULL AUTO_INCREMENT,
   `RAM` varchar(50) DEFAULT NULL,
   `storage` varchar(50) DEFAULT NULL,
   `screen_size` varchar(50) DEFAULT NULL,
   `connectivity` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`specification_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -955,7 +960,7 @@ CREATE TABLE `specification` (
 
 LOCK TABLES `specification` WRITE;
 /*!40000 ALTER TABLE `specification` DISABLE KEYS */;
-INSERT INTO `specification` VALUES (1,'4 GB','256 GB','12','Wired'),(2,'8 GB','512 GB','14','Wired'),(3,'4 GB','64 GB','6','Wireless');
+INSERT INTO `specification` VALUES (1,'4 GB','256 GB','15','Wired'),(2,'8 GB','512 GB','14','Wired'),(3,'4 GB','64 GB','6','Wireless'),(4,'8GB','256 GB','13','Wired'),(5,'16 GB','I TB','16','Wired'),(6,'3 GB','256 GB','6','Wireless'),(7,'12 GB','256 GB','6.5','Wireless'),(8,'8 GB','128 GB','6.7','Wireless');
 /*!40000 ALTER TABLE `specification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -967,9 +972,9 @@ DROP TABLE IF EXISTS `state`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `state` (
-  `state_id` int NOT NULL AUTO_INCREMENT,
+  `state_id` int(11) NOT NULL AUTO_INCREMENT,
   `state_name` varchar(45) NOT NULL,
-  `country_id` int NOT NULL,
+  `country_id` int(11) NOT NULL,
   PRIMARY KEY (`state_id`),
   UNIQUE KEY `state_id_UNIQUE` (`state_id`),
   KEY `state_to_country_idx` (`country_id`),
@@ -995,10 +1000,10 @@ DROP TABLE IF EXISTS `status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `status` (
-  `status_id` int NOT NULL AUTO_INCREMENT,
+  `status_id` int(11) NOT NULL AUTO_INCREMENT,
   `status_name` varchar(45) NOT NULL,
   PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1007,7 +1012,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES (1,'Active'),(2,'Inactive'),(3,'Allocated'),(4,'Free'),(5,'Accepted'),(6,'Rejected'),(7,'Returned'),(8,'Cancelled'),(9,'Pending'),(10,'Return');
+INSERT INTO `status` VALUES (1,'Active'),(2,'Inactive'),(3,'Allocated'),(4,'Free'),(5,'Accepted'),(6,'Rejected'),(7,'Returned'),(8,'Cancelled'),(9,'Pending'),(10,'Return'),(11,'Unresolved'),(12,'Resolved'),(13,'Faulty');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1019,18 +1024,18 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `salutation_id` int DEFAULT NULL,
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salutation_id` int(11) DEFAULT NULL,
   `first_name` varchar(45) NOT NULL,
   `middle_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
-  `department_designation_id` int DEFAULT NULL,
+  `department_designation_id` int(11) DEFAULT NULL,
   `email` varchar(70) NOT NULL,
   `password` varchar(224) NOT NULL,
-  `gender_id` int DEFAULT NULL,
+  `gender_id` int(11) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `date_of_joining` date DEFAULT NULL,
-  `status` int DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
   `hashpassword` longblob,
   `saltpassword` longblob,
   `guid` varchar(45) DEFAULT NULL,
@@ -1044,7 +1049,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
   CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`),
   CONSTRAINT `user_to_status` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1053,7 +1058,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(30,5,'Suraj','Singh','Rawat',1,'ssrawat@ex2india.com,','e2e71c2a34e9165e9c8ae4746f7826cd688a182d1afb25fcfe8734f7',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit',NULL,'Chauhan',1,'nchauhan@ex2india.com','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL);
+INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com','a5501dcc3666992fab01a3ca6bc850764e4083ca6c7debce8e4a7ed2',2,'1995-02-02','2020-01-15',2,'é\‡oP>/\‡61Çxì–Üà{|\Ó6mfÅ˛¸\‘\ w≠L®ú\‹6^R˝_\◊\Õ/™´§%\Á¸xº°D¨{k˜','Ã§i\›¿ãÆÖVèDaLj^pòSî\¬\«x⁄ë0\Ë\‚d\ @a^Ù~O≤`í∑t=éKyF#¯Ú4Äny\"â)lª√¢D\«\◊J\Â\ÿ\0	}ìx\Ã\«7YäëJF˛X8\À(‘£—òâ¶[ãä\nM±;\Ô£ﬁÅ0%Wû¥<j˝¿',NULL),(75,7,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com','a5501dcc3666992fab01a3ca6bc850764e4083ca6c7debce8e4a7ed2',1,'1998-11-03','2020-02-03',1,'Ç¨õ¸Imk\ÁIâ.\ ¿5\‡âûQl&\…™¨íÉ\∆%\‡ŒôıV˙èdc\‘SíÛñåñ=I8\ÿV\Í[ë>,\"V∂GtQë','üQõYs5r¢°\Ê\«òú\Ô\‰e¶\ n\·ˆ@;\–}_g¶oƒçÉñR\Áeı\Ì\ƒ\Ì\Œ\◊Ø\Œ\Â\‘NπÄ¡˛¡µ®oõ˚º‘Ä\‰5]˚€¥\Î¸\ÈÆ£ˆëß#Ü\—3¯∑w`>¨\Ì\¬4π}±2\È\‚ëΩ0\‘!\‰é\Ï†\Õ\»\‚¢KBÄ2∏˘˙',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1065,12 +1070,12 @@ DROP TABLE IF EXISTS `user_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user_auth` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `hashpassword` varbinary(500) DEFAULT NULL,
   `saltpassword` varbinary(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1079,7 +1084,7 @@ CREATE TABLE `user_auth` (
 
 LOCK TABLES `user_auth` WRITE;
 /*!40000 ALTER TABLE `user_auth` DISABLE KEYS */;
-INSERT INTO `user_auth` VALUES (16,'abc@ex2india.com','®\‘\¬#ˆ\Âª◊áÆ-—¨∏A;+CoÛKV\»0\“m\Á˜Ø\ÿ\—WùÒ\„ö\ cW≠è.É∫rº˘F\◊GAu','≤d	A@©\Ïé˘\Ê~P\œ\Ï\œ˘Z§Vñ\√kπ-à\›a˘\’\·⁄í\ÃfkköÅZÔë°È®ª\”G\‡\Î\Ëù∞∞µ—Ç\ÁˆÔ¨≥\»ˇûzÂû´¸/7ì¥/¶\ÔxÒ\\?˘\0¥|Rë\ﬁ,Hàó∏\ÿ¸åu\nˆ^\ +R\ÿ,Y:Ä'),(67,'nchauhan@ex2india.com','Ü\€˛]ßz§~S\◊\—\»tt\Ó/>â\Ÿ\¬\’›≥£@tÉ\Â2\Z÷ØÅ\’”úUJì+£©L´\r@ë\“G∞\⁄$\≈\Õ3h\Â∞\”\‰\⁄','˙U\ﬁ\—UQ:£¥~!&>ô1ó2p}ó0U%\‡<\Ó£`\¬ÁÄøìq+˜Àú\ËWg4\‰6\"¸L0X\ﬂ\–¡\ÿvN:`iˆ\ÁW\ZXRåo\ÿ¯å\‚_\◊Q˙ÆºØ\«ˆY\‰\È>\ÂniM\Ì˙¡íb0&˘V∫\‡¶\ﬁﬂíàz7¸\Œ õ0n');
+INSERT INTO `user_auth` VALUES (16,'abc@ex2india.com','\Ótqdr\À-o°\réUâ´±≈öS‚ÖÉ0Õú\–\ƒ77\ÊIoüÿÖMÍìØèø\·_ç\'ïµ\“\Á\0Ù;â(O˚Ü†.','}4%%áá\«jáåü.\√n´ê≤\◊	Éw©õq9mo\r\Ê!E∏π\ﬂlú\÷\"M Ä\'!\Á•˘>æ1\ﬂ/ú)y˜ÑG\0\ﬁLå\⁄\Z+j=˛\Ãg\Ï\¬-\‡=eTæu‹î|aãıXˆ3ÜõÖ™:à\‘\‰òaQ¨tå^\«\¬\¬\„ﬂÆ\Ã4æ\Èı\’\\∏'),(67,'nchauhan@ex2india.com','\›q\…	˙¢63#nÇ?—´}áxò\Ô«ñ˛\ÿÒ\œ¢¿ë Ωπ\Ì\“!Ä:a\Àp¿@c¢´\"+Û\Í©\Ê§¸L3öV\» ,à','Ç•5˘\√–ø\ÈHVÑjô\–\⁄A_Ü~ø;\ﬁ˜z0¸ˇà•fY∞≠˝\Ìéa∑]\Ë5A\Á˛\√\Î¶F¨@ùˆSª¸ÆT¡¯|3o˚Ø\œçS~âEªñ\\Å-\≈ôó∑C}¬∑ï=\"6\Â~/3ˇ∑‹∑@Q.>ñÑ&÷ì\ÿ3.;˜nWV}Æ\√<');
 /*!40000 ALTER TABLE `user_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1091,9 +1096,9 @@ DROP TABLE IF EXISTS `user_to_dependent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user_to_dependent` (
-  `user_to_dependent_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `dependent_id` int NOT NULL,
+  `user_to_dependent_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `dependent_id` int(11) NOT NULL,
   PRIMARY KEY (`user_to_dependent_id`),
   KEY `user_map_user_to_dependent_idx` (`user_id`),
   KEY `dependent_map_user_to_dependent_idx` (`dependent_id`),
@@ -1119,8 +1124,8 @@ DROP TABLE IF EXISTS `user_to_education`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user_to_education` (
-  `user_id` int NOT NULL,
-  `education_details_id` int NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `education_details_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`education_details_id`),
   KEY `education_map_user_to_education_idx` (`education_details_id`),
   CONSTRAINT `education_map_user_to_education` FOREIGN KEY (`education_details_id`) REFERENCES `education_details` (`education_details_id`)
@@ -1144,8 +1149,8 @@ DROP TABLE IF EXISTS `user_to_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user_to_role` (
-  `user_id` int NOT NULL,
-  `role_id` int NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `role_id_idx` (`role_id`),
   CONSTRAINT `role_id_to_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
@@ -1159,7 +1164,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (30,1),(66,1),(67,1),(16,2);
+INSERT INTO `user_to_role` VALUES (66,1),(67,1),(74,1),(75,1),(16,2);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1215,7 +1220,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_specification_id`(
         var_storage varchar(50),
 		var_screen_size varchar(50),
         var_connectivity varchar(50)
-) RETURNS int
+) RETURNS int(11)
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -1244,7 +1249,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` FUNCTION `insert_address_function`(
 add_type varchar(15),
@@ -1254,7 +1259,7 @@ city_n varchar(45),
 state_n varchar(45),
 country_n varchar(45),
 pin varchar(6),
-userr_id int) RETURNS int
+userr_id int) RETURNS int(11)
     MODIFIES SQL DATA
     DETERMINISTIC
 BEGIN
@@ -1290,10 +1295,10 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `accept_request`(
-in request_id int,
+in var_request_id int,
 in var_admin_id int)
 BEGIN
 	declare var_specification_id int;
@@ -1304,12 +1309,12 @@ BEGIN
     declare var_user_id int;
     declare var_device_id int;
     declare var_status_id int;
-    select specification_id into var_specification_id from request_device where request_device_id=request_id;
-	select device_type_id into var_type_id from request_device where request_device_id=request_id;
-    select device_brand_id into var_brand_id from request_device where request_device_id=request_id;
-    select device_model_id into var_model_id from request_device where request_device_id=request_id;
-    select user_id into var_user_id from request_device where request_device_id=request_id;
-	select date_add(request_date,interval no_of_days day) into var_return_date from request_device where request_device_id=request_id;
+    select specification_id into var_specification_id from request_device where request_device_id=var_request_id;
+	select device_type_id into var_type_id from request_device where request_device_id=var_request_id;
+    select device_brand_id into var_brand_id from request_device where request_device_id=var_request_id;
+    select device_model_id into var_model_id from request_device where request_device_id=var_request_id;
+    select user_id into var_user_id from request_device where request_device_id=var_request_id;
+	select date_add(request_date,interval no_of_days day) into var_return_date from request_device where request_device_id=var_request_id;
     select device_id into var_device_id from device inner join `status` using (status_id)
     where device.device_type_id = var_type_id
     and device.device_brand_id= var_brand_id
@@ -1329,7 +1334,7 @@ BEGIN
     where
 	`device_id` = var_device_id;
     DELETE FROM `request_device`
-	WHERE request_device_id=request_id;
+	WHERE request_device_id=var_request_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1347,7 +1352,8 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `accept_return`(
-in return_id int)
+in return_id int,
+in var_admin_id int)
 BEGIN
 	declare var_specification_id int;
     declare var_type_id int;
@@ -1359,7 +1365,6 @@ BEGIN
     declare var_assign_days int;
     declare var_user_id int;
     declare var_device_id int;
-    declare var_return_to_id int;
     declare assigned_id int;
 
     
@@ -1369,8 +1374,7 @@ BEGIN
     select assign_device_id into assigned_id from assign_device where user_id=var_user_id and device_id=var_device_id;
     
 	select assign_date into var_assign_date from assign_device where assign_device_id=assigned_id;
-	select return_to into var_return_to_id from assign_device where assign_device_id=assigned_id;
-    
+	
 	select specification_id into var_specification_id from device where device_id = var_device_id;
     select device_type_id into var_type_id from device where device_id = var_device_id;
     select device_brand_id into var_brand_id from device where device_id = var_device_id;
@@ -1384,7 +1388,7 @@ BEGIN
     INSERT INTO `request_history`
 	(`specification_id`,`device_type`,`device_brand`,`device_model`,`status_id`,`assign_date`,`assign_days`,`return_date`,`user_id`,`device_id`,`return_to`)
 	VALUES
-    (var_specification_id,var_type_id,var_brand_id,var_model_id,var_status_id,var_assign_date,var_assign_days,var_return_date,var_user_id,var_device_id,var_return_to_id);
+    (var_specification_id,var_type_id,var_brand_id,var_model_id,var_status_id,var_assign_date,var_assign_days,var_return_date,var_user_id,var_device_id,var_admin_id);
     
 	select status_id into var_status_id from `status` where status_name="Free";
 	UPDATE `device`
@@ -1484,19 +1488,19 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `admin_assign_device`(IN device_id int,
-IN return_date varchar(30),
+IN return_date date,
 IN first_name varchar(40),
 IN middle_name varchar(40),
 IN last_name varchar(40))
 BEGIN
 declare id int;
-declare status_id int;
+declare s_id int;
 	select user_id into id from user where user.first_name=first_name and user.middle_name=middle_name
     and user.last_name = last_name;
 	insert into assign_device(`device_id`,`return_date`,`assign_date`,`user_id`,
-    `assigned_by`,`return_to`) values(device_id,return_date,curdate(),id,30,30);
-    select status.status_id into status_id from status where status.status_name ="Allocated";
-     update device set status_id=status_id where device_id=device_id;
+    `assigned_by`,`return_to`,`status_id`) values(device_id,return_date,curdate(),id,30,30,3);
+    select status.status_id into s_id from status where status.status_name ="Allocated";
+     update device set device.status_id=s_id where device.device_id=device_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1599,7 +1603,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user`(
 in userr_id int
 )
 BEGIN
-
 declare id int;
 declare tempid int;
 /*declare exit handler for sqlexception
@@ -1620,11 +1623,10 @@ delete from request_device where request_device.user_id = id;
 #delete from user_to_contact where user_id=id;
 set sql_safe_updates = 0;
 delete from request_history where request_history.user_id = id and request_history_id <> 0;
-
 delete from assign_device where assign_device.user_id = id;
 delete from complaints where complaints.employee_id = id;
 delete from new_device_request where new_device_request.employee_id = id;
-delete from notification where notification.employee_id = id;
+delete from notification where notification.user_id = id;
 #delete from contact_number where contact_id=tempid;
 delete from user_to_dependent where user_id=id;
 delete from user_to_role where user_id=id;
@@ -1634,7 +1636,6 @@ delete from education_details where education_details_id=tempid;
 delete from user where user_id=id;
 set sql_safe_updates =1;
 commit;
-
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1718,15 +1719,18 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getdevicebyid`(
-in device_id int
+in id int
 )
 BEGIN
-select device_id,device_type_id,device_brand_id,device_model_id,color,price,serial_number,
+select device_id,device_type.type,device_brand.brand,device_model.model,color,price,serial_number,
 warranty_year,purchase_date,status_id,specification_id,entry_date
-from device where device.device_id=device_id;
+from device,device_brand,device_model,device_type where device.device_id=id
+and device.device_brand_id=device_brand.device_brand_id
+and device.device_type_id=device_type.device_type_id
+and device.device_model_id=device_model.device_model_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2108,12 +2112,12 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertdevice`(
-in device_type_id int,
-in device_brand_id int,
-in device_model_id int,
+in device_type varchar(30),
+in device_brand varchar(30),
+in device_model varchar(30),
 in color varchar(50),
 in price varchar(50),
 in  serial_number int,
@@ -2124,9 +2128,15 @@ in specification_id int,
  in entry_date datetime
 )
 BEGIN
+declare var_device_type_id int;
+declare var_device_brand_id int;
+declare var_device_model_id int;
+select device_type_id into var_device_type_id from device_type where type= device_type;
+select device_brand_id into var_device_brand_id from device_brand where brand= device_brand;
+select device_model_id into var_device_model_id from device_model where model= device_model;
 insert into device   (device_type_id,device_brand_id,device_model_id,color,
 price,serial_number,warranty_year,purchase_date,status_id,specification_id,
-entry_date) values (device_type_id,device_brand_id,device_model_id,color,
+entry_date) values (var_device_type_id,var_device_brand_id,var_device_model_id,color,
 price,serial_number,warranty_year,purchase_date,status_id,specification_id,entry_date);
 END ;;
 DELIMITER ;
@@ -2174,7 +2184,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_contact`(
 in ph_num_type varchar(45),
@@ -2199,7 +2209,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `insert_notification` */;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_fault_request` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -2208,6 +2218,32 @@ DELIMITER ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_fault_request`(
+in var_user_id int,
+in var_device_id int,
+in comment varchar(200)
+)
+BEGIN
+	
+		insert into complaints(employee_id,device_id,comments,complaint_date) values (var_user_id,var_device_id,comment,now());
+       
+	
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_notification` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_notification`(
 in var_device_model varchar(50),
@@ -2231,12 +2267,8 @@ BEGIN
 	and device.device_brand_id=brand_id
 	and device.device_type_id=type_id
     and status.status_name='Pending'
-    and not exists (select user_id, device_id,status_id from notification
-    inner join status using(status_id)
-    where notification.user_id=assign_device.user_id
-    and notification.device_id=assign_device.device_id
-    and status.status_name='Pending'));
-	END ;;
+    );
+END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -2322,7 +2354,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_user`(
 in salut varchar(45),
@@ -2336,6 +2368,7 @@ in password varchar(50),
 in passwordHash longblob,
 in passwordSalt longblob,
 in dob date,
+in role_name varchar(45),
 in gend varchar(45),
 in doj date,
 in is_ac varchar(45),
@@ -2357,13 +2390,14 @@ SELECT department_id INTO dept_id FROM department WHERE department_name = dept_n
 SELECT designation_id INTO des_id FROM designation WHERE designation_name = desig;
 select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
 select status_id into _status_id from status where status.status_name = is_ac;
-SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
+SELECT role_id INTO user_role FROM role WHERE role.role_name = role_name;
 SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
 INSERT INTO `user`
 (`salutation_id`,`first_name`,`middle_name`,`last_name`,`department_designation_id`,`email`,`password`,`hashpassword`,`saltpassword`,`gender_id`,`date_of_birth`,`date_of_joining`,`status`)
 VALUES
 (sal_id,f_name,m_name,l_name,dept_desig_id,email,SHA2(password, 224),passwordHash,passwordSalt,g_id,dob,doj,_status_id);
 set empl_id:=last_insert_id();
+insert into user_auth values (empl_id,email,passwordHash,passwordSalt);
 insert into user_to_role values(empl_id, user_role);
 set user_id_out:= empl_id;
 END ;;
@@ -2483,7 +2517,64 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `reject_return` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reject_return`(
+in return_id int,
+in var_admin_id int)
+BEGIN
+	
+	declare var_user_id int;
+    declare var_device_id int;
+    declare var_return_to_id int;
+    
+    select user_id into var_user_id from return_request where return_request_id=return_id;
+	select device_id into var_device_id from return_request where return_request_id=return_id;
+	update assign_device set status_id=(select status_id from status where status_name='Allocated') where user_id=var_user_id and device_id=var_device_id;
+    insert into request_history(`specification_id`,`device_type`,`device_brand`,`device_model`,`status_id`,`user_id`,`device_id`,`return_to`)
+    (select specification_id,device_type_id,device_brand_id,device_model_id,status.status_id,var_user_id,device_id,var_admin_id
+    from device,status 
+    where device.device_id=var_device_id
+    and status.status_name='Rejected');
+    delete from return_request where return_request_id=return_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `reject_user_request` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reject_user_request`(
+in var_notif_id int
+)
+BEGIN
+    declare var_status_id int;
+    select status.status_id into var_status_id from status where status_name='Rejected';
+    update notification set status_id=var_status_id where notification_id=var_notif_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `report_faults` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -2493,14 +2584,42 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reject_user_request`(
-in var_user_id int,
-in var_device_id int
+CREATE DEFINER=`root`@`localhost` PROCEDURE `report_faults`(
+in var_complain_id int
 )
 BEGIN
-    declare var_status_id int;
-    select status.status_id into var_status_id from status where status_name='Rejected';
-    update notification set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id;
+declare var_status_id_complaint int;
+declare var_status_id_device int;
+declare var_device_id int;
+select device_id into var_device_id from complaints where complaint_id=var_complain_id;
+select status_id into var_status_id_complaint from status where status_name="Resolved";
+select status_id into var_status_id_device from status where status_name="Faulty";
+update complaints set complaint_status_id=var_status_id_complaint where complaint_id=var_complain_id;
+update device set status_id=var_status_id_device where device_id=var_device_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `resolve_complaint` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `resolve_complaint`(
+in var_complain_id int
+)
+BEGIN
+declare var_status_id int;
+select status_id into var_status_id from status where status_name="Resolved";
+update complaints set complaint_status_id=var_status_id where complaint_id=var_complain_id;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2515,13 +2634,13 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updatedevice`(
 in device_id int,
-in device_type_id int,
-in device_brand_id int,
-in device_model_id int,
+in device_type varchar(30),
+in device_brand varchar(30),
+in device_model varchar(30),
 in color varchar(50),
 in price varchar(50),
 in  serial_number int,
@@ -2532,9 +2651,15 @@ in specification_id int,
 in entry_date datetime
 )
 BEGIN
-update device set device.device_type_id=device_type_id,
-device.device_brand_id=device_brand_id,
-device.device_model_id=device_model_id,
+declare var_type_id int;
+declare var_brand_id int;
+declare var_model_id int;
+select device_type.device_type_id into var_type_id from device_type where device_type.type = device_type;
+select device_brand.device_brand_id into var_brand_id from device_brand where device_brand.brand = device_brand;
+select device_model.device_model_id into var_model_id from device_model where device_model.model = device_model;
+update device set device.device_type_id=var_type_id,
+device.device_brand_id=var_brand_id,
+device.device_model_id=var_model_id,
 device.color=color,
 device.price=price,
 device.serial_number=serial_number,
@@ -2542,7 +2667,8 @@ device.warranty_year=warranty_year,
 device.purchase_date=purchase_date,
 device.status_id=status_id,
 device.specification_id=specification_id,
-device.entry_date=entry_date where device.device_id=device_id;
+device.entry_date=entry_date  where device.device_id=device_id
+;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2686,7 +2812,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_user`(
 in salut varchar(45),
@@ -2699,6 +2825,7 @@ in email varchar(50),
 in password varchar(50),
 in passwordHash longblob,
 in passwordSalt longblob,
+in role_name varchar(45),
 in userr_id varchar(50),
 in dob date,
 in gend varchar(45),
@@ -2712,7 +2839,7 @@ declare dept_id int;
 declare des_id int;
 declare empl_id int;
 declare _status_id int;
-#declare user_role int;
+declare user_role int;
 #declare contact_id int;
 declare dept_desig_id int;
 declare g_id int;
@@ -2728,10 +2855,10 @@ SELECT designation_id INTO des_id FROM designation WHERE designation_name = desi
 select department_designation_id into dept_desig_id from department_designation where department_designation.department_id=dept_id and department_designation.designation_id=des_id;
 select status_id into _status_id from status where status.status_name = is_ac;
 #SELECT country_id INTO ctry_id FROM country WHERE country_name = country;
-#SELECT role_id INTO user_role FROM role WHERE role_name = 'user';
+SELECT role_id INTO user_role FROM role WHERE role.role_name = role_name;
 #SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
 SELECT gender_id INTO g_id FROM gender WHERE gender.gender = gend;
-UPDATE user
+UPDATE user,user_to_role
 SET
 user.salutation_id=sal_id ,
 user.first_name=f_name,
@@ -2742,10 +2869,11 @@ user.email=email,
 user.password=if(password is null,user.password,SHA2(password,224)),
 user.hashpassword=if(passwordHash is null,user.hashpassword,passwordHash),
 user.saltpassword=if(passwordSalt is null,user.saltpassword,passwordSalt),
+user_to_role.role_id = user_role,
 user.gender_id =g_id ,
 user.date_of_birth =dob,
 user.date_of_joining =doj
-WHERE user.user_id=userr_id;
+WHERE user.user_id=userr_id and user_to_role.user_id=user.user_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2762,4 +2890,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-13 21:27:35
+-- Dump completed on 2020-04-22 13:32:24

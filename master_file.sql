@@ -1031,7 +1031,6 @@ CREATE TABLE `user` (
   `last_name` varchar(45) DEFAULT NULL,
   `department_designation_id` int(11) DEFAULT NULL,
   `email` varchar(70) NOT NULL,
-  `password` varchar(224) NOT NULL,
   `gender_id` int(11) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `date_of_joining` date DEFAULT NULL,
@@ -1058,7 +1057,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com','bdd03d560993e675516ba5a50638b6531ac2ac3d5847c61916cfced6',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,','7247032449188a048603a8961a8bf7a41ec5a91036da06e2605b60a1',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com','c6b843a09829295303844eb312e7fed148e6cf8cc46d59b6fc66411a',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com','a5501dcc3666992fab01a3ca6bc850764e4083ca6c7debce8e4a7ed2',2,'1995-02-02','2020-01-15',2,'Ž\àoP>/\à61‚x“Ð†ˆ{|\î6mfþü\Ô\Êw­L¨œ\Ü6^Rý_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\ÝÀ‹®…VðDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=ŽKyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFþX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Þ0%Wž´<jýÀ',NULL),(75,7,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com','a5501dcc3666992fab01a3ca6bc850764e4083ca6c7debce8e4a7ed2',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰žQl&\Éª¬’ƒ\Æ%\àÎ™õðVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ð}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁþÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âð‘½0\Ô!\äŽ\ì \Í\È\â¢KB€2¸ùú',NULL);
+INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'Ž\àoP>/\à61‚x“Ð†ˆ{|\î6mfþü\Ô\Êw­L¨œ\Ü6^Rý_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\ÝÀ‹®…VðDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=ŽKyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFþX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Þ0%Wž´<jýÀ',NULL),(75,7,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰žQl&\Éª¬’ƒ\Æ%\àÎ™õðVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ð}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁþÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âð‘½0\Ô!\äŽ\ì \Í\È\â¢KB€2¸ùú',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2914,4 +2913,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 19:32:20
+-- Dump completed on 2020-04-22 19:36:10

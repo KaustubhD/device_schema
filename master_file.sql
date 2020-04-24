@@ -37,7 +37,7 @@ CREATE TABLE `address` (
   KEY `user_id_address_idx` (`user_id`),
   CONSTRAINT `address_to_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (40,4,'HNO.123','sec-28',1,'121001',16),(41,5,'HNO.123','sec-28',1,'121001',16),(45,4,'1234','sec-19',1,'121001',66),(46,5,'879','sec-7',1,'121001',66),(47,4,'4567569','patel nagar',2,'121001',67),(48,5,'911756895680','sec-82',2,'121001',67),(57,4,'HNo. 964','sec- 20',1119,'121005',74),(58,5,'HNo. 964','sec- 20',1119,'121005',75);
+INSERT INTO `address` VALUES (40,4,'HNO.123','sec-28',1,'121001',16),(41,5,'HNO.123','sec-28',1,'121001',16),(45,4,'1234','sec-19',1,'121001',66),(46,5,'879','sec-7',1,'121001',66),(47,4,'4567569','patel nagar',2,'121001',67),(48,5,'911756895680','sec-82',2,'121001',67),(57,4,'HNo. 964','sec- 20',1119,'121005',74),(58,5,'HNo. 964','sec- 20',1119,'121005',74),(59,4,'Hno. 559','sec-11',1119,'121005',75),(60,5,'Hno. 559','sec-11',1119,'121005',75);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +239,7 @@ CREATE TABLE `contact_number` (
 
 LOCK TABLES `contact_number` WRITE;
 /*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
-INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555',16),(39,6,1,'','5231435654',16),(49,4,1,NULL,'87845534',66),(50,6,1,NULL,'345423423',66),(51,4,101,'0129','7768573327',67),(52,6,101,'0129','5353443427',67),(58,4,101,'0129','8523697410',74),(59,4,101,'0129','7894561332',75);
+INSERT INTO `contact_number` VALUES (23,4,1,'','55555555555',16),(39,6,1,'','5231435654',16),(49,4,1,NULL,'8784553466',66),(50,6,1,NULL,'3454234231',66),(51,4,101,'0129','7768573327',67),(52,6,101,'0129','5353443427',67),(58,4,101,'0129','8523697410',74),(59,4,101,'0129','7894561332',75);
 /*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,7 +360,7 @@ CREATE TABLE `department_designation` (
   KEY `designation_map_department_designation_idx` (`designation_id`),
   CONSTRAINT `department_map_department_designation` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`),
   CONSTRAINT `designation_map_department_designation` FOREIGN KEY (`designation_id`) REFERENCES `designation` (`designation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +369,7 @@ CREATE TABLE `department_designation` (
 
 LOCK TABLES `department_designation` WRITE;
 /*!40000 ALTER TABLE `department_designation` DISABLE KEYS */;
-INSERT INTO `department_designation` VALUES (1,8,8);
+INSERT INTO `department_designation` VALUES (1,8,8),(19,2,8),(20,2,4),(21,2,5),(22,4,8),(23,4,3),(24,8,5),(25,5,6),(26,6,6),(27,7,6),(28,1,1),(29,1,2),(30,1,3),(31,1,4),(32,1,5),(33,1,6),(34,7,7);
 /*!40000 ALTER TABLE `department_designation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1057,7 +1057,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'Ž\àoP>/\à61‚x“Ð†ˆ{|\î6mfþü\Ô\Êw­L¨œ\Ü6^Rý_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\ÝÀ‹®…VðDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=ŽKyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFþX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Þ0%Wž´<jýÀ',NULL),(75,7,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰žQl&\Éª¬’ƒ\Æ%\àÎ™õðVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ð}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁþÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âð‘½0\Ô!\äŽ\ì \Í\È\â¢KB€2¸ùú',NULL),(76,NULL,'Kutta',NULL,'Bisht',NULL,'kbisht@ex2india.com',NULL,NULL,NULL,NULL,'\ÎÃš}wbGn\Ø Ü¢\Ü‰Mvœ %\Þ\ÊA§7iR&’•ñÁ2ð2‡: zXGh\'\Ð\ÛNX´o§(c¶94ñ','ª—Œt\á\ÙHÇ‚:oj\Ù@c-:««f\ä\È+\0½j´¦š¾‡¯*Zö™Î©qõ$k_7J\Ý‰/µ0Kt¡/ÿ:·Ly(zl°9\îù:Xù†\îM”™ZUI\Ä8\ÊÚ¢”‘A½\ç\Ñ\ìi“¸\ç´\ê’\å\à\çW\âß°•L°v®\Õ\Ö\"\ï',NULL);
+INSERT INTO `user` VALUES (16,5,'abcde',NULL,'defgh',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'Ž\àoP>/\à61‚x“Ð†ˆ{|\î6mfþü\Ô\Êw­L¨œ\Ü6^Rý_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\ÝÀ‹®…VðDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=ŽKyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFþX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Þ0%Wž´<jýÀ',NULL),(75,5,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰žQl&\Éª¬’ƒ\Æ%\àÎ™õðVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ð}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁþÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âð‘½0\Ô!\äŽ\ì \Í\È\â¢KB€2¸ùú',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2912,4 +2912,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-24  9:33:21
+-- Dump completed on 2020-04-24 10:10:10

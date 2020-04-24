@@ -701,7 +701,7 @@ CREATE TABLE `permission` (
   `permission_id` int(11) NOT NULL AUTO_INCREMENT,
   `permission_name` varchar(45) NOT NULL,
   PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -710,7 +710,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device'),(4,'write_device'),(5,'request_device'),(9,'abcd');
+INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device'),(4,'write_device'),(5,'request_device');
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -763,7 +763,7 @@ CREATE TABLE `request_device` (
   CONSTRAINT `request_device_to_model_id` FOREIGN KEY (`device_model_id`) REFERENCES `device_model` (`device_model_id`),
   CONSTRAINT `request_to_specification_id` FOREIGN KEY (`specification_id`) REFERENCES `specification` (`specification_id`),
   CONSTRAINT `request_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -817,7 +817,7 @@ CREATE TABLE `request_history` (
   CONSTRAINT `request_history_to_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_action_by` FOREIGN KEY (`action_by`) REFERENCES `user` (`user_id`),
   CONSTRAINT `request_history_to_user_id_returned` FOREIGN KEY (`return_to`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -826,7 +826,7 @@ CREATE TABLE `request_history` (
 
 LOCK TABLES `request_history` WRITE;
 /*!40000 ALTER TABLE `request_history` DISABLE KEYS */;
-INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16),(9,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,67,NULL,16,NULL),(10,3,2,5,3,7,NULL,'2020-04-01',8,'2020-04-09',16,3,NULL,16),(11,2,1,2,1,7,NULL,'2020-04-09',1,'2020-04-10',67,2,NULL,16),(12,7,2,7,16,8,'2020-04-05',NULL,NULL,NULL,67,NULL,NULL,NULL);
+INSERT INTO `request_history` VALUES (1,1,1,1,1,7,NULL,'2020-04-01',0,'2020-04-01',16,1,NULL,16),(2,3,2,5,3,8,'2020-03-27',NULL,NULL,NULL,67,NULL,NULL,NULL),(3,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',66,3,NULL,16),(4,1,1,2,1,8,'2020-04-01',NULL,NULL,NULL,67,NULL,NULL,NULL),(6,3,2,5,3,8,'2020-04-01',NULL,NULL,NULL,16,NULL,NULL,NULL),(7,3,2,5,3,7,NULL,'2020-04-01',0,'2020-04-01',67,4,NULL,16),(9,1,1,2,1,6,'2020-04-01',NULL,NULL,NULL,67,NULL,16,NULL),(10,3,2,5,3,7,NULL,'2020-04-01',8,'2020-04-09',16,3,NULL,16),(11,2,1,2,1,7,NULL,'2020-04-09',1,'2020-04-10',67,2,NULL,16),(12,7,2,7,16,8,'2020-04-05',NULL,NULL,NULL,67,NULL,NULL,NULL),(13,7,2,7,15,8,'2020-04-23',NULL,NULL,NULL,16,NULL,NULL,NULL),(14,2,1,5,13,8,'2020-04-23',NULL,NULL,NULL,16,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `request_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -872,7 +872,7 @@ CREATE TABLE `role` (
   `role_name` varchar(20) NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_name_UNIQUE` (`role_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -908,7 +908,7 @@ CREATE TABLE `role_to_permission` (
 
 LOCK TABLES `role_to_permission` WRITE;
 /*!40000 ALTER TABLE `role_to_permission` DISABLE KEYS */;
-INSERT INTO `role_to_permission` VALUES (1,1),(2,1),(3,1),(3,2),(3,3),(3,4);
+INSERT INTO `role_to_permission` VALUES (2,1),(3,1),(3,2),(3,3);
 /*!40000 ALTER TABLE `role_to_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1048,7 +1048,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
   CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`),
   CONSTRAINT `user_to_status` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1057,7 +1057,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'\àoP>/\à61‚x“Ğ†ˆ{|\î6mfşü\Ô\Êw­L¨œ\Ü6^Rı_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\İÀ‹®…VğDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=KyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFşX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Ş0%W´<jıÀ',NULL),(75,7,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰Ql&\Éª¬’ƒ\Æ%\àÎ™õğVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ğ}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁşÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âğ‘½0\Ô!\ä\ì \Í\È\â¢KB€2¸ùú',NULL);
+INSERT INTO `user` VALUES (16,5,'abc',NULL,'def',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com,',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'\àoP>/\à61‚x“Ğ†ˆ{|\î6mfşü\Ô\Êw­L¨œ\Ü6^Rı_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\İÀ‹®…VğDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=KyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFşX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Ş0%W´<jıÀ',NULL),(75,7,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰Ql&\Éª¬’ƒ\Æ%\àÎ™õğVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ğ}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁşÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âğ‘½0\Ô!\ä\ì \Í\È\â¢KB€2¸ùú',NULL),(76,NULL,'Kutta',NULL,'Bisht',NULL,'kbisht@ex2india.com',NULL,NULL,NULL,NULL,'\ÎÃš}wbGn\Ø Ü¢\Ü‰Mvœ %\Ş\ÊA§7iR&’•ñÁ2ğ2‡: zXGh\'\Ğ\ÛNX´o§(c¶94ñ','ª—Œt\á\ÙHÇ‚:oj\Ù@c-:««f\ä\È+\0½j´¦š¾‡¯*Zö™Î©qõ$k_7J\İ‰/µ0Kt¡/ÿ:·Ly(zl°9\îù:Xù†\îM”™ZUI\Ä8\ÊÚ¢”‘A½\ç\Ñ\ìi“¸\ç´\ê’\å\à\çW\âß°•L°v®\Õ\Ö\"\ï',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2353,16 +2353,15 @@ in var_user_id int,
 in var_device_id int
 )
 BEGIN
-	declare var_status_id int;
+    declare var_status_id int;
     if((select count(*) from assign_device inner join status using(status_id) where device_id=var_device_id and user_id=var_user_id and status.status_name='Return')=0)then
-		insert into return_request(user_id,device_id,return_date) values (var_user_id,var_device_id,now());
-        select status.status_id into var_status_id from status where status_name='Accepted';
-        update notification set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id
-        and status_id=(select status_id from status where status_name='Pending');
+        insert into return_request(user_id,device_id,return_date) values (var_user_id,var_device_id,now());
         select status.status_id into var_status_id from status where status_name='Return';
         update assign_device set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id;
     end if;
-	
+    select status.status_id into var_status_id from status where status_name='Accepted';
+    update notification set status_id=var_status_id where user_id=var_user_id and device_id=var_device_id
+    and status_id=(select status_id from status where status_name='Pending');
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2913,4 +2912,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 19:36:10
+-- Dump completed on 2020-04-24  9:33:21

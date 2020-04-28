@@ -701,7 +701,7 @@ CREATE TABLE `permission` (
   `permission_id` int(11) NOT NULL AUTO_INCREMENT,
   `permission_name` varchar(45) NOT NULL,
   PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -710,7 +710,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device'),(4,'write_device'),(5,'request_device');
+INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device'),(4,'write_device'),(5,'request_device'),(12,'read_all_users');
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -898,7 +898,7 @@ CREATE TABLE `role_to_permission` (
   PRIMARY KEY (`role_id`,`permission_id`),
   KEY `permission_to_permission_idx` (`permission_id`),
   CONSTRAINT `permission_to_permission` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`),
-  CONSTRAINT `role_to_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
+  CONSTRAINT `role_to_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -908,7 +908,7 @@ CREATE TABLE `role_to_permission` (
 
 LOCK TABLES `role_to_permission` WRITE;
 /*!40000 ALTER TABLE `role_to_permission` DISABLE KEYS */;
-INSERT INTO `role_to_permission` VALUES (2,1),(3,1),(3,2),(3,3);
+INSERT INTO `role_to_permission` VALUES (2,1),(3,1),(2,2),(2,3),(2,4),(2,12);
 /*!40000 ALTER TABLE `role_to_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1048,7 +1048,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_to_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`),
   CONSTRAINT `user_to_salutation` FOREIGN KEY (`salutation_id`) REFERENCES `salutation` (`salutation_id`),
   CONSTRAINT `user_to_status` FOREIGN KEY (`status`) REFERENCES `status` (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1057,34 +1057,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abcde',NULL,'defgh',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,NULL,NULL,NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'Ž\àoP>/\à61‚x“Ð†ˆ{|\î6mfþü\Ô\Êw­L¨œ\Ü6^Rý_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\ÝÀ‹®…VðDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=ŽKyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFþX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Þ0%Wž´<jýÀ',NULL),(75,5,'Kaustubh',NULL,'Dhasmana',1,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰žQl&\Éª¬’ƒ\Æ%\àÎ™õðVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ð}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁþÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âð‘½0\Ô!\äŽ\ì \Í\È\â¢KB€2¸ùú',NULL);
+INSERT INTO `user` VALUES (16,5,'abcde',NULL,'defgh',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,'aŽA|ª\ÖÀ–\ãHøgt\ZõIÑ¬\ìvr«\êø>Wf¼òuZª\Z@¥\É:z€—ZùW”%`\ÂA\0\âü\Î\è\ìh','¦–7,œtÀF]Ha\Øz\ÚiDµm«\ïµO*vóýýGt¯j?\æ/B{ycU734y*o+g\ãce0k\ä\Ã\íoF4t\Ñ#“@›&\Z|d\\Ë‘>«BunGf›?¤7LtQ\Ü\ß\àÁV¦lð\éHÁ\È_Œ\ãr¹¬Š\r\Ïû%\Ô\ï\á',NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'Ž\àoP>/\à61‚x“Ð†ˆ{|\î6mfþü\Ô\Êw­L¨œ\Ü6^Rý_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\ÝÀ‹®…VðDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=ŽKyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFþX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Þ0%Wž´<jýÀ',NULL),(75,5,'Kaustubh',NULL,'Dhasmana',34,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰žQl&\Éª¬’ƒ\Æ%\àÎ™õðVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ð}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁþÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âð‘½0\Ô!\äŽ\ì \Í\È\â¢KB€2¸ùú',NULL),(78,NULL,'qwerty','hhh','asdfg',NULL,'qwerty@ex2india.com',NULL,'0001-01-01','0001-01-01',1,'§£N\ÛOÃ›+q¹_¡\ÈKZV\Ò\ã\é€“dDè–Ÿ<}j@¦Î»\Æ6%	\Ìx4\0\\CeT©\\‹\rX=ý¼xœÉ¾\Ñ','ôÙ©[rõ\Ò\È\r5¯†k˜-tTrüuŸþ{\"b2º\äM¦\"¸\âÙ„\Ã\'^ÓˆE½Bé­“(g9cf›\Þ•]‹2ƒÏð$µ\'Bó_÷1PFñi\á%¸“Y€ID\Úa\Ûu‰tõL[‹ýö\"i\Í$y\Òƒ‰C\îQ\'@”\Ìk',NULL),(79,NULL,'Prakshee',NULL,'Rajpurohit',NULL,'prajpurohit@ex2india.com',NULL,NULL,NULL,NULL,'ý\è\0X¨>Žf3J\Ý\Ý?Œö½’,ˆ\Øm¦\"\Z>QJ¨P-HvIÃ›ƒm!A\ß\íö€…Û¤¥\å©\ám6ïƒ%\È\Ëú','w ¶ú~¢u {ŒS«u®­h8uF‚\ài)S!#<\Ç÷7Úšú8ª˜À†F”}\Â\ßÿNE\É‡¦Ãµbû¡õœ+’.;\0´ó<A\Î\×f\Ô²=>R\ÚÁ\è\â¨Kór‡;\È \Ýó–E\Ù\ÝXslÇ•\Í!²Ú›\Û\Ü;',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_auth`
---
-
-DROP TABLE IF EXISTS `user_auth`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `user_auth` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `hashpassword` varbinary(500) DEFAULT NULL,
-  `saltpassword` varbinary(500) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_auth`
---
-
-LOCK TABLES `user_auth` WRITE;
-/*!40000 ALTER TABLE `user_auth` DISABLE KEYS */;
-INSERT INTO `user_auth` VALUES (16,'abc@ex2india.com','\îðtqdr\Ë-o¡\rŽU‰«±ÅšSâ…ƒ0Íœ\Ð\Ä77\æIoŸØ…Mê“¯¿\á_\'•µ\Ò\ç\0ô;‰(Oû† .','}4%%‡‡\Çj‡ŒŸ.\Ãn«²\×	ƒw©›q9mo\r\æ!E¸¹\ßlœ\Ö\"M €\'!\ç¥ù>¾1\ß/œ)y÷„G\0\ÞLŒ\Ú\Z+j=þ\Ìg\ì\Â-\à=eT¾uÜ”|a‹õXö3†›…ª:ˆ\Ô\ä˜aQ¬tŒ^\Ç\Â\Â\ãß®\Ì4¾\éõ\Õ\\¸'),(67,'nchauhan@ex2india.com','\Ýq\É	ú¢63#n‚?Ñ«}‡x˜\ïÇ–þ\Øñ\Ï¢À‘Ê½¹\í\Ò!€:a\ËpÀ@c¢«\"+ó\ê©\æ¤üL3šV\È ,ˆ','‚¥5ù\ÃÐ¿\éHV„j™\Ð\ÚA_†~¿;\Þ÷z0üÿˆ¥fY°­ý\íŽa·]\è5A\çþ\Ã\ë¦F¬@öS»ü®TÁø|3oû¯\ÏS~‰E»–\\-\Å™—·C}Â·•=\"6\å~/3ÿ·Ü·@Q.>–„&Ö“\Ø3.;÷nWV}®\Ã<');
-/*!40000 ALTER TABLE `user_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1152,7 +1126,7 @@ CREATE TABLE `user_to_role` (
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `role_id_idx` (`role_id`),
-  CONSTRAINT `role_id_to_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
+  CONSTRAINT `role_id_to_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE,
   CONSTRAINT `user_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1163,7 +1137,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (66,1),(67,1),(74,1),(75,1),(16,2);
+INSERT INTO `user_to_role` VALUES (66,1),(67,1),(74,1),(75,1),(78,1),(16,2);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2002,23 +1976,23 @@ group_concat(distinct if(contact_type='Home',area_code,NULL)) as 'home_area_code
 group_concat(distinct if(contact_type='Home',number,NULL)) as 'home_number'
 from user
 /*inner join user_to_address using(user_id)*/
-inner join address using(user_id)
-inner join address_type using(address_type_id)
-inner join city using(city_id)
-inner join state using(state_id)
-inner join country c on c.country_id=state.country_id
+left join address using(user_id)
+left join address_type using(address_type_id)
+left join city using(city_id)
+left join state using(state_id)
+left join country c on c.country_id=state.country_id
 /*inner join user_to_contact using(user_id) */
-inner join contact_number using(user_id)
-inner join contact_type using(contact_type_id)
-inner join country ca on ca.country_id=contact_number.country_id
-inner join salutation using(salutation_id)
-inner join department_designation using(department_designation_id)
-inner join department using(department_id)
-inner join designation using(designation_id)
-inner join gender using(gender_id)
-inner join status on user.status=status.status_id
-inner join user_to_role using(user_id)
-inner join role using(role_id)
+left join contact_number using(user_id)
+left join contact_type using(contact_type_id)
+left join country ca on ca.country_id=contact_number.country_id
+left join salutation using(salutation_id)
+left join department_designation using(department_designation_id)
+left join department using(department_id)
+left join designation using(designation_id)
+left join gender using(gender_id)
+left join status on user.status=status.status_id
+left join user_to_role using(user_id)
+left join role using(role_id)
 where user.user_id=user_id
 group by user_id, role_id;
 END ;;
@@ -2079,7 +2053,7 @@ select user_id,salutation,first_name,middle_name,last_name,role_name,department_
   inner join contact_type using(contact_type_id)
   inner join country ca on ca.country_id=contact_number.country_id
   inner join user_to_role using(user_id)
-  inner join role using(role_id)  where user.status_id=1
+  inner join role using(role_id) where user.status_id=1
   and get_full_name(user.user_id) like CONCAT('%', namee, '%') or user.email like CONCAT('%', namee, '%') or status_name like CONCAT('%', namee, '%')
   group by user_id;
 END ;;
@@ -2175,7 +2149,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_address`(
 in addres_type varchar(45),
@@ -2188,12 +2162,9 @@ in pin varchar(6),
 in userr_id int
 )
 BEGIN
-	declare adrss_id int;
-    
-    set adrss_id:=insert_address_function(addres_type, addres1,addres2, city_n,state_n,country_n, pin, userr_id);
+	declare adrss_id int;    set adrss_id:=insert_address_function(addres_type, addres1,addres2, city_n,state_n,country_n, pin, userr_id);
 	#insert into `final_db`.`address` values(adrss_id);
-
-END ;;
+    END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -2207,7 +2178,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_contact`(
 in ph_num_type varchar(45),
@@ -2218,14 +2189,9 @@ in userr_id int
 )
 BEGIN
 	declare ctry_id int;
-    declare contact_id int;
-    
-	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
-	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
-    
-	INSERT INTO `contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`,`user_id`)
+    declare contact_id int;	SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+	SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;	INSERT INTO `contact_number`(`contact_type_id`,`country_id`,`area_code`,`number`,`user_id`)
 		VALUES(contact_id, ctry_id,ph_ext, ph_number,userr_id);
-
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2419,7 +2385,7 @@ INSERT INTO `user`
 VALUES
 (sal_id,f_name,m_name,l_name,dept_desig_id,email,passwordHash,passwordSalt,g_id,dob,doj,_status_id);
 set empl_id:=last_insert_id();
-insert into user_auth values (empl_id,email,passwordHash,passwordSalt);
+#insert into user_auth values (empl_id,email,passwordHash,passwordSalt);
 insert into user_to_role values(empl_id, user_role);
 set user_id_out:= empl_id;
 END ;;
@@ -2800,17 +2766,20 @@ in userr_id int
 )
 BEGIN
 declare ctry_id int;
-declare contact_id int;
+declare _contact_id int;
 #declare empl_id int;
 declare ph_id int;
 #select user_id into empl_id from user where user.user_id=userr_id;
-SELECT contact_type_id INTO contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
+SELECT contact_type_id INTO _contact_id FROM contact_type WHERE contact_type.contact_type = ph_num_type;
 SELECT country_id INTO ctry_id FROM country WHERE country.country_code = country_code;
-SELECT contact_id into ph_id from contact_number where contact_type_id = contact_id and user_id = userr_id;
+SELECT contact_id into ph_id from contact_number where contact_type_id = _contact_id and user_id = userr_id;
 if ph_id is null then
 INSERT INTO contact_number
 (contact_type_id,country_id,area_code,number,user_id)
-values(contact_id,ctry_id,ph_ext,ph_number,userr_id);
+values(_contact_id,ctry_id,ph_ext,ph_number,userr_id);
+else
+if ph_number ='' then
+delete from contact_number where contact_id=ph_id;
 else
 UPDATE contact_number
 SET
@@ -2818,7 +2787,8 @@ country_id = ctry_id,
 area_code = ph_ext,
 number = ph_number
 WHERE contact_number.user_id= userr_id and
-contact_type_id=contact_id;
+contact_type_id=_contact_id;
+end if;
 end if;
 END ;;
 DELIMITER ;
@@ -2912,4 +2882,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-24 10:10:10
+-- Dump completed on 2020-04-28 12:43:43

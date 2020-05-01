@@ -205,7 +205,7 @@ CREATE TABLE `complaints` (
 
 LOCK TABLES `complaints` WRITE;
 /*!40000 ALTER TABLE `complaints` DISABLE KEYS */;
-INSERT INTO `complaints` VALUES (1,16,1,'Broken',NULL,NULL,NULL,11);
+INSERT INTO `complaints` VALUES (1,16,1,'Broken',NULL,'2020-04-22',NULL,11);
 /*!40000 ALTER TABLE `complaints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -677,7 +677,7 @@ CREATE TABLE `notification` (
   KEY `notification_to_status_idx` (`status_id`),
   CONSTRAINT `notification_to_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`device_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `notification_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -686,7 +686,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (13,67,'Public',3,'2020-04-10',5,'Submit Possible?'),(14,66,'Public',4,'2020-04-10',9,'Submit Possible?');
+INSERT INTO `notification` VALUES (13,67,'Public',3,'2020-04-10',5,'Submit Possible?'),(14,66,'Public',4,'2020-04-10',9,'Submit Possible?'),(16,16,'Public',1,'2020-04-29',9,'Submit Possible?');
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -701,7 +701,7 @@ CREATE TABLE `permission` (
   `permission_id` int(11) NOT NULL AUTO_INCREMENT,
   `permission_name` varchar(45) NOT NULL,
   PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -872,7 +872,7 @@ CREATE TABLE `role` (
   `role_name` varchar(20) NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_name_UNIQUE` (`role_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -881,7 +881,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (2,'admin'),(3,'superadmin'),(1,'user');
+INSERT INTO `role` VALUES (43,'admin'),(3,'superadmin'),(1,'user');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -908,7 +908,7 @@ CREATE TABLE `role_to_permission` (
 
 LOCK TABLES `role_to_permission` WRITE;
 /*!40000 ALTER TABLE `role_to_permission` DISABLE KEYS */;
-INSERT INTO `role_to_permission` VALUES (2,1),(3,1),(2,2),(2,3),(2,4),(2,12);
+INSERT INTO `role_to_permission` VALUES (3,1);
 /*!40000 ALTER TABLE `role_to_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1137,7 +1137,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (66,1),(67,1),(74,1),(75,1),(78,1),(16,2);
+INSERT INTO `user_to_role` VALUES (66,1),(67,1),(74,1),(75,1),(78,1),(16,43);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1462,18 +1462,14 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `admin_assign_device`(IN device_id int,
 IN return_date varchar(30),
-IN first_name varchar(40),
-IN middle_name varchar(40),
-IN last_name varchar(40),
+IN user_id int,
 IN admin_id int)
 BEGIN
 declare id int;
-declare status_id int;	select user_id into id from user where user.first_name=first_name and if(user.middle_name is null
-     ,true ,user.middle_name=middle_name)
-    and user.last_name = last_name;
+declare status_id int;	
     select status.status_id into status_id from status where status.status_name ="Allocated";
 	insert into assign_device(`device_id`,`return_date`,`assign_date`,`user_id`,
-    `assigned_by`,`return_to`,`status_id`) values(device_id,return_date,curdate(),id,admin_id,admin_id,status_id);
+    `assigned_by`,`return_to`,`status_id`) values(device_id,return_date,curdate(),user_id,admin_id,admin_id,status_id);
     update device set device.status_id=status_id where device.device_id=device_id;
 END ;;
 DELIMITER ;
@@ -1681,31 +1677,30 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllDevice`(IN limit1 int ,offset1 int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllDevice`()
 BEGIN
-select  ad.assign_date,ad.return_date, 
-u1.first_name as assign_by_first_name,u1.middle_name as assign_by_middle_name,u1.last_name 
+select ad.assign_date,ad.return_date,
+u1.first_name as assign_by_first_name,u1.middle_name as assign_by_middle_name,u1.last_name
  as assign_by_last_name,
- u.first_name as assign_to_first_name,u.middle_name as assign_to_middle_name,u.last_name 
+ u.first_name as assign_to_first_name,u.middle_name as assign_to_middle_name,u.last_name
  as assign_to_last_name,d.device_id,dm.model,d.color,d.price,d.serial_number,d.purchase_date,
  d.entry_date,d.warranty_year, sf.* ,s.status_name, dt.type , db.brand
- from device as d inner join 
-device_type as dt inner join 
+ from device as d inner join
+device_type as dt inner join
 device_brand as db inner join
-device_model as dm inner join  
-status as s inner join 
- specification as sf  
- on 
+device_model as dm inner join
+status as s inner join
+ specification as sf
+ on
 d.device_model_id = dm.device_model_id and
 d.device_type_id = dt.device_type_id and
-d.device_brand_id =  db.device_brand_id and 
-d.status_id = s.status_id and 
-d.specification_id = sf.specification_id left join assign_device as ad 
-on d.device_id = ad.device_id left join 
- user as u  on  ad.user_id= u.user_id 
- left  join user as u1 on 
+d.device_brand_id = db.device_brand_id and
+d.status_id = s.status_id and
+d.specification_id = sf.specification_id left join assign_device as ad
+on d.device_id = ad.device_id left join
+ user as u on ad.user_id= u.user_id
+ left join user as u1 on
  u1.user_id = ad.assigned_by
-limit limit1 offset offset1
 ;
 END ;;
 DELIMITER ;
@@ -2882,4 +2877,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-28 12:43:43
+-- Dump completed on 2020-05-01 15:13:15

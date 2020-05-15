@@ -46,7 +46,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (40,4,'HNO.123','sec-28',1,'121001',16),(41,5,'HNO.123','sec-28',1,'121001',16),(45,4,'1234','sec-19',1,'121001',66),(46,5,'879','sec-7',1,'121001',66),(47,4,'4567569','patel nagar',2,'121001',67),(48,5,'911756895680','sec-82',2,'121001',67),(57,4,'HNo. 964','sec- 20',1119,'121005',74),(58,5,'HNo. 964','sec- 20',1119,'121005',74),(59,4,'Hno. 559','sec-11',1119,'121005',75),(60,5,'Hno. 559','sec-11',1119,'121005',75);
+INSERT INTO `address` VALUES (40,4,'HNO.123','sec-28',1,'121001',16),(41,5,'HNO.123','sec-28',1,'121001',16),(45,4,'1234','sec-19',1,'121001',66),(46,5,'879','sec-7',1,'121001',66),(47,4,'4567569','patel nagar',2,'121001',67),(48,5,'911756895680','sec-82',2,'121001',67),(57,4,'HNo. 964','sec- 20',1119,'121005',74),(58,5,'HNo. 964','sec- 20',1119,'121005',74),(59,4,'Hno. 559','sec-11',22168,'121005',75),(60,5,'Hno. 559','sec-11',1119,'121005',75);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,11 +185,12 @@ CREATE TABLE `complaints` (
   `employee_id` int(11) NOT NULL,
   `device_id` int(11) NOT NULL,
   `comments` varchar(50) NOT NULL,
-  `image` blob,
+  `image` longblob,
   `complaint_date` date DEFAULT NULL,
   `resolve_date` date DEFAULT NULL,
   `complaint_status_id` int(11) DEFAULT '11',
   PRIMARY KEY (`complaint_id`),
+  UNIQUE KEY `complaint_status_id_UNIQUE` (`complaint_status_id`),
   KEY `employee_id_complaints_idx` (`employee_id`),
   KEY `device_id_complaints_idx` (`device_id`),
   KEY `complaint_status_id_to_status_idx` (`complaint_status_id`),
@@ -279,7 +280,7 @@ DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_name` varchar(45) NOT NULL,
-  `country_code` varchar(45) NOT NULL,
+  `country_code` int(11) NOT NULL,
   PRIMARY KEY (`country_id`),
   UNIQUE KEY `country_name_UNIQUE` (`country_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=247 DEFAULT CHARSET=utf8;
@@ -291,7 +292,7 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
-INSERT INTO `country` VALUES (1,'Afghanistan','93'),(2,'Albania','355'),(3,'Algeria','213'),(4,'American Samoa','1684'),(5,'Andorra','376'),(6,'Angola','244'),(7,'Anguilla','1264'),(8,'Antarctica','0'),(9,'Antigua And Barbuda','1268'),(10,'Argentina','54'),(11,'Armenia','374'),(12,'Aruba','297'),(13,'Australia','61'),(14,'Austria','43'),(15,'Azerbaijan','994'),(16,'Bahamas The','1242'),(17,'Bahrain','973'),(18,'Bangladesh','880'),(19,'Barbados','1246'),(20,'Belarus','375'),(21,'Belgium','32'),(22,'Belize','501'),(23,'Benin','229'),(24,'Bermuda','1441'),(25,'Bhutan','975'),(26,'Bolivia','591'),(27,'Bosnia and Herzegovina','387'),(28,'Botswana','267'),(29,'Bouvet Island','0'),(30,'Brazil','55'),(31,'British Indian Ocean Territory','246'),(32,'Brunei','673'),(33,'Bulgaria','359'),(34,'Burkina Faso','226'),(35,'Burundi','257'),(36,'Cambodia','855'),(37,'Cameroon','237'),(38,'Canada','1'),(39,'Cape Verde','238'),(40,'Cayman Islands','1345'),(41,'Central African Republic','236'),(42,'Chad','235'),(43,'Chile','56'),(44,'China','86'),(45,'Christmas Island','61'),(46,'Cocos (Keeling) Islands','672'),(47,'Colombia','57'),(48,'Comoros','269'),(49,'Republic Of The Congo','242'),(50,'Democratic Republic Of The Congo','242'),(51,'Cook Islands','682'),(52,'Costa Rica','506'),(53,'Cote D\'Ivoire (Ivory Coast)','225'),(54,'Croatia (Hrvatska)','385'),(55,'Cuba','53'),(56,'Cyprus','357'),(57,'Czech Republic','420'),(58,'Denmark','45'),(59,'Djibouti','253'),(60,'Dominica','1767'),(61,'Dominican Republic','1809'),(62,'East Timor','670'),(63,'Ecuador','593'),(64,'Egypt','20'),(65,'El Salvador','503'),(66,'Equatorial Guinea','240'),(67,'Eritrea','291'),(68,'Estonia','372'),(69,'Ethiopia','251'),(70,'External Territories of Australia','61'),(71,'Falkland Islands','500'),(72,'Faroe Islands','298'),(73,'Fiji Islands','679'),(74,'Finland','358'),(75,'France','33'),(76,'French Guiana','594'),(77,'French Polynesia','689'),(78,'French Southern Territories','0'),(79,'Gabon','241'),(80,'Gambia The','220'),(81,'Georgia','995'),(82,'Germany','49'),(83,'Ghana','233'),(84,'Gibraltar','350'),(85,'Greece','30'),(86,'Greenland','299'),(87,'Grenada','1473'),(88,'Guadeloupe','590'),(89,'Guam','1671'),(90,'Guatemala','502'),(91,'Guernsey and Alderney','44'),(92,'Guinea','224'),(93,'Guinea-Bissau','245'),(94,'Guyana','592'),(95,'Haiti','509'),(96,'Heard and McDonald Islands','0'),(97,'Honduras','504'),(98,'Hong Kong S.A.R.','852'),(99,'Hungary','36'),(100,'Iceland','354'),(101,'India','91'),(102,'Indonesia','62'),(103,'Iran','98'),(104,'Iraq','964'),(105,'Ireland','353'),(106,'Israel','972'),(107,'Italy','39'),(108,'Jamaica','1876'),(109,'Japan','81'),(110,'Jersey','44'),(111,'Jordan','962'),(112,'Kazakhstan','7'),(113,'Kenya','254'),(114,'Kiribati','686'),(115,'Korea North','850'),(116,'Korea South','82'),(117,'Kuwait','965'),(118,'Kyrgyzstan','996'),(119,'Laos','856'),(120,'Latvia','371'),(121,'Lebanon','961'),(122,'Lesotho','266'),(123,'Liberia','231'),(124,'Libya','218'),(125,'Liechtenstein','423'),(126,'Lithuania','370'),(127,'Luxembourg','352'),(128,'Macau S.A.R.','853'),(129,'Macedonia','389'),(130,'Madagascar','261'),(131,'Malawi','265'),(132,'Malaysia','60'),(133,'Maldives','960'),(134,'Mali','223'),(135,'Malta','356'),(136,'Man (Isle of)','44'),(137,'Marshall Islands','692'),(138,'Martinique','596'),(139,'Mauritania','222'),(140,'Mauritius','230'),(141,'Mayotte','269'),(142,'Mexico','52'),(143,'Micronesia','691'),(144,'Moldova','373'),(145,'Monaco','377'),(146,'Mongolia','976'),(147,'Montserrat','1664'),(148,'Morocco','212'),(149,'Mozambique','258'),(150,'Myanmar','95'),(151,'Namibia','264'),(152,'Nauru','674'),(153,'Nepal','977'),(154,'Netherlands Antilles','599'),(155,'Netherlands The','31'),(156,'New Caledonia','687'),(157,'New Zealand','64'),(158,'Nicaragua','505'),(159,'Niger','227'),(160,'Nigeria','234'),(161,'Niue','683'),(162,'Norfolk Island','672'),(163,'Northern Mariana Islands','1670'),(164,'Norway','47'),(165,'Oman','968'),(166,'Pakistan','92'),(167,'Palau','680'),(168,'Palestinian Territory Occupied','970'),(169,'Panama','507'),(170,'Papua new Guinea','675'),(171,'Paraguay','595'),(172,'Peru','51'),(173,'Philippines','63'),(174,'Pitcairn Island','0'),(175,'Poland','48'),(176,'Portugal','351'),(177,'Puerto Rico','1787'),(178,'Qatar','974'),(179,'Reunion','262'),(180,'Romania','40'),(181,'Russia','70'),(182,'Rwanda','250'),(183,'Saint Helena','290'),(184,'Saint Kitts And Nevis','1869'),(185,'Saint Lucia','1758'),(186,'Saint Pierre and Miquelon','508'),(187,'Saint Vincent And The Grenadines','1784'),(188,'Samoa','684'),(189,'San Marino','378'),(190,'Sao Tome and Principe','239'),(191,'Saudi Arabia','966'),(192,'Senegal','221'),(193,'Serbia','381'),(194,'Seychelles','248'),(195,'Sierra Leone','232'),(196,'Singapore','65'),(197,'Slovakia','421'),(198,'Slovenia','386'),(199,'Smaller Territories of the UK','44'),(200,'Solomon Islands','677'),(201,'Somalia','252'),(202,'South Africa','27'),(203,'South Georgia','0'),(204,'South Sudan','211'),(205,'Spain','34'),(206,'Sri Lanka','94'),(207,'Sudan','249'),(208,'Suriname','597'),(209,'Svalbard And Jan Mayen Islands','47'),(210,'Swaziland','268'),(211,'Sweden','46'),(212,'Switzerland','41'),(213,'Syria','963'),(214,'Taiwan','886'),(215,'Tajikistan','992'),(216,'Tanzania','255'),(217,'Thailand','66'),(218,'Togo','228'),(219,'Tokelau','690'),(220,'Tonga','676'),(221,'Trinidad And Tobago','1868'),(222,'Tunisia','216'),(223,'Turkey','90'),(224,'Turkmenistan','7370'),(225,'Turks And Caicos Islands','1649'),(226,'Tuvalu','688'),(227,'Uganda','256'),(228,'Ukraine','380'),(229,'United Arab Emirates','971'),(230,'United Kingdom','44'),(231,'United States','1'),(232,'United States Minor Outlying Islands','1'),(233,'Uruguay','598'),(234,'Uzbekistan','998'),(235,'Vanuatu','678'),(236,'Vatican City State (Holy See)','39'),(237,'Venezuela','58'),(238,'Vietnam','84'),(239,'Virgin Islands (British)','1284'),(240,'Virgin Islands (US)','1340'),(241,'Wallis And Futuna Islands','681'),(242,'Western Sahara','212'),(243,'Yemen','967'),(244,'Yugoslavia','38'),(245,'Zambia','260'),(246,'Zimbabwe','263');
+INSERT INTO `country` VALUES (1,'Afghanistan',93),(2,'Albania',355),(3,'Algeria',213),(4,'American Samoa',1684),(5,'Andorra',376),(6,'Angola',244),(7,'Anguilla',1264),(8,'Antarctica',0),(9,'Antigua And Barbuda',1268),(10,'Argentina',54),(11,'Armenia',374),(12,'Aruba',297),(13,'Australia',61),(14,'Austria',43),(15,'Azerbaijan',994),(16,'Bahamas The',1242),(17,'Bahrain',973),(18,'Bangladesh',880),(19,'Barbados',1246),(20,'Belarus',375),(21,'Belgium',32),(22,'Belize',501),(23,'Benin',229),(24,'Bermuda',1441),(25,'Bhutan',975),(26,'Bolivia',591),(27,'Bosnia and Herzegovina',387),(28,'Botswana',267),(29,'Bouvet Island',0),(30,'Brazil',55),(31,'British Indian Ocean Territory',246),(32,'Brunei',673),(33,'Bulgaria',359),(34,'Burkina Faso',226),(35,'Burundi',257),(36,'Cambodia',855),(37,'Cameroon',237),(38,'Canada',1),(39,'Cape Verde',238),(40,'Cayman Islands',1345),(41,'Central African Republic',236),(42,'Chad',235),(43,'Chile',56),(44,'China',86),(45,'Christmas Island',61),(46,'Cocos (Keeling) Islands',672),(47,'Colombia',57),(48,'Comoros',269),(49,'Republic Of The Congo',242),(50,'Democratic Republic Of The Congo',242),(51,'Cook Islands',682),(52,'Costa Rica',506),(53,'Cote D\'Ivoire (Ivory Coast)',225),(54,'Croatia (Hrvatska)',385),(55,'Cuba',53),(56,'Cyprus',357),(57,'Czech Republic',420),(58,'Denmark',45),(59,'Djibouti',253),(60,'Dominica',1767),(61,'Dominican Republic',1809),(62,'East Timor',670),(63,'Ecuador',593),(64,'Egypt',20),(65,'El Salvador',503),(66,'Equatorial Guinea',240),(67,'Eritrea',291),(68,'Estonia',372),(69,'Ethiopia',251),(70,'External Territories of Australia',61),(71,'Falkland Islands',500),(72,'Faroe Islands',298),(73,'Fiji Islands',679),(74,'Finland',358),(75,'France',33),(76,'French Guiana',594),(77,'French Polynesia',689),(78,'French Southern Territories',0),(79,'Gabon',241),(80,'Gambia The',220),(81,'Georgia',995),(82,'Germany',49),(83,'Ghana',233),(84,'Gibraltar',350),(85,'Greece',30),(86,'Greenland',299),(87,'Grenada',1473),(88,'Guadeloupe',590),(89,'Guam',1671),(90,'Guatemala',502),(91,'Guernsey and Alderney',44),(92,'Guinea',224),(93,'Guinea-Bissau',245),(94,'Guyana',592),(95,'Haiti',509),(96,'Heard and McDonald Islands',0),(97,'Honduras',504),(98,'Hong Kong S.A.R.',852),(99,'Hungary',36),(100,'Iceland',354),(101,'India',91),(102,'Indonesia',62),(103,'Iran',98),(104,'Iraq',964),(105,'Ireland',353),(106,'Israel',972),(107,'Italy',39),(108,'Jamaica',1876),(109,'Japan',81),(110,'Jersey',44),(111,'Jordan',962),(112,'Kazakhstan',7),(113,'Kenya',254),(114,'Kiribati',686),(115,'Korea North',850),(116,'Korea South',82),(117,'Kuwait',965),(118,'Kyrgyzstan',996),(119,'Laos',856),(120,'Latvia',371),(121,'Lebanon',961),(122,'Lesotho',266),(123,'Liberia',231),(124,'Libya',218),(125,'Liechtenstein',423),(126,'Lithuania',370),(127,'Luxembourg',352),(128,'Macau S.A.R.',853),(129,'Macedonia',389),(130,'Madagascar',261),(131,'Malawi',265),(132,'Malaysia',60),(133,'Maldives',960),(134,'Mali',223),(135,'Malta',356),(136,'Man (Isle of)',44),(137,'Marshall Islands',692),(138,'Martinique',596),(139,'Mauritania',222),(140,'Mauritius',230),(141,'Mayotte',269),(142,'Mexico',52),(143,'Micronesia',691),(144,'Moldova',373),(145,'Monaco',377),(146,'Mongolia',976),(147,'Montserrat',1664),(148,'Morocco',212),(149,'Mozambique',258),(150,'Myanmar',95),(151,'Namibia',264),(152,'Nauru',674),(153,'Nepal',977),(154,'Netherlands Antilles',599),(155,'Netherlands The',31),(156,'New Caledonia',687),(157,'New Zealand',64),(158,'Nicaragua',505),(159,'Niger',227),(160,'Nigeria',234),(161,'Niue',683),(162,'Norfolk Island',672),(163,'Northern Mariana Islands',1670),(164,'Norway',47),(165,'Oman',968),(166,'Pakistan',92),(167,'Palau',680),(168,'Palestinian Territory Occupied',970),(169,'Panama',507),(170,'Papua new Guinea',675),(171,'Paraguay',595),(172,'Peru',51),(173,'Philippines',63),(174,'Pitcairn Island',0),(175,'Poland',48),(176,'Portugal',351),(177,'Puerto Rico',1787),(178,'Qatar',974),(179,'Reunion',262),(180,'Romania',40),(181,'Russia',70),(182,'Rwanda',250),(183,'Saint Helena',290),(184,'Saint Kitts And Nevis',1869),(185,'Saint Lucia',1758),(186,'Saint Pierre and Miquelon',508),(187,'Saint Vincent And The Grenadines',1784),(188,'Samoa',684),(189,'San Marino',378),(190,'Sao Tome and Principe',239),(191,'Saudi Arabia',966),(192,'Senegal',221),(193,'Serbia',381),(194,'Seychelles',248),(195,'Sierra Leone',232),(196,'Singapore',65),(197,'Slovakia',421),(198,'Slovenia',386),(199,'Smaller Territories of the UK',44),(200,'Solomon Islands',677),(201,'Somalia',252),(202,'South Africa',27),(203,'South Georgia',0),(204,'South Sudan',211),(205,'Spain',34),(206,'Sri Lanka',94),(207,'Sudan',249),(208,'Suriname',597),(209,'Svalbard And Jan Mayen Islands',47),(210,'Swaziland',268),(211,'Sweden',46),(212,'Switzerland',41),(213,'Syria',963),(214,'Taiwan',886),(215,'Tajikistan',992),(216,'Tanzania',255),(217,'Thailand',66),(218,'Togo',228),(219,'Tokelau',690),(220,'Tonga',676),(221,'Trinidad And Tobago',1868),(222,'Tunisia',216),(223,'Turkey',90),(224,'Turkmenistan',7370),(225,'Turks And Caicos Islands',1649),(226,'Tuvalu',688),(227,'Uganda',256),(228,'Ukraine',380),(229,'United Arab Emirates',971),(230,'United Kingdom',44),(231,'United States',1),(232,'United States Minor Outlying Islands',1),(233,'Uruguay',598),(234,'Uzbekistan',998),(235,'Vanuatu',678),(236,'Vatican City State (Holy See)',39),(237,'Venezuela',58),(238,'Vietnam',84),(239,'Virgin Islands (British)',1284),(240,'Virgin Islands (US)',1340),(241,'Wallis And Futuna Islands',681),(242,'Western Sahara',212),(243,'Yemen',967),(244,'Yugoslavia',38),(245,'Zambia',260),(246,'Zimbabwe',263);
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -700,7 +701,8 @@ DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
   `permission_id` int(11) NOT NULL AUTO_INCREMENT,
   `permission_name` varchar(45) NOT NULL,
-  PRIMARY KEY (`permission_id`)
+  PRIMARY KEY (`permission_id`),
+  UNIQUE KEY `permission_name_UNIQUE` (`permission_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -710,7 +712,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,'read_user'),(2,'write_user'),(3,'read_device'),(4,'write_device'),(5,'request_device'),(12,'read_all_users');
+INSERT INTO `permission` VALUES (12,'read_all_users'),(3,'read_device'),(1,'read_user'),(5,'request_device'),(4,'write_device'),(2,'write_user');
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -872,7 +874,7 @@ CREATE TABLE `role` (
   `role_name` varchar(20) NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_name_UNIQUE` (`role_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -881,7 +883,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (43,'admin'),(3,'superadmin'),(1,'user');
+INSERT INTO `role` VALUES (43,'admin'),(1,'user');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -908,7 +910,7 @@ CREATE TABLE `role_to_permission` (
 
 LOCK TABLES `role_to_permission` WRITE;
 /*!40000 ALTER TABLE `role_to_permission` DISABLE KEYS */;
-INSERT INTO `role_to_permission` VALUES (3,1);
+INSERT INTO `role_to_permission` VALUES (1,1),(43,1),(43,2),(1,3),(43,3),(1,4),(1,5),(43,5);
 /*!40000 ALTER TABLE `role_to_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -951,7 +953,7 @@ CREATE TABLE `specification` (
   `screen_size` varchar(50) DEFAULT NULL,
   `connectivity` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`specification_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -960,7 +962,7 @@ CREATE TABLE `specification` (
 
 LOCK TABLES `specification` WRITE;
 /*!40000 ALTER TABLE `specification` DISABLE KEYS */;
-INSERT INTO `specification` VALUES (1,'4 GB','256 GB','15','Wired'),(2,'8 GB','512 GB','14','Wired'),(3,'4 GB','64 GB','6','Wireless'),(4,'8GB','256 GB','13','Wired'),(5,'16 GB','I TB','16','Wired'),(6,'3 GB','256 GB','6','Wireless'),(7,'12 GB','256 GB','6.5','Wireless'),(8,'8 GB','128 GB','6.7','Wireless');
+INSERT INTO `specification` VALUES (1,'4 GB','256 GB','15','Wired'),(2,'8 GB','512 GB','14','Wired'),(3,'4 GB','64 GB','6','Wireless'),(4,'8GB','256 GB','13','Wired'),(5,'16 GB','I TB','16','Wired'),(6,'3 GB','256 GB','6','Wireless'),(7,'12 GB','256 GB','6.5','Wireless'),(8,'8 GB','128 GB','6.7','Wireless'),(11,'','',NULL,'Wireless'),(12,NULL,NULL,NULL,'Wireless');
 /*!40000 ALTER TABLE `specification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1057,7 +1059,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (16,5,'abcde',NULL,'defgh',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,'aA|ª\ÖÀ–\ãHøgt\ZõIÑ¬\ìvr«\êø>Wf¼òuZª\Z@¥\É:z€—ZùW”%`\ÂA\0\âü\Î\è\ìh','¦–7,œtÀF]Ha\Øz\ÚiDµm«\ïµO*vóııGt¯j?\æ/B{ycU734y*o+g\ãce0k\ä\Ã\íoF4t\Ñ#“@›&\Z|d\\Ë‘>«BunGf›?¤7LtQ\Ü\ß\àÁV¦lğ\éHÁ\È_Œ\ãr¹¬Š\r\Ïû%\Ô\ï\á',NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'\àoP>/\à61‚x“Ğ†ˆ{|\î6mfşü\Ô\Êw­L¨œ\Ü6^Rı_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\İÀ‹®…VğDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=KyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFşX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Ş0%W´<jıÀ',NULL),(75,5,'Kaustubh',NULL,'Dhasmana',34,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰Ql&\Éª¬’ƒ\Æ%\àÎ™õğVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ğ}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁşÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âğ‘½0\Ô!\ä\ì \Í\È\â¢KB€2¸ùú',NULL),(78,NULL,'qwerty','hhh','asdfg',NULL,'qwerty@ex2india.com',NULL,'0001-01-01','0001-01-01',1,'§£N\ÛOÃ›+q¹_¡\ÈKZV\Ò\ã\é€“dDè–Ÿ<}j@¦Î»\Æ6%	\Ìx4\0\\CeT©\\‹\rX=ı¼xœÉ¾\Ñ','ôÙ©[rõ\Ò\È\r5¯†k˜-tTrüuŸş{\"b2º\äM¦\"¸\âÙ„\Ã\'^ÓˆE½Bé­“(g9cf›\Ş•]‹2ƒÏğ$µ\'Bó_÷1PFñi\á%¸“Y€ID\Úa\Ûu‰tõL[‹ıö\"i\Í$y\Òƒ‰C\îQ\'@”\Ìk',NULL),(79,NULL,'Prakshee',NULL,'Rajpurohit',NULL,'prajpurohit@ex2india.com',NULL,NULL,NULL,NULL,'ı\è\0X¨>f3J\İ\İ?Œö½’,ˆ\Øm¦\"\Z>QJ¨P-HvIÃ›ƒm!A\ß\íö€…Û¤¥\å©\ám6ïƒ%\È\Ëú','w ¶ú~¢u {ŒS«u®­h8uF‚\ài)S!#<\Ç÷7Úšú8ª˜À†F”}\Â\ßÿNE\É‡¦Ãµbû¡õœ+’.;\0´ó<A\Î\×f\Ô²=>R\ÚÁ\è\â¨Kór‡;\È \İó–E\Ù\İXslÇ•\Í!²Ú›\Û\Ü;',NULL);
+INSERT INTO `user` VALUES (16,5,'abcde',NULL,'defgh',1,'abc@ex2india.com',1,'1998-12-03','2020-01-15',1,'aA|ª\ÖÀ–\ãHøgt\ZõIÑ¬\ìvr«\êø>Wf¼òuZª\Z@¥\É:z€—ZùW”%`\ÂA\0\âü\Î\è\ìh','¦–7,œtÀF]Ha\Øz\ÚiDµm«\ïµO*vóııGt¯j?\æ/B{ycU734y*o+g\ãce0k\ä\Ã\íoF4t\Ñ#“@›&\Z|d\\Ë‘>«BunGf›?¤7LtQ\Ü\ß\àÁV¦lğ\éHÁ\È_Œ\ãr¹¬Š\r\Ïû%\Ô\ï\á',NULL),(66,5,'Sagar',NULL,'Jangra',1,'sjangra@ex2india.com',1,'1998-02-13','2020-01-15',1,NULL,NULL,NULL),(67,5,'Namit','Singh','Chauhan',1,'nchauhan@ex2india.com',1,'1998-11-03','2020-02-03',1,NULL,NULL,NULL),(74,6,'Megha',NULL,'Gupta',1,'mgupta@ex2india.com',2,'1995-02-02','2020-01-15',2,'\àoP>/\à61‚x“Ğ†ˆ{|\î6mfşü\Ô\Êw­L¨œ\Ü6^Rı_\×\Í/ª«¤%\çüx¼¡D¬{k÷','Ì¤i\İÀ‹®…VğDaLj^p˜S”\Â\ÇxÚ‘0\è\âd\Ê@a^ô~O²`’·t=KyF#øò4€ny\"‰)l»Ã¢D\Ç\×J\å\Ø\0	}“x\Ì\Ç7YŠ‘JFşX8\Ë(Ô£Ñ˜‰¦[‹Š\nM±;\ï£Ş0%W´<jıÀ',NULL),(75,5,'Kaustubh','www','Dhasmana',34,'kdhasmana@ex2india.com',1,'1998-11-03','2020-02-03',1,'‚¬›üImk\çI‰.\ÊÀ5\à‰Ql&\Éª¬’ƒ\Æ%\àÎ™õğVúdc\ÔS’ó–Œ–=I8\ØV\ê[‘>,\"V¶GtQ‘','ŸQ›Ys5r¢¡\æ\Ç˜œ\ï\äe¦\Ên\áö@;\Ğ}_g¦oÄƒ–R\çeõ\í\Ä\í\Î\×¯\Î\å\ÔN¹€ÁşÁµ¨o›û¼Ô€\ä5]ûÛ´\ëü\é®£ö‘§#†\Ñ3ø·w`>¬\í\Â4¹}±2\é\âğ‘½0\Ô!\ä\ì \Í\È\â¢KB€2¸ùú',NULL),(78,NULL,'qwerty','hhh','asdfg',NULL,'qwerty@ex2india.com',NULL,'0001-01-01','0001-01-01',1,'§£N\ÛOÃ›+q¹_¡\ÈKZV\Ò\ã\é€“dDè–Ÿ<}j@¦Î»\Æ6%	\Ìx4\0\\CeT©\\‹\rX=ı¼xœÉ¾\Ñ','ôÙ©[rõ\Ò\È\r5¯†k˜-tTrüuŸş{\"b2º\äM¦\"¸\âÙ„\Ã\'^ÓˆE½Bé­“(g9cf›\Ş•]‹2ƒÏğ$µ\'Bó_÷1PFñi\á%¸“Y€ID\Úa\Ûu‰tõL[‹ıö\"i\Í$y\Òƒ‰C\îQ\'@”\Ìk',NULL),(79,NULL,'Prakshee',NULL,'Rajpurohit',NULL,'prajpurohit@ex2india.com',NULL,NULL,NULL,NULL,'ı\è\0X¨>f3J\İ\İ?Œö½’,ˆ\Øm¦\"\Z>QJ¨P-HvIÃ›ƒm!A\ß\íö€…Û¤¥\å©\ám6ïƒ%\È\Ëú','w ¶ú~¢u {ŒS«u®­h8uF‚\ài)S!#<\Ç÷7Úšú8ª˜À†F”}\Â\ßÿNE\É‡¦Ãµbû¡õœ+’.;\0´ó<A\Î\×f\Ô²=>R\ÚÁ\è\â¨Kór‡;\È \İó–E\Ù\İXslÇ•\Í!²Ú›\Û\Ü;',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1137,7 +1139,7 @@ CREATE TABLE `user_to_role` (
 
 LOCK TABLES `user_to_role` WRITE;
 /*!40000 ALTER TABLE `user_to_role` DISABLE KEYS */;
-INSERT INTO `user_to_role` VALUES (66,1),(67,1),(74,1),(75,1),(78,1),(16,43);
+INSERT INTO `user_to_role` VALUES (66,1),(67,1),(74,1),(75,1),(78,1),(79,1),(16,43);
 /*!40000 ALTER TABLE `user_to_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1803,6 +1805,26 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_all_admin` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_admin`()
+BEGIN
+ select sl.salutation , u.first_name , u.middle_name , u.last_name , u.email from user as u inner join salutation as sl using(salutation_id)
+inner join user_to_role using (user_id) inner join role using (role_id) where role_name = 'Admin';
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_all_pending_requests` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2206,13 +2228,11 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_fault_request`(
 in var_user_id int,
 in var_device_id int,
-in comment varchar(200)
+in comment varchar(200),
+in image_url longblob
 )
 BEGIN
-	
-		insert into complaints(employee_id,device_id,comments,complaint_date) values (var_user_id,var_device_id,comment,now());
-       
-	
+insert into complaints(employee_id,device_id,comments,complaint_date,image) values (var_user_id,var_device_id,comment,now(),image_url);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -2877,4 +2897,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-01 15:13:15
+-- Dump completed on 2020-05-15 18:37:04
